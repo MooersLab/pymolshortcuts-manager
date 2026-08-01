@@ -1,0 +1,39 @@
+# PyMOL Shortcuts Manager Plugin — Python Dependencies
+#
+# Core requirements
+# -----------------
+# Python >= 3.8      (ships with PyMOL 3.x)
+# PyMOL  >= 3.x      (open-source or incentive; provides pymol.Qt for PyQt5/PyQt6)
+# pymolshortcuts.py   (download from https://github.com/MooersLab/pymolshortcuts)
+#
+# The plugin uses pymol.Qt exclusively so that it works with either
+# PyQt5 or PyQt6 — whichever PyMOL bundles. Do NOT install PyQt5 or
+# PyQt6 separately unless you are running outside of PyMOL.
+# psico and pyqtdarktheme Python modules can be installed via the Installation tab in this plugin.
+
+# Testing
+pytest>=7.0
+pytest-cov>=4.0
+
+# Optional: AI Assistant providers
+# ---------------------------------
+# Anthropic Claude  — API key from https://console.anthropic.com/
+# OpenAI            — API key from https://platform.openai.com/
+# Google Gemini     — API key from https://aistudio.google.com/
+# Ollama (local)    — Ollama running on localhost:11434 (https://ollama.com/)
+# Custom API        — Any OpenAI-compatible endpoint
+#
+# No additional Python packages are required for the AI Assistant tab;
+# all HTTP requests are made with the standard-library urllib module.
+
+# Optional: Agentic AI tab
+# ------------------------
+# The Agentic AI tab shells out to a coding harness that you install
+# separately. No Python package is needed on this side.
+#
+# Claude Code  — https://claude.com/claude-code   (the `claude` executable)
+# Pi           — the `pi` executable, driven with -p, --mode json, or --mode rpc
+# Any other CLI agent — configured through the generic argv template
+#
+# The companion MCP server (pymolshortcuts_mcp.py) speaks JSON-RPC over
+# stdio using only the standard library, so it adds no dependency either.

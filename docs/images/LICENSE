@@ -1,0 +1,93 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+==========================================================
+
+SPDX-License-Identifier: CC-BY-4.0
+
+Copyright (c) 2026 Blaine Mooers and the University of Oklahoma Board of
+Regents.
+
+Every image file in this directory is licensed under the Creative Commons
+Attribution 4.0 International License. The software in the rest of this
+repository is licensed separately under the MIT License; see the LICENSE
+file at the repository root.
+
+The full legal code of CC BY 4.0 is published by Creative Commons at:
+
+    https://creativecommons.org/licenses/by/4.0/legalcode
+
+A plain-language summary is at:
+
+    https://creativecommons.org/licenses/by/4.0/
+
+A verbatim copy of that legal code is kept at the repository root as
+LICENSE-CC-BY-4.0.txt. It is downloaded from Creative Commons by
+``make cc-license`` rather than transcribed, so the copy in this
+repository is byte-for-byte what Creative Commons publishes. Where the
+local copy and the published legal code ever differ, the published legal
+code governs.
+
+
+What you may do
+---------------
+
+You may copy and redistribute these images in any medium or format, and
+you may remix, transform, and build upon them for any purpose, including
+commercially. Reuse in a journal article, a textbook, a course pack, a
+conference slide, or a grant application is all permitted.
+
+
+What you must do
+----------------
+
+Give appropriate credit, provide a link to the license, and indicate
+whether you made changes. You may do so in any reasonable manner, but not
+in any way that suggests the licensor endorses you or your use.
+
+
+Suggested attribution
+---------------------
+
+For an unmodified image:
+
+    "PyMOL Shortcuts Manager" screenshot by Blaine Mooers, University of
+    Oklahoma Health Campus, licensed under CC BY 4.0.
+    https://creativecommons.org/licenses/by/4.0/
+    Source: https://github.com/MooersLab/pymolshortcuts-manager
+
+For a cropped, recolored, or otherwise altered image, add a statement of
+what changed, for example "cropped to the Shortcuts table".
+
+In a figure legend where space is tight, this short form is adequate:
+
+    Screenshot by B. Mooers, CC BY 4.0.
+
+
+Scope
+-----
+
+This notice covers the original content of the images, which is the
+graphical user interface of the PyMOL Shortcuts Manager plugin and the
+molecular renderings produced with it. It does not purport to license
+third-party trademarks, logos, or interface elements belonging to
+Schrodinger, to the Qt Company, or to any operating-system vendor that
+may appear incidentally within a screenshot. Atomic coordinates shown in
+the renderings come from the Protein Data Bank and carry no copyright.
+
+
+Files covered
+-------------
+
+    AIAssistant.png
+    AddShortcut.png
+    AgenticAI.png
+    Citation.png
+    Favorites.png
+    History.png
+    Installation.png
+    Links.png
+    Settings.png
+    Shortcuts.png
+    Tutorial.png
+
+Any image added to this directory later is covered by this notice unless
+that image carries a different notice of its own.

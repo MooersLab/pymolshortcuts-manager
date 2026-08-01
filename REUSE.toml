@@ -1,0 +1,21 @@
+version = 1
+SPDX-PackageName = "pymolshortcuts-manager"
+SPDX-PackageSupplier = "Blaine Mooers <blaine-mooers@ou.edu>"
+SPDX-PackageDownloadLocation = "https://github.com/MooersLab/pymolshortcuts-manager"
+
+# The software is MIT. The screenshots are CC BY 4.0. Binary image files
+# cannot carry a comment header, so the image licensing is declared here
+# instead, which lets a license scanner reach the same conclusion a human
+# reader reaches from docs/images/LICENSE.
+
+[[annotations]]
+path = "docs/images/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Blaine Mooers and the University of Oklahoma Board of Regents"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = ["pymolshortcuts_manager.py", "pymolshortcuts_mcp.py", "test_pymolshortcuts_manager.py", "Makefile", "skills/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Blaine Mooers and the University of Oklahoma Board of Regents"
+SPDX-License-Identifier = "MIT"
