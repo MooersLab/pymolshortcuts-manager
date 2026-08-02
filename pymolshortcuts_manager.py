@@ -53,9 +53,9 @@ except ImportError:
 class ShortcutData:
     """Data class to hold information about a single shortcut."""
     
-    def __init__(self, name, description="", usage="", arguments="", 
-                 example="", details="", pml_vertical="", pml_horizontal="", 
-                 python_code=""):
+    def __init__(self, name, description="", usage="", arguments="",
+                 example="", details="", pml_vertical="", pml_horizontal="",
+                 python_code="", tags=None):
         self.name = name
         self.description = description
         self.usage = usage
@@ -65,7 +65,141 @@ class ShortcutData:
         self.pml_vertical = pml_vertical
         self.pml_horizontal = pml_horizontal
         self.python_code = python_code
+        self.tags = normalize_tags(tags)
         self.keybinding = name  # The shortcut name IS the keybinding
+
+
+# ===================================================================
+# Tag support layer (Qt-free, so the test suite drives it directly)
+# ===================================================================
+
+# Per-user overlay that records local tag additions and removals on top
+# of the canonical tags that live in the shortcut docstrings.  This is the
+# overlay half of the hybrid tag model.
+TAGS_OVERLAY_FILE = os.path.join(
+    os.path.expanduser("~"), ".pymolshortcuts", "tags.json"
+)
+
+# Controlled vocabulary seeded from the comment banners already in
+# pymolshortcuts.py (Data analysis, Molecular graphics programs, Web search
+# sites, ...) plus a second axis for what a rendering shortcut does.  The
+# editor offers these as autocomplete, and strict mode warns on anything
+# outside the list.
+TAG_VOCABULARY = (
+    # functional categories from the library banners
+    "web-search", "database-search", "data-analysis", "image-manipulation",
+    "molecular-graphics", "text-editor", "terminal", "website",
+    # what a shortcut does
+    "rendering", "ambient-occlusion", "coloring", "selection", "measurement",
+    "alignment", "superposition", "symmetry", "electron-density", "map",
+    "publication", "fetch", "save-session", "animation", "surface", "cartoon",
+    "sticks", "spheres", "mesh", "label", "view", "sequence", "quit",
+    "utility",
+)
+
+
+def normalize_tags(value):
+    """Return a clean, ordered, unique list of tags from a raw value.
+
+    Accepts a comma- or newline-separated string, or a list.  Tokens are
+    lowercased, internal whitespace becomes a hyphen, and duplicates are
+    dropped while order is preserved.
+    """
+    if not value:
+        return []
+    if isinstance(value, str):
+        parts = re.split(r"[,\n]", value)
+    else:
+        parts = []
+        for item in value:
+            parts.extend(re.split(r"[,\n]", str(item)))
+    seen = []
+    for part in parts:
+        tag = re.sub(r"\s+", "-", part.strip().lower())
+        if tag and tag not in seen:
+            seen.append(tag)
+    return seen
+
+
+class TagStore:
+    """Hybrid tag store.
+
+    Canonical tags live in the shortcut docstrings and reach this class as
+    ``file_tags``.  A per-user overlay in ``tags.json`` records local
+    additions and removals, so a user can retag without rewriting the
+    shared library.  The effective tag set is the file tags, plus the
+    overlay additions, minus the overlay removals.
+    """
+
+    def __init__(self, path=None):
+        self.path = path or TAGS_OVERLAY_FILE
+        self.overlay = self.load()
+
+    def load(self):
+        if not os.path.isfile(self.path):
+            return {}
+        try:
+            with open(self.path, 'r', encoding='utf-8') as handle:
+                data = json.load(handle)
+        except (OSError, ValueError):
+            return {}
+        if not isinstance(data, dict):
+            return {}
+        clean = {}
+        for name, entry in data.items():
+            if isinstance(entry, dict):
+                clean[name] = {
+                    "add": normalize_tags(entry.get("add")),
+                    "remove": normalize_tags(entry.get("remove")),
+                }
+        return clean
+
+    def save(self):
+        folder = os.path.dirname(os.path.abspath(self.path))
+        os.makedirs(folder, exist_ok=True)
+        with open(self.path, 'w', encoding='utf-8') as handle:
+            json.dump(self.overlay, handle, indent=2, sort_keys=True)
+        return self.path
+
+    def effective_tags(self, name, file_tags):
+        """Merge the overlay for ``name`` onto its ``file_tags``."""
+        base = normalize_tags(file_tags)
+        entry = self.overlay.get(name, {})
+        remove = set(entry.get("remove", []))
+        merged = [tag for tag in base if tag not in remove]
+        for tag in entry.get("add", []):
+            if tag not in merged:
+                merged.append(tag)
+        return merged
+
+    def set_overlay(self, name, desired, file_tags):
+        """Record the overlay so effective_tags(name, file_tags) == desired.
+
+        Returns the overlay entry, or an empty dict when the desired tags
+        equal the file tags and no overlay is needed.
+        """
+        desired = normalize_tags(desired)
+        base = normalize_tags(file_tags)
+        add = [tag for tag in desired if tag not in base]
+        remove = [tag for tag in base if tag not in desired]
+        if add or remove:
+            self.overlay[name] = {"add": add, "remove": remove}
+        else:
+            self.overlay.pop(name, None)
+        return self.overlay.get(name, {})
+
+    def all_tags(self, shortcuts):
+        """Sorted union of the (already merged) tags across shortcuts."""
+        tags = set()
+        for shortcut in shortcuts:
+            tags.update(getattr(shortcut, "tags", []) or [])
+        return sorted(tags)
+
+
+def unknown_tags(tags):
+    """Return the tags that are not in the controlled vocabulary."""
+    known = set(TAG_VOCABULARY)
+    return [tag for tag in normalize_tags(tags) if tag not in known]
 
 
 class ShortcutsParser:
@@ -109,6 +243,7 @@ class ShortcutsParser:
         
         sections = {
             'DESCRIPTION:': 'description',
+            'TAGS:': 'tags',
             'USAGE:': 'usage',
             'ARGUMENTS:': 'arguments',
             'EXAMPLE:': 'example',
@@ -1286,6 +1421,113 @@ def agentic_append_to_shortcuts(shortcuts_path, code, backup=True):
     return backup_path
 
 
+# Markers that open a docstring section, used to bound the TAGS block.
+SHORTCUT_DOC_MARKERS = (
+    "DESCRIPTION:", "TAGS:", "USAGE:", "ARGUMENTS:", "EXAMPLE:",
+    "MORE DETAILS:", "VERTICAL PML SCRIPT:", "HORIZONTAL PML SCRIPT:",
+    "PYTHON CODE:",
+)
+
+
+def _doc_marker(line):
+    """Return the section marker a docstring line opens, or None."""
+    stripped = line.strip()
+    for marker in SHORTCUT_DOC_MARKERS:
+        if stripped == marker or stripped.startswith(marker):
+            return marker
+    return None
+
+
+def _rewrite_tags_in_source(content, name, tags):
+    """Insert or replace the TAGS section of one shortcut in source text.
+
+    The TAGS section is placed immediately after the DESCRIPTION block so
+    it sits near the summary and in a deterministic position.  Returns the
+    tuple (new_content, found), where found is False when the named
+    shortcut is not present.  Only the target docstring is touched.
+    """
+    pattern = re.compile(
+        r"(def\s+" + re.escape(name) + r"\([^)]*\):\s*''')(.*?)(''')",
+        re.DOTALL,
+    )
+    match = pattern.search(content)
+    if not match:
+        return content, False
+
+    lines = match.group(2).split("\n")
+
+    # Copy the indentation from the DESCRIPTION line, else use four spaces.
+    indent = "    "
+    for line in lines:
+        if _doc_marker(line) == "DESCRIPTION:":
+            indent = line[:len(line) - len(line.lstrip())] or "    "
+            break
+
+    # Drop any existing TAGS block (from TAGS: to the next marker).
+    tags_index = next(
+        (i for i, line in enumerate(lines) if _doc_marker(line) == "TAGS:"),
+        None,
+    )
+    if tags_index is not None:
+        end = tags_index + 1
+        while end < len(lines) and _doc_marker(lines[end]) is None:
+            end += 1
+        del lines[tags_index:end]
+
+    # Locate the DESCRIPTION block so we can insert right after it.
+    desc_index = next(
+        (i for i, line in enumerate(lines)
+         if _doc_marker(line) == "DESCRIPTION:"),
+        None,
+    )
+
+    normalized = normalize_tags(tags)
+    if normalized:
+        block = [indent + "TAGS:", indent + ", ".join(normalized), ""]
+        insert_at = len(lines)
+        if desc_index is not None:
+            for i in range(desc_index + 1, len(lines)):
+                if _doc_marker(lines[i]) is not None:
+                    insert_at = i
+                    break
+        else:
+            insert_at = 0
+        if insert_at > 0 and lines[insert_at - 1].strip() != "":
+            block = [""] + block
+        lines[insert_at:insert_at] = block
+
+    new_body = "\n".join(lines)
+    new_content = content[:match.start(2)] + new_body + content[match.end(2):]
+    return new_content, True
+
+
+def update_shortcut_tags(shortcuts_path, name, tags, backup=True):
+    """Rewrite the TAGS section of one shortcut in the shortcuts file.
+
+    A timestamped backup is written first, because the shortcuts file is
+    the user's working library.  Raises ValueError when the named shortcut
+    is not found, so the caller can report the miss rather than writing an
+    unchanged file.
+    """
+    if not shortcuts_path or not os.path.isfile(shortcuts_path):
+        raise IOError(f"No shortcuts file at {shortcuts_path}")
+    with open(shortcuts_path, 'r', encoding='utf-8') as handle:
+        content = handle.read()
+    new_content, found = _rewrite_tags_in_source(content, name, tags)
+    if not found:
+        raise ValueError(
+            f"Could not find shortcut '{name}' in {shortcuts_path}"
+        )
+    backup_path = ""
+    if backup:
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        backup_path = f"{shortcuts_path}.{stamp}.bak"
+        shutil.copy2(shortcuts_path, backup_path)
+    with open(shortcuts_path, 'w', encoding='utf-8') as handle:
+        handle.write(new_content)
+    return backup_path
+
+
 class InstallationTab(QtWidgets.QWidget):
     """Tab for installing shortcuts and psico package dependencies."""
 
@@ -1949,7 +2191,27 @@ class AddShortcutTab(QtWidgets.QWidget):
         desc_layout.addWidget(self.desc_edit)
         desc_group.setLayout(desc_layout)
         form_layout.addWidget(desc_group)
-        
+
+        # Tags
+        tags_group = QtWidgets.QGroupBox("Tags")
+        tags_layout = QtWidgets.QVBoxLayout()
+        self.tags_edit = QtWidgets.QLineEdit()
+        self.tags_edit.setPlaceholderText(
+            "Comma-separated tags, for example: rendering, publication"
+        )
+        tags_completer = QtWidgets.QCompleter(list(TAG_VOCABULARY))
+        tags_completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        self.tags_edit.setCompleter(tags_completer)
+        tags_help = QtWidgets.QLabel(
+            "<i>Use the controlled vocabulary where possible. "
+            "Tags become a TAGS section after the description.</i>"
+        )
+        tags_help.setWordWrap(True)
+        tags_layout.addWidget(self.tags_edit)
+        tags_layout.addWidget(tags_help)
+        tags_group.setLayout(tags_layout)
+        form_layout.addWidget(tags_group)
+
         # Usage
         usage_group = QtWidgets.QGroupBox("Usage *")
         usage_layout = QtWidgets.QVBoxLayout()
@@ -2068,6 +2330,7 @@ class AddShortcutTab(QtWidgets.QWidget):
         """Generate the complete shortcut code from form inputs."""
         name = self.name_edit.text().strip()
         description = self.desc_edit.toPlainText().strip()
+        tags = normalize_tags(self.tags_edit.text().strip())
         usage = self.usage_edit.toPlainText().strip()
         arguments = self.args_edit.toPlainText().strip()
         example = self.example_edit.toPlainText().strip()
@@ -2081,7 +2344,10 @@ class AddShortcutTab(QtWidgets.QWidget):
         
         if description:
             docstring_parts.append(f"DESCRIPTION:\n{description}\n")
-        
+
+        if tags:
+            docstring_parts.append(f"TAGS:\n{', '.join(tags)}\n")
+
         if usage:
             docstring_parts.append(f"USAGE:\n{usage}\n")
         
@@ -2226,6 +2492,7 @@ class AddShortcutTab(QtWidgets.QWidget):
         if reply == QtWidgets.QMessageBox.Yes:
             self.name_edit.clear()
             self.desc_edit.clear()
+            self.tags_edit.clear()
             self.usage_edit.clear()
             self.args_edit.clear()
             self.example_edit.clear()
@@ -5363,6 +5630,43 @@ class SettingsTab(QtWidgets.QWidget):
         agentic_group.setLayout(agentic_layout)
         scroll_layout.addWidget(agentic_group)
 
+        # Tags Settings
+        tags_group = QtWidgets.QGroupBox("Tags")
+        tags_layout = QtWidgets.QFormLayout()
+
+        self.tags_storage_mode = QtWidgets.QComboBox()
+        self.tags_storage_mode.addItem("Shortcuts file", "file")
+        self.tags_storage_mode.addItem("Overlay file", "overlay")
+        self.tags_storage_mode.setToolTip(
+            "Where a tag edit is written. The shortcuts file is the shared "
+            "library. The overlay is a per-user file that leaves the "
+            "library untouched."
+        )
+        tags_layout.addRow("Save tag edits to:", self.tags_storage_mode)
+
+        self.tags_overlay_path = QtWidgets.QLineEdit()
+        self.tags_overlay_path.setPlaceholderText(TAGS_OVERLAY_FILE)
+        tags_layout.addRow("Overlay file:", self.tags_overlay_path)
+
+        self.tags_show_column = QtWidgets.QCheckBox("Show the Tags column")
+        self.tags_show_column.setChecked(True)
+        tags_layout.addRow("", self.tags_show_column)
+
+        self.tags_confirm_write = QtWidgets.QCheckBox(
+            "Confirm before writing tags to the shortcuts file"
+        )
+        self.tags_confirm_write.setChecked(True)
+        tags_layout.addRow("", self.tags_confirm_write)
+
+        self.tags_strict_vocab = QtWidgets.QCheckBox(
+            "Warn when a tag is not in the controlled vocabulary"
+        )
+        self.tags_strict_vocab.setChecked(True)
+        tags_layout.addRow("", self.tags_strict_vocab)
+
+        tags_group.setLayout(tags_layout)
+        scroll_layout.addWidget(tags_group)
+
         # History Settings
         history_group = QtWidgets.QGroupBox("History")
         history_layout = QtWidgets.QFormLayout()
@@ -5486,6 +5790,24 @@ class SettingsTab(QtWidgets.QWidget):
             self.settings.value("agentic/skills_dir", SkillRegistry.USER_DIR)
         )
 
+        # Tags
+        mode = self.settings.value("tags/storage_mode", "file")
+        mode_index = self.tags_storage_mode.findData(mode)
+        if mode_index is not None and mode_index >= 0:
+            self.tags_storage_mode.setCurrentIndex(mode_index)
+        self.tags_overlay_path.setText(
+            self.settings.value("tags/overlay_path", "")
+        )
+        self.tags_show_column.setChecked(
+            self.settings.value("tags/show_column", True, type=bool)
+        )
+        self.tags_confirm_write.setChecked(
+            self.settings.value("tags/confirm_write", True, type=bool)
+        )
+        self.tags_strict_vocab.setChecked(
+            self.settings.value("tags/strict_vocab", True, type=bool)
+        )
+
         # History
         self.enable_history.setChecked(
             self.settings.value("history/enabled", True, type=bool)
@@ -5539,6 +5861,18 @@ class SettingsTab(QtWidgets.QWidget):
                                self.agentic_confirm_live.isChecked())
         self.settings.setValue("agentic/skills_dir",
                                self.agentic_skills_dir.text())
+
+        # Tags
+        self.settings.setValue("tags/storage_mode",
+                               self.tags_storage_mode.currentData())
+        self.settings.setValue("tags/overlay_path",
+                               self.tags_overlay_path.text())
+        self.settings.setValue("tags/show_column",
+                               self.tags_show_column.isChecked())
+        self.settings.setValue("tags/confirm_write",
+                               self.tags_confirm_write.isChecked())
+        self.settings.setValue("tags/strict_vocab",
+                               self.tags_strict_vocab.isChecked())
 
         # History
         self.settings.setValue("history/enabled", self.enable_history.isChecked())
@@ -6228,8 +6562,8 @@ class ShortcutsTableModel(QtCore.QAbstractTableModel):
     def __init__(self, shortcuts, parent=None):
         super(ShortcutsTableModel, self).__init__(parent)
         self.shortcuts = shortcuts
-        self.headers = ['Name', 'Keybinding', 'Description']
-    
+        self.headers = ['Name', 'Keybinding', 'Tags', 'Description']
+
     def rowCount(self, parent=QtCore.QModelIndex()):
         return len(self.shortcuts)
     
@@ -6249,10 +6583,12 @@ class ShortcutsTableModel(QtCore.QAbstractTableModel):
             elif col == 1:
                 return shortcut.keybinding
             elif col == 2:
+                return ', '.join(shortcut.tags)
+            elif col == 3:
                 # Return first line of description
                 desc = shortcut.description.split('\n')[0]
                 return desc[:100] + '...' if len(desc) > 100 else desc
-        
+
         return None
     
     def headerData(self, section, orientation, role=QtCore.Qt.DisplayRole):
@@ -6267,6 +6603,47 @@ class ShortcutsTableModel(QtCore.QAbstractTableModel):
         return None
 
 
+def tag_filter_accepts(shortcut, tag):
+    """Return True when a shortcut passes the single-tag filter.
+
+    An empty tag means no tag filter is active, so every row passes.  The
+    decision lives here as a plain function so the test suite can exercise
+    it without a live Qt proxy.
+    """
+    if not tag:
+        return True
+    return tag in (getattr(shortcut, "tags", []) or [])
+
+
+class TagFilterProxyModel(QtCore.QSortFilterProxyModel):
+    """Proxy that ANDs a single-tag filter with the base text filter.
+
+    The text filter is the stock case-insensitive substring match that the
+    Shortcuts tab already used.  This subclass adds one selected tag, so a
+    user can type text and pick a tag together.
+    """
+
+    def __init__(self, parent=None):
+        super(TagFilterProxyModel, self).__init__(parent)
+        self._tag = ""
+
+    def set_tag(self, tag):
+        self._tag = tag or ""
+        self.invalidateFilter()
+
+    def current_tag(self):
+        return self._tag
+
+    def filterAcceptsRow(self, source_row, source_parent):
+        model = self.sourceModel()
+        shortcut = model.get_shortcut(source_row) if model else None
+        if shortcut is not None and not tag_filter_accepts(shortcut, self._tag):
+            return False
+        return super(TagFilterProxyModel, self).filterAcceptsRow(
+            source_row, source_parent
+        )
+
+
 class ShortcutsTab(QtWidgets.QWidget):
     """Tab for browsing and executing shortcuts."""
     
@@ -6274,8 +6651,11 @@ class ShortcutsTab(QtWidgets.QWidget):
         super(ShortcutsTab, self).__init__(parent)
         self.shortcuts_file = shortcuts_file
         self.shortcuts = []
+        self.settings = QtCore.QSettings("MooersLab", "PyMOLShortcutsPlugin")
+        overlay_path = self.settings.value("tags/overlay_path", "") or None
+        self.tag_store = TagStore(overlay_path)
         self.init_ui()
-        
+
         if shortcuts_file:
             self.load_shortcuts()
     
@@ -6287,9 +6667,17 @@ class ShortcutsTab(QtWidgets.QWidget):
         search_layout = QtWidgets.QHBoxLayout()
         search_layout.addWidget(QtWidgets.QLabel("Search:"))
         self.search_edit = QtWidgets.QLineEdit()
-        self.search_edit.setPlaceholderText("Filter shortcuts by name or description...")
+        self.search_edit.setPlaceholderText("Filter shortcuts by name, tag, or description...")
         self.search_edit.textChanged.connect(self.filter_shortcuts)
         search_layout.addWidget(self.search_edit)
+
+        search_layout.addWidget(QtWidgets.QLabel("Tag:"))
+        self.tag_filter_combo = QtWidgets.QComboBox()
+        self.tag_filter_combo.setMinimumWidth(160)
+        self.tag_filter_combo.setToolTip("Show only shortcuts carrying this tag")
+        self.tag_filter_combo.currentIndexChanged.connect(self.on_tag_filter_changed)
+        search_layout.addWidget(self.tag_filter_combo)
+
         layout.addLayout(search_layout)
         
         # Shortcuts table
@@ -6306,7 +6694,24 @@ class ShortcutsTab(QtWidgets.QWidget):
         self.details_text = QtWidgets.QTextBrowser()
         self.details_text.setOpenExternalLinks(True)
         details_layout.addWidget(self.details_text)
-        
+
+        # Tag editor row
+        tag_edit_layout = QtWidgets.QHBoxLayout()
+        tag_edit_layout.addWidget(QtWidgets.QLabel("Tags:"))
+        self.tags_edit = QtWidgets.QLineEdit()
+        self.tags_edit.setPlaceholderText(
+            "Comma-separated tags for the selected shortcut"
+        )
+        tag_completer = QtWidgets.QCompleter(list(TAG_VOCABULARY))
+        tag_completer.setCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        self.tags_edit.setCompleter(tag_completer)
+        tag_edit_layout.addWidget(self.tags_edit)
+        self.save_tags_btn = QtWidgets.QPushButton("Save Tags")
+        self.save_tags_btn.setToolTip("Write the tags for the selected shortcut")
+        self.save_tags_btn.clicked.connect(self.save_tags)
+        tag_edit_layout.addWidget(self.save_tags_btn)
+        details_layout.addLayout(tag_edit_layout)
+
         # Buttons
         button_layout = QtWidgets.QHBoxLayout()
         
@@ -6344,16 +6749,34 @@ class ShortcutsTab(QtWidgets.QWidget):
             return
         
         self.shortcuts = ShortcutsParser.parse_shortcuts(self.shortcuts_file)
+
+        # Merge the per-user overlay onto the canonical docstring tags.
+        self.tag_store = TagStore(
+            self.settings.value("tags/overlay_path", "") or None
+        )
+        for shortcut in self.shortcuts:
+            shortcut.file_tags = list(shortcut.tags)
+            shortcut.tags = self.tag_store.effective_tags(
+                shortcut.name, shortcut.file_tags
+            )
+
         self.model = ShortcutsTableModel(self.shortcuts)
-        self.proxy_model = QtCore.QSortFilterProxyModel()
+        self.proxy_model = TagFilterProxyModel()
         self.proxy_model.setSourceModel(self.model)
         self.proxy_model.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
         self.proxy_model.setFilterKeyColumn(-1)  # Search all columns
-        
+
         self.table_view.setModel(self.proxy_model)
         self.table_view.resizeColumnsToContents()
         self.table_view.horizontalHeader().setStretchLastSection(True)
-        
+
+        # Honor the show-tags-column setting (the Tags column is index 2).
+        show_column = self.settings.value("tags/show_column", True, type=bool)
+        self.table_view.setColumnHidden(2, not show_column)
+
+        # Fill the tag selector with the union of tags across the library.
+        self.populate_tag_filter()
+
         # Connect selection change signal after model is set
         # Disconnect first in case we're reloading
         try:
@@ -6373,6 +6796,105 @@ class ShortcutsTab(QtWidgets.QWidget):
         """Filter shortcuts based on search text."""
         if hasattr(self, 'proxy_model'):
             self.proxy_model.setFilterFixedString(text)
+
+    def populate_tag_filter(self):
+        """Fill the tag selector with an 'any tag' entry plus known tags."""
+        combo = self.tag_filter_combo
+        current = combo.currentData() if combo.count() else ""
+        combo.blockSignals(True)
+        combo.clear()
+        combo.addItem("— any tag —", "")
+        for tag in self.tag_store.all_tags(self.shortcuts):
+            combo.addItem(tag, tag)
+        # Restore the previous selection when it still exists.
+        if current:
+            index = combo.findData(current)
+            if index is not None and index >= 0:
+                combo.setCurrentIndex(index)
+        combo.blockSignals(False)
+
+    def on_tag_filter_changed(self, *args):
+        """Apply the selected tag to the proxy filter."""
+        if not hasattr(self, 'proxy_model'):
+            return
+        tag = self.tag_filter_combo.currentData() or ""
+        self.proxy_model.set_tag(tag)
+
+    def save_tags(self):
+        """Save edited tags for the selected shortcut."""
+        shortcut = self.get_selected_shortcut()
+        if not shortcut:
+            QtWidgets.QMessageBox.information(
+                self,
+                "No Shortcut Selected",
+                "Please select a shortcut from the table first."
+            )
+            return
+
+        desired = normalize_tags(self.tags_edit.text())
+
+        # Strict-vocabulary warning, on by default.
+        if self.settings.value("tags/strict_vocab", True, type=bool):
+            stray = unknown_tags(desired)
+            if stray:
+                reply = QtWidgets.QMessageBox.question(
+                    self,
+                    "Tags Outside the Vocabulary",
+                    "These tags are not in the controlled vocabulary:\n\n"
+                    + ", ".join(stray)
+                    + "\n\nSave them anyway?",
+                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No
+                )
+                if reply != QtWidgets.QMessageBox.Yes:
+                    return
+
+        mode = self.settings.value("tags/storage_mode", "file")
+        if mode == "overlay":
+            self._save_tags_overlay(shortcut, desired)
+        else:
+            self._save_tags_file(shortcut, desired)
+
+    def _save_tags_file(self, shortcut, desired):
+        """Write the tags into the shortcuts file after a backup."""
+        path = self.shortcuts_file
+        if self.settings.value("tags/confirm_write", True, type=bool):
+            reply = QtWidgets.QMessageBox.question(
+                self,
+                "Write Tags to the Shortcuts File",
+                f"Write the tags for '{shortcut.name}' into:\n{path}\n\n"
+                "A timestamped backup is written first.",
+                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No
+            )
+            if reply != QtWidgets.QMessageBox.Yes:
+                return
+        try:
+            backup = update_shortcut_tags(path, shortcut.name, desired)
+        except (IOError, ValueError) as exc:
+            QtWidgets.QMessageBox.warning(self, "Could Not Save Tags", str(exc))
+            return
+        shortcut.file_tags = list(desired)
+        shortcut.tags = self.tag_store.effective_tags(shortcut.name, desired)
+        self._after_tag_change(shortcut)
+        print(f"Wrote tags for {shortcut.name}. Backup at {backup}.")
+
+    def _save_tags_overlay(self, shortcut, desired):
+        """Record the tags in the per-user overlay, leaving the file alone."""
+        file_tags = getattr(shortcut, 'file_tags', shortcut.tags)
+        self.tag_store.set_overlay(shortcut.name, desired, file_tags)
+        self.tag_store.save()
+        shortcut.tags = self.tag_store.effective_tags(shortcut.name, file_tags)
+        self._after_tag_change(shortcut)
+        print(f"Saved tags for {shortcut.name} to the overlay")
+
+    def _after_tag_change(self, shortcut):
+        """Refresh the table, the selector, and the editor after a save."""
+        if hasattr(self, 'model') and self.model is not None:
+            try:
+                self.model.layoutChanged.emit()
+            except Exception:
+                pass
+        self.populate_tag_filter()
+        self.tags_edit.setText(', '.join(shortcut.tags))
     
     def show_details(self, selected, deselected):
         """Show detailed information about selected shortcut."""
@@ -6392,10 +6914,12 @@ class ShortcutsTab(QtWidgets.QWidget):
             return
         
         # Build HTML display with links
+        tags_display = ', '.join(shortcut.tags) if shortcut.tags else '<i>none</i>'
         html = f"""
         <h2>{shortcut.name}</h2>
         <p><strong>Keybinding:</strong> {shortcut.keybinding}</p>
-        
+        <p><strong>Tags:</strong> {tags_display}</p>
+
         <h3>Description</h3>
         <p>{self._format_text(shortcut.description)}</p>
         
@@ -6422,6 +6946,8 @@ class ShortcutsTab(QtWidgets.QWidget):
         """
         
         self.details_text.setHtml(html)
+        if hasattr(self, 'tags_edit'):
+            self.tags_edit.setText(', '.join(shortcut.tags))
         self.update_favorite_button()
     
     def _format_text(self, text):

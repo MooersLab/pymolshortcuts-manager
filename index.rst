@@ -21,6 +21,7 @@ questions about the shortcuts in natural language.
 Key capabilities:
 
 - Searchable, sortable shortcut table with click-to-execute functionality
+- Tags on every shortcut, with a tag filter and an in-place tag editor
 - AI Assistant with RAG retrieval supporting five LLM providers
 - Seven guided tutorials that run commands directly in the PyMOL viewport
 - History and Favorites tabs with cross-session persistence
@@ -152,6 +153,16 @@ file.  Select a row to see the full docstring, PML scripts, and Python
 code.  Double-click or press **Execute** to run the shortcut in PyMOL.
 Buttons are provided to copy the vertical PML script or the Python code to
 the clipboard.
+
+Every shortcut carries a set of tags.  The table shows a Tags column, the
+details panel lists the tags for the selected shortcut, and the **Tag**
+selector beside the search box filters the table to one tag at a time.
+Edit the tags in the **Tags** field and press **Save Tags** to write them.
+The canonical tags live in a ``TAGS:`` section of each shortcut docstring,
+placed after the ``DESCRIPTION:`` section, and a per-user overlay in
+``~/.pymolshortcuts/tags.json`` records local changes on top of them.  The
+tag vocabulary, the storage target, and the strict-vocabulary warning are
+configured on the Settings tab.
 
 Add Shortcut
 ------------

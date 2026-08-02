@@ -1,5 +1,5 @@
 # Makefile for pymolshortcuts_manager test suite
-# 248 tests across 31 test classes (as of 2026-07-30)
+# 283 tests across 39 test classes (as of 2026-08-02)
 #
 # Usage:
 #   make test      – run the full suite

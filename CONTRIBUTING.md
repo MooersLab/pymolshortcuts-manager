@@ -23,6 +23,14 @@ Contributions are welcome! To get started:
   `DESCRIPTION`, `USAGE`, `ARGUMENTS`, `EXAMPLE`, `MORE DETAILS`,
   `VERTICAL PML SCRIPT`, `HORIZONTAL PML SCRIPT`, and `PYTHON CODE`
   sections.
+- Give every new shortcut a `TAGS` section, placed immediately after the
+  `DESCRIPTION` section, holding a comma-separated line of lowercase tags,
+  with a hyphen for multi-word tags, for example
+  `TAGS:` on one line and `rendering, publication` on the next. Draw the
+  tags from the controlled vocabulary in `TAG_VOCABULARY`
+  (`pymolshortcuts_manager.py`). Add a new vocabulary term only when no
+  existing term fits, because strict mode warns on tags outside the list.
+  The Add Shortcut tab writes this section for you from its Tags field.
 - Keep the harness-specific command-line strings inside the `run_argv`
   method of a `HarnessAdapter` subclass. A renamed vendor flag should be a
   one-method change.
@@ -103,7 +111,7 @@ python -m pytest test_pymolshortcuts_manager.py -v
 
 ### Test Suite Overview
 
-The suite contains **248 tests** across **31 test classes**, organized by
+The suite contains **283 tests** across **39 test classes**, organized by
 component:
 
 | Test Class                       | Tests | Coverage                                                    |
@@ -119,7 +127,7 @@ component:
 | `TestHistoryTab`                  |     5 | Persistence, add and increment, clear, CSV export
 | `TestFavoritesTab`                |     5 | Add, duplicate detection, remove, persistence
 | `TestSettingsTab`                 |     3 | QSettings save, load, and clear
-| `TestShortcutsTableModel`         |    10 | Row and column counts, data retrieval, description truncation
+| `TestShortcutsTableModel`         |    11 | Row and column counts, data retrieval, tags column, description truncation
 | `TestPluginDialogAssembly`        |     8 | Eleven tab names, tab order, class and method existence
 | `TestAddShortcutCodeGeneration`   |     5 | Form validation, code generation with docstrings
 | `TestInstallationTabDownload`     |     2 | GitHub download success and network-error handling
@@ -139,6 +147,14 @@ component:
 | `TestAgentRunStore`               |     6 | Run log add, load, trim, clear, and export
 | `TestAgenticIntegration`          |    11 | Run directories, backup and append, form prefill, input checks
 | `TestMCPServer`                   |    12 | JSON-RPC surface, tool registry, and the two guarded tools
+| `TestShortcutDataTags`            |     3 | The tags field default and normalisation from a list or string
+| `TestTagNormalization`            |     5 | normalize_tags cleanup and unknown_tags vocabulary check
+| `TestTagStore`                    |     7 | Overlay load, save, effective-tags merge, union, corrupt file
+| `TestTagParsing`                  |     2 | The parser reads a TAGS section into a list
+| `TestTagWriteback`                |     7 | Insert after DESCRIPTION, replace, backup, and parser round trip
+| `TestTagFilterProxy`              |     4 | tag_filter_accepts and the single-tag proxy filter
+| `TestTagSettings`                 |     4 | Round trip of every tags/ key and its defaults
+| `TestAddShortcutTags`             |     2 | The Add Shortcut form emits a TAGS section
 
 
 ### Mock Architecture
@@ -164,9 +180,11 @@ and Qt runtime:
 ```
 pymolshortcuts/
 ├── pymolshortcuts_manager.py          # Main plugin source
-├── test_pymolshortcuts_manager.py     # Test suite (248 tests, 31 classes)
+├── test_pymolshortcuts_manager.py     # Test suite (283 tests, 39 classes)
 ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio)
 ├── skills/                           # Bundled skills for the Agentic AI tab
+├── tools/
+│   └── tag_shortcuts.py              # One-time first-pass tagger for pymolshortcuts.py
 ├── Makefile                          # Build and test automation
 ├── README.md                         # GitHub README
 ├── CONTRIBUTING.md                   # This file
