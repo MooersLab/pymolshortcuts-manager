@@ -1,5 +1,5 @@
-# PyMOL Shortcuts Manager Plugin, Version 0.2.1
-![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.2.1&color=brightcolor)
+# PyMOL Shortcuts Manager Plugin, Version 0.3.0
+![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.3.0&color=brightcolor)
 ![PyMOL](https://img.shields.io/badge/PyMOL-3.x-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
@@ -19,6 +19,7 @@ The plugin integrates an AI assistant powered by a lightweight Retrieval-Augment
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Plugin Tabs](#plugin-tabs)
+- [Tags](#tags)
 - [Tutorials](#tutorials)
 - [AI Assistant](#ai-assistant)
 - [Agentic AI](#agentic-ai)
@@ -67,6 +68,8 @@ The font size can also be increased to 24 points.
 ### Shortcuts tab
 
 This will be blank on first startup. It will show shortcuts on the second startup after installation.
+
+Every shortcut carries a set of tags. The table shows a Tags column, the details panel lists the tags for the selected shortcut, and the Tag selector beside the search box filters the table to one tag at a time. You can edit the tags for the selected shortcut in the Tags field and click Save Tags. Tags follow the hybrid model described under [Tags](#tags): canonical tags live in the `TAGS:` section of each docstring in `pymolshortcuts.py`, and a per-user overlay in `~/.pymolshortcuts/tags.json` records local changes.
 
 ![Shortcuts Tab](./docs/images/Shortcuts.png)
 
@@ -222,7 +225,7 @@ The plugin dialog contains eleven tabs organized by workflow:
 | Tab          | Purpose                                                                                              |
 |:-------------|:-----------------------------------------------------------------------------------------------------|
 | Installation | Download or browse for `pymolshortcuts.py`; detect OS; install `psico` via conda                     |
-| Shortcuts    | Searchable, sortable table of all shortcuts; click to execute; view docstrings; copy PML or Python   |
+| Shortcuts    | Searchable, sortable table of all shortcuts; filter by tag; view and edit tags; click to execute; view docstrings; copy PML or Python |
 | Add Shortcut | Author a new shortcut with structured docstring fields; preview generated code; submit a GitHub PR    |
 | AI Assistant | Ask natural-language questions about shortcuts; uses RAG retrieval with five LLM back-ends            |
 | Agentic AI   | Drive a coding harness to generate, validate, and document a new shortcut; manage skills and run history |
@@ -232,6 +235,29 @@ The plugin dialog contains eleven tabs organized by workflow:
 | Citation     | Copy or save BibTeX and EndNote entries for the Mooers 2020 *Protein Science* paper                   |
 | Settings     | Configure default file paths, auto-load behavior, AI provider preferences, and display options         |
 | Links        | Curated hyperlinks to documentation, the GitHub repository, and related resources                      |
+
+## Tags
+
+Each shortcut carries a set of tags that group it with related shortcuts, so you can pull up every rendering shortcut or every web-search shortcut at once rather than scrolling the whole table.
+
+Tags use a hybrid storage model. The canonical tags live in a `TAGS:` section in each shortcut docstring in `pymolshortcuts.py`, placed immediately after the `DESCRIPTION:` section, so the tags travel with the library and reach the MCP server and the retrieval engine. A per-user overlay in `~/.pymolshortcuts/tags.json` records local additions and removals layered on top of the docstring tags, so you can retag without rewriting the shared file. The effective tag set for a shortcut is the docstring tags, plus the overlay additions, minus the overlay removals.
+
+Tags come from a controlled vocabulary seeded from the comment banners in the library, such as `web-search`, `molecular-graphics`, `rendering`, `coloring`, and `electron-density`. The Tags field in the Shortcuts tab offers the vocabulary as autocomplete, and strict mode, on by default, warns when you save a tag that is not in the vocabulary. The Settings tab chooses whether Save Tags writes to the shortcuts file or to the overlay. When it writes to the file, a timestamped backup is written first and a confirmation dialog names the backup path.
+
+The `TAGS:` section is a comma-separated line of lowercase tokens, with a hyphen for multi-word tags:
+
+```
+DESCRIPTION:
+Commands to make an ambient occlusion image like those in QuteMol.
+
+TAGS:
+ambient-occlusion, rendering, coloring
+
+USAGE:
+AO
+```
+
+The bundled `tools/tag_shortcuts.py` generated the first draft of the tags across the library from the comment banners and from keyword cues in each docstring. Re-run it with `--diff` to see proposed changes, or `--apply` to write them after a backup.
 
 
 ## Tutorials
@@ -601,6 +627,7 @@ Contributions are welcome.  To get started:
 |:---------|:-------|:------|
 | 0.1.0    | 2026-02-16 |Initial commit. |
 | 0.1.1    | 2026-02-17 | Fixed Settings tab. Added qtpydarktheme to the installation tab. |
+| 0.3.0    | 2026-08-02 | Added tags to every shortcut in `pymolshortcuts.py`. Added a Tags column, a tag filter, and a tag editor to the Shortcuts tab. Added the hybrid `TagStore` overlay, the controlled vocabulary, the `tags/` settings, and `tools/tag_shortcuts.py`. |
 | 0.2.1    | 2026-07-31 | Placed the screenshots in `docs/images/` under CC BY 4.0 while the software stays MIT. Added `docs/images/LICENSE`, `docs/images/README.md`, and `REUSE.toml`. |
 | 0.2.0    | 2026-07-30 | Added the Agentic AI tab, the harness adapter layer for Claude Code and Pi, three-tier validation of generated shortcuts, skill discovery with two bundled skills, and the companion MCP server. Retired the duplicate `pymolshortcuts_plugin.py`. |
 

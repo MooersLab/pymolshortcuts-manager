@@ -535,6 +535,9 @@ def AB(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to Amazon.com Books in default browser.
 
+    TAGS:
+    web-search
+
     USAGE:
     AB
 
@@ -590,6 +593,9 @@ def AC(searchTerm='pymol'):
 
 
 
+    TAGS:
+    web-search
+
     USAGE:
     AC
 
@@ -642,6 +648,9 @@ def ACA():
     DESCRIPTION: 
     Open the American Crystallographic Association Annual Meeting webpage.
 
+    TAGS:
+    website
+
     USAGE:
     ACA
 
@@ -688,6 +697,9 @@ def ALS():
     DESCRIPTION: 
     Open website of the Advanced Light Source.
 
+    TAGS:
+    website
+
     USAGE:
     ALS
 
@@ -733,6 +745,9 @@ def AO():
     ''' 
     DESCRIPTION: 
     Commands to make ambient occlusion image like those in Qutemole.
+
+    TAGS:
+    ambient-occlusion, rendering, coloring
 
     USAGE:
     AO
@@ -815,6 +830,9 @@ def AOBW():
     ''' 
     DESCRIPTION: 
     Commands to make ambient occlusion image like those in Qutemole but coloring with grayscale.
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AOBW
@@ -903,6 +921,9 @@ def AOD():
     ''' 
     DESCRIPTION: 
     Make ambient occlusion image of any with dark carbon atoms.
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AOD
@@ -997,6 +1018,9 @@ def AODBW():
     DESCRIPTION:
     Make ambient occlusion image of any with dark carbon atoms in grayscale.
 
+    TAGS:
+    ambient-occlusion, rendering, coloring, selection
+
     USAGE:
     AODBW
 
@@ -1089,6 +1113,9 @@ def APS():
     DESCRIPTION: 
     Open website of the Advanced Photon Source.
 
+    TAGS:
+    website
+
     USAGE:
     APS
 
@@ -1134,6 +1161,9 @@ def AX(searchTerm="pymol"):
     ''' 
     DESCRIPTION: 
     Send search term or phrase to arXiv.
+
+    TAGS:
+    web-search
 
     USAGE:
     AX
@@ -1185,6 +1215,9 @@ def BST():
     ''' 
     DESCRIPTION: 
     G2G3/U9U8 base step , PDB code 4PCO. 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
 
     USAGE:
     BST
@@ -1316,6 +1349,9 @@ def BU():
     DESCRIPTION: 
     Commands to make biological unit.
 
+    TAGS:
+    fetch, molecular-graphics, selection
+
     USAGE:
     BU
 
@@ -1364,6 +1400,9 @@ def BW():
     ''' 
     DESCRIPTION: 
     Make black-and white-ribbon cartoon on a white background.
+
+    TAGS:
+    rendering, coloring, cartoon
 
     USAGE:
     Orient struture as desired. Then type 'BW' to execute the function. Type
@@ -1432,6 +1471,9 @@ def BX(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to bioRxiv 
 
+    TAGS:
+    web-search
+
     USAGE:
     BX
 
@@ -1481,6 +1523,9 @@ def CB():
     ''' 
     DESCRIPTION: 
     Runs Jared Sampson's script "colorblindfriendly.py". 
+
+    TAGS:
+    publication, coloring
 
     USAGE:
     CB
@@ -1703,6 +1748,9 @@ def CHESS():
     Open the website of CHESS.
 
 
+    TAGS:
+    website
+
     USAGE:
     CHESS
 
@@ -1751,6 +1799,9 @@ def CR():
     '''
     DESCRIPTION:
     Commands to make colored filled-ring cartoon of nucleic acids.
+
+    TAGS:
+    coloring, cartoon, selection
 
     USAGE:
     CR
@@ -1834,6 +1885,9 @@ def CRLS():
     DESCRIPTION:
     Commands to make colored filled-ring cartoon of nucleic acids and show ligand as spheres.
 
+    TAGS:
+    coloring, cartoon, spheres, selection
+
     USAGE:
     CR
 
@@ -1877,6 +1931,9 @@ def CSS():
     '''
     DESCRIPTION:
     Commands to color ribbon or cartoon representations of proteins by secondary structure.
+
+    TAGS:
+    coloring, cartoon, selection
 
     USAGE:
     CSS
@@ -1925,6 +1982,9 @@ def DU():
     ''' 
     DESCRIPTION: 
     Make dumbbell (ribbons with rolled edges) cartoon of the main chains of nucleic acids and proteins. 
+
+    TAGS:
+    cartoon, selection
 
     USAGE:
     DU
@@ -1980,6 +2040,9 @@ def EMDB():
     Open the website of the Electron Microscopy Data Bank.
 
 
+    TAGS:
+    website
+
     USAGE:
     EMDB
 
@@ -2027,6 +2090,9 @@ def EP():
     DESCRIPTION:
     EasyPyMOL github site.
 
+    TAGS:
+    website
+
     USAGE:
     EP
 
@@ -2072,6 +2138,9 @@ def FR():
     ''' 
     DESCRIPTION: 
     Make filled-ring cartoon of nucleic acids.
+
+    TAGS:
+    publication, cartoon, selection
 
     USAGE:
     FR
@@ -2133,6 +2202,9 @@ def GB(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to Google Books in default browser.
 
+    TAGS:
+    web-search
+
     USAGE:
     GB
 
@@ -2182,6 +2254,9 @@ def GGT():
     DESCRIPTION: 
     WT human gamma glutamyl transpeptidase at 1.67 Angstrom resolution as cartoon. PDB Code 4gdx.
 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
 
     USAGE:
     GGT
@@ -2276,6 +2351,9 @@ def GH(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to GitHub in default browser.
 
+    TAGS:
+    web-search
+
     USAGE:
     GH
 
@@ -2330,6 +2408,9 @@ def GO(searchTerm="pymol",numHits="200"):
     DESCRIPTION: 
     Send search term or phrase Google in default browser.
 
+    TAGS:
+    web-search
+
     USAGE:
     GO
 
@@ -2380,6 +2461,9 @@ def GS(searchTerm="pymol"):
     ''' 
     DESCRIPTION: 
     Send search term or phrase to Google Scholar in default browser.
+
+    TAGS:
+    web-search
 
     USAGE:
     GS
@@ -2432,6 +2516,9 @@ def GU():
     DESCRIPTION: 
     10-mer dsRNA with 8 GU wobble base pairs.
 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
 
     USAGE:
     GU
@@ -2557,6 +2644,9 @@ def GV(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to Google Videos in default browser.
 
+    TAGS:
+    web-search
+
     USAGE:
     GV searchTerm
 
@@ -2607,6 +2697,9 @@ def HH():
     DESCRIPTION: 
     Hide hydrogen atoms of currently visible molecular objects.
 
+    TAGS:
+    utility
+
     USAGE:
     HH
 
@@ -2637,6 +2730,9 @@ def IPM(searchTerms = [], *args):
     ''' 
     DESCRIPTION: 
     Read list of search terms and submit each term to PubMed in a separate browser tab.
+
+    TAGS:
+    database-search
 
     USAGE:
     IPM
@@ -2699,6 +2795,9 @@ def IUCR(searchTerm="pymol"):
     DESCRIPTION: 
     Open website of the IUCr Journals.
 
+    TAGS:
+    website
+
     USAGE:
     IUCR
 
@@ -2745,6 +2844,9 @@ def JASP():
     ''' 
     DESCRIPTION: 
     Open JASP from within PyMOL.
+
+    TAGS:
+    utility
 
     USAGE:
     JASP
@@ -2798,6 +2900,9 @@ def JM():
     Open the Jmol wiki.
 
 
+    TAGS:
+    website, molecular-graphics
+
     USAGE:
     JM
 
@@ -2846,6 +2951,9 @@ def JMP():
     ''' 
     DESCRIPTION: 
     Open the JMP from within PyMOL. 
+
+    TAGS:
+    utility
 
     USAGE:
     JMP
@@ -2900,6 +3008,9 @@ def LBSF():
     DESCRIPTION: 
     Open website of Laboratory of Biomolecular Structure and Function, the X-ray diffraction core facility at OUHSC.
 
+    TAGS:
+    website, rendering
+
     USAGE:
     LBSF
 
@@ -2945,6 +3056,9 @@ def LBST():
     ''' 
     DESCRIPTION: 
     G2G3/U9U8 base step , PDB code 4PCO. 
+
+    TAGS:
+    rendering, coloring, measurement, quit
 
     USAGE:
     LBST
@@ -3084,6 +3198,9 @@ def LG():
     DESCRIPTION: 
     Nine sugar glycan in influenza N9 neuraminidase, PDB code 4dgr.
 
+
+    TAGS:
+    fetch, molecular-graphics, ambient-occlusion, rendering
 
     USAGE:
     LG
@@ -3244,6 +3361,9 @@ def LGGT():
 
 
 
+    TAGS:
+    rendering, coloring, quit, cartoon
+
     USAGE:
     LGGT
 
@@ -3338,6 +3458,9 @@ def LGU():
     DESCRIPTION: 
     10-mer dsRNA. 
 
+
+    TAGS:
+    rendering, coloring, quit, cartoon
 
     USAGE:
     LGU
@@ -3454,6 +3577,9 @@ def LLG():
     DESCRIPTION: 
     Nine sugar glycan in influenza N9 neuraminidase at 1.55 Angstrom resolution, PDB code 4dgr.
 
+
+    TAGS:
+    ambient-occlusion, rendering, publication, coloring
 
     USAGE:
     LLG
@@ -3614,6 +3740,9 @@ def LN9():
     DESCRIPTION: 
     Influenza N9 neuraminidase, PDB code 4dgr.
 
+    TAGS:
+    rendering, coloring, quit, cartoon
+
     USAGE:
     LN9
 
@@ -3700,6 +3829,9 @@ def LNA():
     DESCRIPTION: 
     Hydrated sodium cation bound in major groove of RNA with 16 Watson-Crick base pairs.
 
+
+    TAGS:
+    rendering, publication, coloring, measurement
 
     USAGE:
     LNA
@@ -3939,6 +4071,9 @@ def LT4L():
     Display WT T4 lysozyme as ribbon diagram (resolution 1.08 Ang):  3FA0. 
 
 
+    TAGS:
+    rendering, coloring, quit, animation
+
     USAGE:
     LT4L
 
@@ -4017,6 +4152,9 @@ def LU8():
     16-mer dsRNA with 8 contiguous Us. U-helix RNA (1.37 Ang):  3nd3.
 
 
+    TAGS:
+    rendering, coloring, quit, cartoon
+
     USAGE:
     LU8
 
@@ -4094,6 +4232,9 @@ def LWC8():
     ''' 
     DESCRIPTION: 
     16-mer dsRNA, Watson-Crick helix RNA, 3nd4.
+
+    TAGS:
+    coloring, quit, animation, cartoon
 
     USAGE:
     LWC8
@@ -4175,6 +4316,9 @@ def MA(searchTerm='pymol'):
     DESCRIPTION: 
     Send search term to all searchable websites in pymolshortcuts.
 
+    TAGS:
+    utility
+
     USAGE:
     MA
 
@@ -4237,6 +4381,9 @@ def MB(searchTerm='pymol'):
     DESCRIPTION: 
     Send search term to multiple sites that contain book content.
 
+    TAGS:
+    utility
+
     USAGE:
     MB
 
@@ -4272,6 +4419,9 @@ def MC(searchTerm='pymol'):
     ''' 
     DESCRIPTION: 
     Send search term to search ten core websites in pymolshortcuts:
+
+    TAGS:
+    utility
 
     USAGE:
     MC
@@ -4337,6 +4487,9 @@ def MCL():
 
 
 
+    TAGS:
+    website
+
     USAGE:
     MCL
 
@@ -4384,6 +4537,9 @@ def MG():
     DESCRIPTION: 
     Open website of the OUHSC molecular graphics course.
 
+    TAGS:
+    website
+
     USAGE:
     MG
 
@@ -4430,6 +4586,9 @@ def MGW():
     DESCRIPTION: 
     Open Wikipedia webpage about molecular graphics.
 
+    TAGS:
+    website
+
     USAGE:
     MGW
 
@@ -4475,6 +4634,9 @@ def MM(searchTerm='pymol'):
     ''' 
     DESCRIPTION: 
     Send search term to search for manuscripts in pymolshortcuts.
+
+    TAGS:
+    utility
 
     USAGE:
     MM
@@ -4529,6 +4691,9 @@ def N9():
     DESCRIPTION: 
     Influenza N9 neuraminidase at 1.55 Angstrom resolution, PDB code 4dgr.
 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
 
     USAGE:
     N9
@@ -4613,6 +4778,9 @@ def NA():
     DESCRIPTION: 
     Hydrated sodium cation bound in major groove of a 16-mer RNA of Watson-Crick base pairs.
 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, publication
 
     USAGE:
     NA
@@ -4839,6 +5007,9 @@ def NDB():
     DESCRIPTION: 
     Open website of the Nucleic Acid Database.
 
+    TAGS:
+    website
+
     USAGE:
     NDB
 
@@ -4888,6 +5059,9 @@ def NSLSII():
     DESCRIPTION: 
     Open the website of the National Synchrotron Light Source II (NSLSII) at Brookhaven National Laboratory.
 
+    TAGS:
+    website
+
     USAGE:
     NSLSII
 
@@ -4935,6 +5109,9 @@ def PDB(searchTerm="3fa0",numHits="5"):
     DESCRIPTION: 
     Submit a search term to the Protein Data Bank.
 
+    TAGS:
+    database-search
+
     USAGE:
     PDB
 
@@ -4980,6 +5157,9 @@ def PE(selection="all"):
     ''' 
     DESCRIPTION: 
     Apply pearl effect about selection cation or anion.
+
+    TAGS:
+    selection
 
     USAGE:
     PE selection
@@ -5033,6 +5213,9 @@ def PE125(selection='all'):
     DESCRIPTION: 
     Apply alternative pearl effect about selection.
 
+    TAGS:
+    selection
+
     USAGE:
     PE125 selection
 
@@ -5083,6 +5266,9 @@ def PE25(selection='all'):
     ''' 
     DESCRIPTION: 
     Apply alternative pearl effect about selected cation or anion.
+
+    TAGS:
+    selection
 
     USAGE:
     PE25 selection
@@ -5137,6 +5323,9 @@ def PE33(selection='all'):
     DESCRIPTION: 
     Apply alternative pearl effect about selection.
 
+    TAGS:
+    selection
+
     USAGE:
     PE33 selection
 
@@ -5187,6 +5376,9 @@ def PE50(selection="all"):
     ''' 
     DESCRIPTION: 
     Apply alternative pearl effect about selected cation or anion.
+
+    TAGS:
+    selection
 
     USAGE:
     PE50 selection
@@ -5240,6 +5432,9 @@ def PE66(selection='all'):
     DESCRIPTION: 
     Apply alternative pearl effect about selection.
 
+    TAGS:
+    selection
+
     USAGE:
     PE66 selection
 
@@ -5290,6 +5485,9 @@ def PE75(selection='all'):
     ''' 
     DESCRIPTION: 
     Apply alternative pearl effect about selection.
+
+    TAGS:
+    selection
 
     USAGE:
     PE75 selection
@@ -5342,6 +5540,9 @@ def PE85(selection='all'):
     DESCRIPTION: 
     Apply alternative pearl effect about selection.
 
+    TAGS:
+    selection
+
     USAGE:
     PE85 selection
 
@@ -5393,6 +5594,9 @@ def PM(searchTerm="pymol"):
     DESCRIPTION: 
     Send search term or phrase to PubMed.
 
+    TAGS:
+    database-search
+
     USAGE:
     PM
 
@@ -5442,6 +5646,9 @@ def PML(searchTerm="3d_pdf"):
     ''' 
     DESCRIPTION: 
     Submit a search term to the PyMOL Users Mail Service.
+
+    TAGS:
+    database-search, save-session, cartoon
 
     USAGE:
     PML
@@ -5496,6 +5703,9 @@ def PPC():
     DESCRIPTION: 
     Open the website of the Protein Production Facility at the University of Oklahoma in Norman.
 
+    TAGS:
+    website
+
     USAGE:
     PPC
 
@@ -5542,6 +5752,9 @@ def PS():
     DESCRIPTION: 
     Open the home page of the Protein Soceity.
 
+    TAGS:
+    website
+
     USAGE:
     PS
 
@@ -5588,6 +5801,9 @@ def PW(searchTerm="3d_pdf"):
     DESCRIPTION: 
     Submit search of the PyMOL Wiki. 
 
+    TAGS:
+    web-search
+
     USAGE:
     PW
 
@@ -5632,6 +5848,9 @@ def RG(searchTerm='best molecular graphics program'):
     DESCRIPTION: 
     Submit a search query of Research Gate. 
 
+    TAGS:
+    web-search
+
     USAGE:
     RG
 
@@ -5675,6 +5894,9 @@ def RS():
     ''' 
     DESCRIPTION: 
     Open the homepage of the RNA Society.
+
+    TAGS:
+    website
 
     USAGE:
     RS
@@ -5721,6 +5943,9 @@ def RStudio():
     ''' 
     DESCRIPTION: 
     Open Rstudio GUI.
+
+    TAGS:
+    data-analysis
 
     USAGE:
     RStudio
@@ -5773,6 +5998,9 @@ def SAXS():
     DESCRIPTION: 
     Open the webpage of SAXS links at OUHSC. 
 
+    TAGS:
+    website
+
     USAGE:
     SAXS
 
@@ -5818,6 +6046,9 @@ def SC():
     ''' 
     DESCRIPTION: 
     Print to screen list of the shortcuts that are available in the script pymolshortcuts.py. 
+
+    TAGS:
+    ambient-occlusion, rendering, measurement, symmetry
 
     USAGE:
     SC
@@ -6177,6 +6408,9 @@ def SD(searchTerm="pymol"):
     DESCRIPTION: 
     Submit a search term to Science Direct.
 
+    TAGS:
+    web-search, save-session, cartoon
+
     USAGE:
     SD
 
@@ -6230,6 +6464,9 @@ def SF(searchTerm='pymol'):
     DESCRIPTION: 
     Send search term to sourceforge.
 
+    TAGS:
+    web-search
+
     USAGE:
     SF
 
@@ -6275,6 +6512,9 @@ def SH():
     DESCRIPTION: 
     Show hydrogen atoms of currently visible molecular objects.
 
+    TAGS:
+    utility
+
     USAGE:
     SH
 
@@ -6304,6 +6544,9 @@ def SO(searchTerm="3d_pdf"):
     DESCRIPTION: 
     Submit a search term to Stackoverflow.
 
+
+    TAGS:
+    web-search
 
     USAGE:
     SO
@@ -6362,6 +6605,9 @@ def SP(searchTerm="pymol"):
     DESCRIPTION: 
     Submit a search term to Springer Books
 
+    TAGS:
+    web-search
+
     USAGE:
     SP
 
@@ -6410,6 +6656,9 @@ def SSRLSMB():
     Open the webpage of SSRL Structural Molecular Biology.
 
 
+
+    TAGS:
+    website
 
     USAGE:
     SSRLSMB
@@ -6466,6 +6715,9 @@ def SSURF():
     DESCRIPTION: 
     Open the webpage of the Society for Science at User Research Facilities (SSURF).
 
+
+    TAGS:
+    web-search
 
     USAGE:
     SSURF
@@ -6526,6 +6778,9 @@ def SciPy19():
     DESCRIPTION: 
     Open the SciPy 2019 YouTube Channel.
 
+    TAGS:
+    web-search
+
     USAGE:
     SciPy19
 
@@ -6574,6 +6829,9 @@ def T4L():
     ''' 
     DESCRIPTION: 
     WT T4 lysozyme as ribbon diagram (1.08 Ang):  3FA0. 
+
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
 
     USAGE:
     T4L
@@ -6660,6 +6918,9 @@ def U8():
     16-mer dsRNA with 8 contiguous Us. U-helix RNA (1.37 Ang):  3nd3.
 
 
+    TAGS:
+    fetch, molecular-graphics, rendering, coloring
+
     USAGE:
     U8
 
@@ -6742,6 +7003,9 @@ def WC8():
     ''' 
     DESCRIPTION: 
     16-mer dsRNA, Watson-Crick helix RNA: 3nd4.
+
+    TAGS:
+    fetch, molecular-graphics, coloring, quit
 
     USAGE:
     WC8
@@ -6828,6 +7092,9 @@ def atom(fileName="test.pml"):
     DESCRIPTION: 
     Open the text editor Atom from within PyMOL. 
 
+    TAGS:
+    utility
+
     USAGE:
     atom
 
@@ -6879,6 +7146,9 @@ def bbedit(fileName="test.pml"):
     ''' 
     DESCRIPTION: 
     Open file with the text editor bbedit from within PyMOL. 
+
+    TAGS:
+    text-editor
 
     USAGE:
     bbedit
@@ -6935,6 +7205,9 @@ def biocat():
 
 
 
+    TAGS:
+    website
+
     USAGE:
     biocat
 
@@ -6984,6 +7257,9 @@ def bs(selection='all'):
     ''' 
     DESCRIPTION: 
     bs creates a ball and stick representation of an object. 
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bs selection
@@ -7311,6 +7587,9 @@ def bsbw(selection='all'):
     ''' 
     DESCRIPTION: 
     bs creates a gray-scaled ball-and-stick representation of an object. 
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bsbw
@@ -7873,6 +8152,9 @@ def bsbwsc(selection='all'):
     DESCRIPTION: 
     bsbwsc creates a gray-scaled ball-and-stick representation of an object or selection.
 Only the side chains are shown as ball and stick when used with a cartoon (ribbon diagram).
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     bsbwsc
@@ -8441,6 +8723,9 @@ def bstvdw(selection='all'):
     DESCRIPTION: 
     Transparent vdw surface over ball and stick representation by Bobby Patton at Colorato State University. 
 
+    TAGS:
+    ambient-occlusion, rendering, coloring, cartoon
+
     USAGE:
     bsvdw selection
 
@@ -8796,6 +9081,9 @@ def buriedW(sele='all', cutoff=-1, state=1, quiet=1, _self=cmd):
     DESCRIPTION: 
     Return a selection of buried waters. 
 
+    TAGS:
+    surface, view, selection
+
     USAGE:
     buriedW
 
@@ -8895,6 +9183,9 @@ def cartoonbw(arg1='all'):
     DESCRIPTION: 
     Grayscale by secondary structure.
 
+    TAGS:
+    coloring, cartoon
+
     USAGE:
     cartoonbw
 
@@ -8941,6 +9232,9 @@ def ccp4mg():
     Open ccp4mg from within PyMOL. 
 
 
+
+    TAGS:
+    electron-density
 
     USAGE:
     ccp4mg
@@ -8993,6 +9287,9 @@ def checkParams(needle, haystack, selName, het, firstOnly):
     ''' 
     DESCRIPTION: 
     Checks user params for the findSeq function.
+
+    TAGS:
+    view, selection
 
     USAGE:
     NA
@@ -9098,6 +9395,9 @@ def chimera(fileName="test.pdb"):
     Open Chimera from within PyMOL. 
  
 
+    TAGS:
+    molecular-graphics
+
     USAGE:
     chimera
 
@@ -9151,6 +9451,9 @@ def chimeraWeb():
     Open the webste of UCSF Chimera.
 
 
+    TAGS:
+    website, molecular-graphics
+
     USAGE:
     chimeraWeb
 
@@ -9197,6 +9500,9 @@ def cntccp4s():
     ''' 
     DESCRIPTION: 
     Count number of *.ccp4 (electron density map) files in current directory.
+
+    TAGS:
+    electron-density, save-session
 
     USAGE:
     cntccp4s
@@ -9248,6 +9554,9 @@ def cntfiles():
     DESCRIPTION: 
     Count number of files in current directory.
 
+    TAGS:
+    utility
+
     USAGE:
     cntfiles
 
@@ -9288,6 +9597,9 @@ def cntlogs():
     ''' 
     DESCRIPTION: 
     Count number of *.log files in current directory.
+
+    TAGS:
+    utility
 
     USAGE:
     cntlogs
@@ -9339,6 +9651,9 @@ def cntmtzs():
     ''' 
     DESCRIPTION: 
     Count number of *.mtz (structure factor) files in current directory.
+
+    TAGS:
+    electron-density
 
     USAGE:
     cntmtzs
@@ -9392,6 +9707,9 @@ def cntpdbs():
     DESCRIPTION: 
     Count number of pdb files in current directory.
 
+    TAGS:
+    utility
+
     USAGE:
     cntpdbs
 
@@ -9442,6 +9760,9 @@ def cntpmls():
     DESCRIPTION: 
     Count number of pml (Pymol macro language) files in current directory.
 
+    TAGS:
+    utility
+
     USAGE:
     cntpmls
 
@@ -9491,6 +9812,9 @@ def cntpngs():
     ''' 
     DESCRIPTION: 
     Count number of *.png image files in current directory.
+
+    TAGS:
+    rendering
 
     USAGE:
     cntpngs
@@ -9543,6 +9867,9 @@ def cntpses():
     DESCRIPTION: 
     Count number of *.pse (session) files in current directory.
 
+    TAGS:
+    save-session
+
     USAGE:
     cntpses
 
@@ -9592,6 +9919,9 @@ def code():
     ''' 
     DESCRIPTION: 
     Open file with Visual Studio Code from within PyMOL.
+
+    TAGS:
+    sequence
 
     USAGE:
     code
@@ -9650,6 +9980,9 @@ def colorh1(selection='all'):
     ''' 
     DESCRIPTION: 
     Color protein molecules according to the Eisenberg hydrophobicity scale. Uses scheme 1.
+
+    TAGS:
+    coloring, selection
 
     USAGE:
     colorh1
@@ -9766,6 +10099,9 @@ def colorh2(selection='all'):
     ''' 
     DESCRIPTION: 
     Color protein molecules according to the Eisenberg hydrophobicity scale. Uses scheme 2.
+
+    TAGS:
+    coloring, selection
 
     USAGE:
     colorh2
@@ -9885,6 +10221,9 @@ def coot(fileName="test.pdb"):
 
 
 
+    TAGS:
+    molecular-graphics
+
     USAGE:
     coot
 
@@ -9938,6 +10277,9 @@ def cranR():
     DESCRIPTION: 
     Open Cran R from within PyMOL.
 
+    TAGS:
+    utility
+
     USAGE:
     cranR
 
@@ -9989,6 +10331,9 @@ def ddb():
     ''' 
     DESCRIPTION: 
     Open DBBrowserSQLite. 
+
+    TAGS:
+    data-analysis
 
     USAGE:
     ddb
@@ -10042,6 +10387,9 @@ def emacs(fileName="test.pml"):
     DESCRIPTION: 
     Open file with emacs from within PyMOL.
 
+    TAGS:
+    text-editor
+
     USAGE:
     emacs
 
@@ -10092,6 +10440,9 @@ def excel():
     ''' 
     DESCRIPTION: 
     Open excel from within PyMOL. 
+
+    TAGS:
+    data-analysis
 
     USAGE:
     excel
@@ -10146,6 +10497,9 @@ def gcal():
     DESCRIPTION: 
     Open Google Calendar.
 
+    TAGS:
+    web-search
+
     USAGE:
     gcal
 
@@ -10193,6 +10547,9 @@ def gedit():
     ''' 
     DESCRIPTION: 
     Open file with gedit from within PyMOL.
+
+    TAGS:
+    text-editor
 
     USAGE:
     gedit
@@ -10250,6 +10607,9 @@ def gimp():
     Open the image editing program gimp from within PyMOL.
 
 
+    TAGS:
+    image-manipulation
+
     USAGE:
     gimp
 
@@ -10303,6 +10663,9 @@ def gitAdd():
     DESCRIPTION: 
     Enter help(gitAdd) to print steps for adding a file to version control.
 
+    TAGS:
+    utility
+
     USAGE:
     gitAdd
 
@@ -10337,6 +10700,9 @@ def gitCommit():
     DESCRIPTION: 
     Enter help(gitCommit) to print steps for saving updates to a file under version control.
 
+
+    TAGS:
+    utility
 
     USAGE:
     gitCommit
@@ -10374,6 +10740,9 @@ def gitInit():
     ''' 
     DESCRIPTION: 
     Enter help(gitInit) to print steps for creating a git repository.
+
+    TAGS:
+    rendering, electron-density, save-session
 
     USAGE:
     gitInit
@@ -10484,6 +10853,9 @@ def gitPull():
     Enter help(gitPull) to print steps to update a repository on github.com.
 
 
+    TAGS:
+    utility
+
     USAGE:
     gitPull
 
@@ -10528,6 +10900,9 @@ def gitPush():
     Enter help(gitPush) to print steps update a repository on github.com. 
 
 
+    TAGS:
+    utility
+
     USAGE:
     gitPush
 
@@ -10564,6 +10939,9 @@ def gmail():
     ''' 
     DESCRIPTION: 
     Open gmail. 
+
+    TAGS:
+    website
 
     USAGE:
     gmail
@@ -10615,6 +10993,9 @@ def gscale(selection="all"):
     ''' 
     DESCRIPTION: 
     Apply grayscale to all atoms by element. 
+
+    TAGS:
+    coloring
 
     USAGE:
     gs <selection> # the default selection is 'all'
@@ -10985,6 +11366,9 @@ def hb(selection='all'):
     Creates an object of all H-bonds found by PyMOL.
 
 
+    TAGS:
+    measurement
+
     USAGE:
     hb <selection>
 
@@ -11029,6 +11413,9 @@ def inkscape():
     ''' 
     DESCRIPTION: 
     Open the image editing program inkscape from within PyMOL. 
+
+    TAGS:
+    image-manipulation
 
     USAGE:
     inkscape
@@ -11085,6 +11472,9 @@ def interface(cmpx, cA='c. A', cB='c. B', cutoff=1.0, selName="interface"):
     ''' 
     DESCRIPTION: 
     Returns a selection of interface residues named according to what you passed into selName.
+
+    TAGS:
+    rendering, surface, view, selection
 
     USAGE:
     objname, selection1, selection2, cutoff=1.0, selectionNameForInterface
@@ -11318,6 +11708,9 @@ def iterm():
     DESCRIPTION: 
     Open iTerm2 window on MacOS. 
 
+    TAGS:
+    terminal
+
     USAGE:
     iterm
 
@@ -11369,6 +11762,9 @@ def jabref():
     DESCRIPTION: 
     Open the jabref from within PyMOL.
 
+    TAGS:
+    utility
+
     USAGE:
     jabref
 
@@ -11419,6 +11815,9 @@ def jedit(fileName="test.pml"):
     ''' 
     DESCRIPTION: 
     Open file with jedit from within PyMOL. 
+
+    TAGS:
+    utility
 
     USAGE:
     jedit
@@ -11474,6 +11873,9 @@ def jmol():
     DESCRIPTION: 
     Open Jmol from within PyMOL.
 
+
+    TAGS:
+    molecular-graphics
 
     USAGE:
     jmol
@@ -11532,6 +11934,9 @@ def julia():
     DESCRIPTION: 
     Open the julia from within PyMOL.
 
+    TAGS:
+    utility
+
     USAGE:
     julia
 
@@ -11586,6 +11991,9 @@ def juliapro():
     DESCRIPTION: 
     Open the juliapro from within PyMOL.
 
+
+    TAGS:
+    utility
 
     USAGE:
     juliapro
@@ -11645,6 +12053,9 @@ def mate():
 
 
 
+    TAGS:
+    text-editor
+
     USAGE:
     mate
 
@@ -11703,6 +12114,9 @@ def nmr():
     DESCRIPTION: 
     Show all models in a nmr structure. 
 
+    TAGS:
+    utility
+
     USAGE:
     nmr
 
@@ -11738,6 +12152,9 @@ def nmroff():
     DESCRIPTION: 
     Hide all but first model in a nmr structure.
 
+
+    TAGS:
+    utility
 
     USAGE:
     nmroff
@@ -11778,6 +12195,9 @@ def npp():
     ''' 
     DESCRIPTION: 
     Open notepadpp from within PyMOL. 
+
+    TAGS:
+    text-editor
 
     USAGE:
     npp
@@ -11832,6 +12252,9 @@ def nv():
     DESCRIPTION: 
     Open neovim from within PyMOL.
 
+    TAGS:
+    text-editor
+
     USAGE:
     nv
 
@@ -11885,6 +12308,9 @@ def oc():
     Open the data analysis program octave (open source analog of matlab) from within PyMOL.
 
 
+    TAGS:
+    utility
+
     USAGE:
     oc
 
@@ -11937,6 +12363,9 @@ def omx(selection='all'):
     DESCRIPTION: 
     Align long axis of molecule along the x-axis of the viewport. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     omx <selection>
 
@@ -11975,6 +12404,9 @@ def omxy(selection='all'):
     DESCRIPTION: 
     Align long axis of molecule along minus x-y axis.
 
+    TAGS:
+    animation, view
+
     USAGE:
     omxy
 
@@ -12012,6 +12444,9 @@ def omxyz(selection='all'):
     ''' 
     DESCRIPTION: 
     Align long axis of the selection along the minu xyz axis. 
+
+    TAGS:
+    view, selection
 
     USAGE:
     omxyz
@@ -12054,6 +12489,9 @@ def omy(selection='all'):
     DESCRIPTION: 
     Align long axis of the selection along the y-axis of the viewport in the negative direction.
 
+    TAGS:
+    view, selection
+
     USAGE:
     omy <selection>
 
@@ -12093,6 +12531,9 @@ def omz(selection='all'):
     DESCRIPTION: 
     Align long axis of selection along the z-axis of the viewport in the negative z direction. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     omz <selection>
 
@@ -12131,6 +12572,9 @@ def oni():
     ''' 
     DESCRIPTION: 
     Open the editor Oni from within PyMOL. 
+
+    TAGS:
+    text-editor
 
     USAGE:
     oni
@@ -12183,6 +12627,9 @@ def ox(selection='all'):
     DESCRIPTION: 
     Align long axis of molecule along x-axis. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     ox <selection>
 
@@ -12217,6 +12664,9 @@ def oxy(selection='all'):
     ''' 
     DESCRIPTION: 
     Align long axis of the selection along the x-y axis. 
+
+    TAGS:
+    view, selection
 
     USAGE:
     oxy
@@ -12260,6 +12710,9 @@ def oxyz(selection='all'):
     DESCRIPTION: 
     Align long axis of the selection along the xyz axis. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     oxyz
 
@@ -12301,6 +12754,9 @@ def oy(selection='all'):
     DESCRIPTION: 
     Align long axis of the selection along the y-axis of the viewport. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     oy <selection>
 
@@ -12340,6 +12796,9 @@ def oz(selection='all'):
     DESCRIPTION: 
     Align long axis of selection along the z-axis of the viewport. 
 
+    TAGS:
+    view, selection
+
     USAGE:
     oz <selection>
 
@@ -12378,6 +12837,9 @@ def pairD(sel1, sel2, max_dist, output="N", sidechain="N", show="N"):
     ''' 
     DESCRIPTION: 
     Find the pairwise distances between two selections.
+
+    TAGS:
+    measurement, selection
 
     USAGE:
     pairwise_dist sel1, sel2, max_dist, [output=S/P/N, [sidechain=N/Y, [show=Y/N]]]
@@ -12529,6 +12991,9 @@ def pdbed():
     DESCRIPTION: 
     Open PDBEditor.jar from within PyMOL. 
 
+    TAGS:
+    utility
+
     USAGE:
     edpdb
 
@@ -12588,6 +13053,9 @@ def pdbremarks(filename):
     Read REMARK lines from PDB file. 
 Return dictionary with remarkNum as key and list of lines as value.
 Called by the function quat().
+
+    TAGS:
+    view
 
     USAGE:
     pdbremarks(filename)
@@ -12653,6 +13121,9 @@ def ppt():
     DESCRIPTION: 
     Open the powerpoint from within PyMOL. 
 
+    TAGS:
+    utility
+
     USAGE:
     ppt
 
@@ -12708,6 +13179,9 @@ def quat(name=None, filename=None, prefix=None, quiet=0):
     When using fetch, add the optional parameter type=pdb.
     Of course, you can also use type=pdb1 to retrieve the biological unit form the PDB. 
     Reads REMARK 350 from the pdb file  `filename` and creates the biological unit (quaternary structure).
+
+    TAGS:
+    fetch, molecular-graphics, symmetry
 
     USAGE:
     quat [name [, filename [, prefix]]]
@@ -12832,6 +13306,9 @@ def quat350(rem350):
 
 
 
+    TAGS:
+    view
+
     USAGE:
     quat350(rem350)
 
@@ -12905,6 +13382,9 @@ def rgb(selection="all"):
     DESCRIPTION: 
     Restore rgb coloring of atoms by element. 
 
+    TAGS:
+    utility
+
     USAGE:
     rgb <selection>
 
@@ -12935,6 +13415,9 @@ def rline():
     DESCRIPTION: 
     Prints cheat sheet for the readline commands. 
 
+
+    TAGS:
+    utility
 
     USAGE:
     rline
@@ -12995,6 +13478,9 @@ def rmd():
     DESCRIPTION: 
     Remove all measurement objects in the interal GUI.
 
+    TAGS:
+    measurement
+
     USAGE:
     rmd
 
@@ -13035,6 +13521,9 @@ def rmhb(selection='all'):
 
 
 
+
+    TAGS:
+    selection
 
     USAGE:
     rmhb <selection>
@@ -13084,6 +13573,9 @@ def rmsc():
     DESCRIPTION: 
     Remove psico.xtal.supercell objects.
 
+    TAGS:
+    utility
+
     USAGE:
     rmsc
 
@@ -13118,6 +13610,9 @@ def rv(StoredView=0, decimal_places=2, outname="roundedview.txt"):
     DESCRIPTION: 
     Get the view settings in a compact format on one line.
 
+
+    TAGS:
+    view
 
     USAGE:
     rv
@@ -13257,6 +13752,9 @@ def saln(stemName="saved"):
     DESCRIPTION: 
     Save a aln file (alignment file) with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     saln
 
@@ -13295,6 +13793,9 @@ def sasbdb():
     ''' 
     DESCRIPTION: 
     Open the webpage of the Small Angle Scattering Biological Data Bank (SASBDB). 
+
+    TAGS:
+    website
 
     USAGE:
     sasbdb
@@ -13411,6 +13912,9 @@ def sbgrid():
     DESCRIPTION: 
     Open the webpage of the Structural Biology Grid (SBGRID) YouTube Channel.
 
+    TAGS:
+    web-search
+
     USAGE:
     sbgrid
 
@@ -13461,6 +13965,9 @@ def sc111():
     DESCRIPTION: 
     Make a lattice of 1 x 1 x 1 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc111
 
@@ -13501,6 +14008,9 @@ def sc112():
     DESCRIPTION: 
     Make a lattice of 1 x 1 x 2 unit cells
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc112
 
@@ -13538,6 +14048,9 @@ def sc113():
     ''' 
     DESCRIPTION: 
     Make a lattice of 1 x 1 x 3 unit cells.
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc113
@@ -13577,6 +14090,9 @@ def sc121():
     DESCRIPTION: 
     Make a lattice of 1 x 2 x 1 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc121
 
@@ -13614,6 +14130,9 @@ def sc122():
     ''' 
     DESCRIPTION: 
     Make a lattice of 1 x 2 x 2 unit cells. 
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc122
@@ -13653,6 +14172,9 @@ def sc123():
     DESCRIPTION: 
     Make a lattice of 1 x 2 x 3 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc123
 
@@ -13690,6 +14212,9 @@ def sc131():
     DESCRIPTION: 
     Make a lattice of 1 x 3 x 1 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc131
 
@@ -13726,6 +14251,9 @@ def sc132():
     ''' 
     DESCRIPTION: 
     Make a lattice of 1 x 3 x 2 unit cells. 
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc132
@@ -13765,6 +14293,9 @@ def sc133():
     DESCRIPTION: 
     Make a lattice of 1 x 3 x 3 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc133
 
@@ -13802,6 +14333,9 @@ def sc211():
     ''' 
     DESCRIPTION: 
     Make a lattice of 2 x 1 x 1 unit cells.
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc211
@@ -13843,6 +14377,9 @@ def sc212():
     DESCRIPTION: 
     Make a lattice of 2 x 1 x 2 unit cells.
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc212
 
@@ -13881,6 +14418,9 @@ def sc213():
     DESCRIPTION: 
     Make a lattice of 2 x 1 x 3 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc213
 
@@ -13918,6 +14458,9 @@ def sc221():
     ''' 
     DESCRIPTION: 
     Make a lattice of 2 x 2 x 1 unit cells. 
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc221
@@ -13958,6 +14501,9 @@ def sc222():
     DESCRIPTION: 
     Make a lattice of 2 x 2 x 2 unit cells
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc222
 
@@ -13993,6 +14539,9 @@ def sc223():
     ''' 
     DESCRIPTION: 
     Make a lattice of 2 x 2 x 3 unit cells
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc223
@@ -14030,6 +14579,9 @@ def sc231():
     DESCRIPTION: 
     Make a lattice of 2 x 3 x 1 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc231
 
@@ -14064,6 +14616,9 @@ def sc311():
     ''' 
     DESCRIPTION: 
     Make a lattice of 3 x 1 x 1 unit cells. 
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc311
@@ -14102,6 +14657,9 @@ def sc312():
     DESCRIPTION: 
     Make a lattice of 3 x 1 x 2 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc312
 
@@ -14137,6 +14695,9 @@ def sc313():
     ''' 
     DESCRIPTION: 
     Make a lattice of 3 x 1 x 3 unit cells.
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc313
@@ -14176,6 +14737,9 @@ def sc321():
     DESCRIPTION: 
     Make a lattice of 3 x 2 x 1 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc321
 
@@ -14211,6 +14775,9 @@ def sc331():
     ''' 
     DESCRIPTION: 
     Make a lattice of 3 x 3 x 1 unit cells. 
+
+    TAGS:
+    symmetry
 
     USAGE:
     sc331
@@ -14250,6 +14817,9 @@ def sc333():
     DESCRIPTION: 
     Make a lattice of 3 x 3 x 3 unit cells. 
 
+    TAGS:
+    symmetry
+
     USAGE:
     sc333
 
@@ -14287,6 +14857,9 @@ def sccp4(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a ccp4 electron density map with a time stamp.
+
+    TAGS:
+    electron-density
 
     USAGE:
     sccp4
@@ -14326,6 +14899,9 @@ def scg():
     '''
     DESCRIPTION:
     Open the GUI of the PyMOL Shortcuts Manager plugin.
+
+    TAGS:
+    utility
 
     USAGE:
     scg
@@ -14409,6 +14985,9 @@ def scif(stemName="saved"):
     DESCRIPTION: 
     Save a cif file (Crystallographic Information File) with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     scif
 
@@ -14449,6 +15028,9 @@ def sdae(stemName="saved"):
     DESCRIPTION: 
     Save a dae file (Collada File) with a time stamp.
 
+    TAGS:
+    electron-density
+
     USAGE:
     sdae
 
@@ -14487,6 +15069,9 @@ def sdat(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a dat file (output data file) with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     sdat
@@ -14527,6 +15112,9 @@ def sfasta(stemName="saved"):
     DESCRIPTION: 
     Save a fasta file (output data file) with a time stamp.
 
+    TAGS:
+    sequence
+
     USAGE:
     sfasta
 
@@ -14565,6 +15153,9 @@ def sidtf(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a idtf file (Intermediate Data Text Format) with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     sidtf
@@ -14606,6 +15197,9 @@ def smae(stemName="saved"):
     DESCRIPTION: 
     Save a mae (Maestro) file with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     smae
 
@@ -14644,6 +15238,9 @@ def smmd(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a mmd (Macromodel) file with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     smmd
@@ -14684,6 +15281,9 @@ def smmod(stemName="saved"):
     DESCRIPTION: 
     Save a mmod (Macromodel) file with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     smmod
 
@@ -14722,6 +15322,9 @@ def smoe(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a moe file (Molecular Operating Environment) with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     smoe MOEFileStemName
@@ -14762,6 +15365,9 @@ def smol(stemName="saved"):
     DESCRIPTION: 
     Save a mol file with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     smol MOEFileStemName
 
@@ -14801,6 +15407,9 @@ def smol2(stemName="saved"):
     DESCRIPTION: 
     Save a mol2 file with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     smol2 mol2FileStemName
 
@@ -14839,6 +15448,9 @@ def smtl(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save mtl (Wavefront Material) file format with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     smtl mtlFileStemName
@@ -14880,6 +15492,9 @@ def sobj(stemName="saved"):
     DESCRIPTION: 
     Save obj file (Wavefront mesh file format) with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     sobj sobjFileStemName
 
@@ -14920,6 +15535,9 @@ def sout(stemName="saved"):
     DESCRIPTION: 
     Save output data file with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     sout outFileStemName
 
@@ -14958,6 +15576,9 @@ def spdb(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save pdb data file with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     spdb pdbFileStemName
@@ -14998,6 +15619,9 @@ def spkl(stemName="saved"):
     DESCRIPTION: 
     Save a pkl file (Python pickle file) with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     spkl pklFileStemName
 
@@ -15036,6 +15660,9 @@ def spkla(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a pkla file (Python pickle file) with a time stamp.
+
+    TAGS:
+    utility
 
     USAGE:
     spkla pklaFileStemName
@@ -15077,6 +15704,9 @@ def spmo(stemName="saved"):
     DESCRIPTION: 
     Save a pmo file (XYZ, binary format file) with a time stamp.
 
+    TAGS:
+    utility
+
     USAGE:
     spmo MacromodelFileStemName
 
@@ -15115,6 +15745,9 @@ def spng(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save a png file (Python pickle file) with a time stamp.
+
+    TAGS:
+    rendering
 
     USAGE:
     spng pngFileStemName
@@ -15155,6 +15788,9 @@ def spov(stemName="saved"):
     DESCRIPTION: 
     Save pov (POV-ray tracing file format) file with a time stamp.
 
+    TAGS:
+    rendering
+
     USAGE:
     spov povFileStemName
 
@@ -15193,6 +15829,9 @@ def spqr(stemName="saved"):
     ''' 
     DESCRIPTION: 
     Save pqr with file with timestamp.
+
+    TAGS:
+    utility
 
     USAGE:
     spqr pqrFileStemName
@@ -15237,6 +15876,9 @@ def spse(stemName="saved"):
     DESCRIPTION: 
     Save session file with a time stamp.
 
+    TAGS:
+    save-session
+
     USAGE:
     spse pseFileStemName
 
@@ -15276,6 +15918,9 @@ def srv(StoredView=0, decimal_places=2, fileStemName="roundedview"):
     DESCRIPTION: 
     Get the view settings in a compact format on one line. Save to file with timestamp appended to the stem of the filename.
 
+
+    TAGS:
+    view
 
     USAGE:
     srv
@@ -15419,6 +16064,9 @@ def ssdf(stemName="saved"):
     DESCRIPTION: 
     Save session file with a time stamp.
 
+    TAGS:
+    save-session
+
     USAGE:
     ssdf sdfFileStemName
 
@@ -15459,6 +16107,9 @@ def ssrlbl42():
     Open the webpage of SSRL Biological SAXS at BL 4-2.
 
 
+
+    TAGS:
+    website
 
     USAGE:
     ssrlbl42
@@ -15512,6 +16163,9 @@ def st3(fileName="test.pml"):
     ''' 
     DESCRIPTION: 
     Open Sublime Text 3 from within PyMOL.
+
+    TAGS:
+    text-editor
 
     USAGE:
     st3
@@ -15567,6 +16221,9 @@ def swrl(stemName="saved"):
     Save wrl (VRML 2 file format) file with a time stamp.
 
 
+    TAGS:
+    utility
+
     USAGE:
     swrl wrlFileStemName
 
@@ -15607,6 +16264,9 @@ def term():
     Open a Terminal window on MacOS.
 
 
+
+    TAGS:
+    utility
 
     USAGE:
     term
@@ -15660,6 +16320,9 @@ def timcolor(selection='all'):
 
 
 
+
+    TAGS:
+    selection
 
     USAGE:
     timcolor <selection>
@@ -15751,6 +16414,9 @@ def tvdw(selection='all'):
     ''' 
     DESCRIPTION: 
     Transparent vdw surface by Bobby Patton at Colorado State University. 
+
+    TAGS:
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     vdwTrans selection
@@ -16080,6 +16746,9 @@ def tvdwbw(selection='all'):
     DESCRIPTION: 
     Transparent vdw surface by Bobby Patton at Colorado State University and grayscale by gscale function.
 
+    TAGS:
+    selection
+
     USAGE:
     tvdwbw
 
@@ -16113,6 +16782,9 @@ def vim():
     ''' 
     DESCRIPTION: 
     Open vim from within PyMOL.
+
+    TAGS:
+    text-editor
 
     USAGE:
     vim
@@ -16167,6 +16839,9 @@ def vmd():
     DESCRIPTION: 
     Open vmd from within PyMOL.
 
+    TAGS:
+    molecular-graphics
+
     USAGE:
     vmd
 
@@ -16218,6 +16893,9 @@ def weather():
     ''' 
     DESCRIPTION: 
     Open National Weather Service website for locale. 
+
+    TAGS:
+    website
 
     USAGE:
     weather
@@ -16271,6 +16949,9 @@ def webmail():
     DESCRIPTION: 
     Open Web Mail in defualt browser.
 
+    TAGS:
+    website
+
     USAGE:
     webmail
 
@@ -16321,6 +17002,9 @@ def word():
     ''' 
     DESCRIPTION: 
     Open word from within PyMOL.
+
+    TAGS:
+    utility
 
     USAGE:
     word
@@ -16375,6 +17059,9 @@ def x11():
     DESCRIPTION: 
     Open x11 terminal.
 
+    TAGS:
+    utility
+
     USAGE:
     x11
 
@@ -16424,6 +17111,9 @@ def xquartz():
     Open new XQuartz terminal on MacOS. 
 
 
+    TAGS:
+    terminal
+
     USAGE:
     xquartz
 
@@ -16472,6 +17162,9 @@ def yasara(fileName="test.pml"):
     ''' 
     DESCRIPTION: 
     Open the molecular graphics prograom YASASRA from within PyMOL.
+
+    TAGS:
+    utility
 
     USAGE:
     yasara
@@ -16523,6 +17216,9 @@ def yrb(selection='all'):
     ''' 
     DESCRIPTION: 
     A script to highlight hydrophobicity and charge on protein surfaces (Hagemans et al. 2015).
+
+    TAGS:
+    coloring, selection, image-manipulation
 
     USAGE:
     "yrb" to colour all structures

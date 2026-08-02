@@ -115,7 +115,44 @@ mock_QtCore.QModelIndex = MagicMock
 mock_QtCore.QAbstractTableModel = type('QAbstractTableModel', (), {
     '__init__': lambda self, *a, **kw: None,
 })
-mock_QtCore.QSortFilterProxyModel = MagicMock
+class MockQSortFilterProxyModel:
+    """Subclassable QSortFilterProxyModel stand-in.
+
+    A bare MagicMock cannot be subclassed, and TagFilterProxyModel needs a
+    real base class, so this provides the handful of methods the plugin
+    calls as no-ops.
+    """
+
+    def __init__(self, parent=None):
+        self._source = None
+        self._filter = ""
+
+    def setSourceModel(self, model):
+        self._source = model
+
+    def sourceModel(self):
+        return self._source
+
+    def setFilterCaseSensitivity(self, sensitivity):
+        pass
+
+    def setFilterKeyColumn(self, column):
+        pass
+
+    def setFilterFixedString(self, text):
+        self._filter = text
+
+    def mapToSource(self, index):
+        return index
+
+    def invalidateFilter(self):
+        pass
+
+    def filterAcceptsRow(self, source_row, source_parent):
+        return True
+
+
+mock_QtCore.QSortFilterProxyModel = MockQSortFilterProxyModel
 
 # Provide realistic widget base classes
 class MockWidget:
@@ -1380,7 +1417,8 @@ class TestShortcutsTableModel(unittest.TestCase):
 
     def setUp(self):
         self.shortcuts = [
-            ShortcutData(name="AO", description="Ambient occlusion"),
+            ShortcutData(name="AO", description="Ambient occlusion",
+                         tags=["rendering", "ambient-occlusion"]),
             ShortcutData(name="BW", description="Black and white"),
             ShortcutData(name="CB", description="Color by B-factor"),
         ]
@@ -1392,10 +1430,19 @@ class TestShortcutsTableModel(unittest.TestCase):
         self.assertEqual(self.model.rowCount(), 3)
 
     def test_column_count(self):
-        self.assertEqual(self.model.columnCount(), 3)
+        self.assertEqual(self.model.columnCount(), 4)
 
     def test_headers(self):
-        self.assertEqual(self.model.headers, ['Name', 'Keybinding', 'Description'])
+        self.assertEqual(self.model.headers,
+                         ['Name', 'Keybinding', 'Tags', 'Description'])
+
+    def test_data_returns_tags(self):
+        mock_index = MagicMock()
+        mock_index.isValid.return_value = True
+        mock_index.row.return_value = 0
+        mock_index.column.return_value = 2
+        result = self.model.data(mock_index, role=0)
+        self.assertEqual(result, "rendering, ambient-occlusion")
 
     def test_get_shortcut_valid(self):
         s = self.model.get_shortcut(0)
@@ -1426,7 +1473,7 @@ class TestShortcutsTableModel(unittest.TestCase):
         mock_index = MagicMock()
         mock_index.isValid.return_value = True
         mock_index.row.return_value = 0
-        mock_index.column.return_value = 2
+        mock_index.column.return_value = 3
         result = self.model.data(mock_index, role=0)
         self.assertIn("Ambient occlusion", result)
 
@@ -1442,7 +1489,7 @@ class TestShortcutsTableModel(unittest.TestCase):
         mock_index = MagicMock()
         mock_index.isValid.return_value = True
         mock_index.row.return_value = 0
-        mock_index.column.return_value = 2
+        mock_index.column.return_value = 3
         result = model.data(mock_index, role=0)
         self.assertTrue(result.endswith("..."))
         self.assertLessEqual(len(result), 104)  # 100 + "..."
@@ -1517,6 +1564,8 @@ class TestAddShortcutCodeGeneration(unittest.TestCase):
             self.tab = AddShortcutTab.__new__(AddShortcutTab)
         self.tab.name_edit = MagicMock()
         self.tab.desc_edit = MagicMock()
+        self.tab.tags_edit = MagicMock()
+        self.tab.tags_edit.text.return_value = ""
         self.tab.usage_edit = MagicMock()
         self.tab.args_edit = MagicMock()
         self.tab.example_edit = MagicMock()
@@ -1771,9 +1820,13 @@ class TestApplyAppearance(unittest.TestCase):
         for widget in ("agentic_harness", "agentic_executable",
                        "agentic_working_dir", "agentic_scratch_dir",
                        "agentic_reference", "agentic_timeout",
-                       "agentic_confirm_live", "agentic_skills_dir"):
+                       "agentic_confirm_live", "agentic_skills_dir",
+                       "tags_storage_mode", "tags_overlay_path",
+                       "tags_show_column", "tags_confirm_write",
+                       "tags_strict_vocab"):
             setattr(tab, widget, MagicMock())
         tab.agentic_harness.findData = MagicMock(return_value=-1)
+        tab.tags_storage_mode.findData = MagicMock(return_value=-1)
         mock_window = MagicMock()
         tab.window = MagicMock(return_value=mock_window)
         return tab, mock_window
@@ -2902,9 +2955,12 @@ class TestAgenticSettings(unittest.TestCase):
                        "agentic_executable", "agentic_working_dir",
                        "agentic_scratch_dir", "agentic_reference",
                        "agentic_timeout", "agentic_confirm_live",
-                       "agentic_skills_dir"):
+                       "agentic_skills_dir", "tags_storage_mode",
+                       "tags_overlay_path", "tags_show_column",
+                       "tags_confirm_write", "tags_strict_vocab"):
             setattr(tab, widget, MagicMock())
         tab.agentic_harness.currentData.return_value = "pi"
+        tab.tags_storage_mode.currentData.return_value = "file"
         tab.apply_appearance = MagicMock()
         plugin_mod.QtWidgets.QMessageBox.information = MagicMock()
         tab.save_settings()
@@ -3170,6 +3226,326 @@ class TestMCPServer(unittest.TestCase):
         contract = mcp_mod.tool_docstring_contract()["contract"]
         self.assertIn("os.system", contract)
         self.assertIn("HORIZONTAL PML SCRIPT:", contract)
+
+
+# ===================================================================
+# Tag support
+# ===================================================================
+
+SAMPLE_TAG_SRC = (
+    "def demoSC():\n"
+    "    '''\n"
+    "    DESCRIPTION:\n"
+    "    A demo shortcut.\n"
+    "\n"
+    "    USAGE:\n"
+    "    demoSC\n"
+    "\n"
+    "    EXAMPLE:\n"
+    "    demoSC\n"
+    "    '''\n"
+    "    cmd.bg_color('white')\n"
+    "cmd.extend('demoSC', demoSC)\n"
+)
+
+
+class TestShortcutDataTags(unittest.TestCase):
+    """The new tags field on ShortcutData."""
+
+    def test_tags_default_to_empty_list(self):
+        self.assertEqual(ShortcutData(name="X").tags, [])
+
+    def test_tags_are_normalised_from_a_list(self):
+        s = ShortcutData(name="X", tags=["Rendering", "rendering", "B"])
+        self.assertEqual(s.tags, ["rendering", "b"])
+
+    def test_tags_are_normalised_from_a_string(self):
+        s = ShortcutData(name="X", tags="Rendering, Publication")
+        self.assertEqual(s.tags, ["rendering", "publication"])
+
+
+class TestTagNormalization(unittest.TestCase):
+    """normalize_tags and unknown_tags."""
+
+    def setUp(self):
+        self.normalize = plugin_mod.normalize_tags
+        self.unknown = plugin_mod.unknown_tags
+
+    def test_empty_returns_empty_list(self):
+        self.assertEqual(self.normalize(""), [])
+        self.assertEqual(self.normalize(None), [])
+
+    def test_lowercases_strips_and_dedupes(self):
+        self.assertEqual(self.normalize("A, b ,A"), ["a", "b"])
+
+    def test_multiword_becomes_hyphenated(self):
+        self.assertEqual(self.normalize(["Ambient Occlusion"]),
+                         ["ambient-occlusion"])
+
+    def test_newlines_split_tags(self):
+        self.assertEqual(self.normalize("x\ny"), ["x", "y"])
+
+    def test_unknown_tags_reports_out_of_vocabulary(self):
+        stray = self.unknown(["rendering", "frobnicate"])
+        self.assertEqual(stray, ["frobnicate"])
+
+
+class TestTagStore(unittest.TestCase):
+    """The hybrid overlay store."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.path = os.path.join(self.tmp, "tags.json")
+        self.TagStore = plugin_mod.TagStore
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_absent_file_is_an_empty_overlay(self):
+        store = self.TagStore(self.path)
+        self.assertEqual(store.overlay, {})
+        self.assertEqual(store.effective_tags("AO", ["rendering"]),
+                         ["rendering"])
+
+    def test_overlay_adds_a_tag_on_top_of_file_tags(self):
+        store = self.TagStore(self.path)
+        store.set_overlay("AO", ["rendering", "publication"], ["rendering"])
+        self.assertEqual(store.effective_tags("AO", ["rendering"]),
+                         ["rendering", "publication"])
+
+    def test_overlay_removes_a_file_tag(self):
+        store = self.TagStore(self.path)
+        store.set_overlay("AO", [], ["rendering"])
+        self.assertEqual(store.effective_tags("AO", ["rendering"]), [])
+
+    def test_no_overlay_entry_when_desired_equals_file(self):
+        store = self.TagStore(self.path)
+        store.set_overlay("AO", ["rendering"], ["rendering"])
+        self.assertNotIn("AO", store.overlay)
+
+    def test_save_then_reload_round_trips(self):
+        store = self.TagStore(self.path)
+        store.set_overlay("AO", ["rendering", "publication"], ["rendering"])
+        store.save()
+        reloaded = self.TagStore(self.path)
+        self.assertEqual(reloaded.effective_tags("AO", ["rendering"]),
+                         ["rendering", "publication"])
+
+    def test_all_tags_is_the_sorted_union(self):
+        store = self.TagStore(self.path)
+        shortcuts = [
+            ShortcutData(name="AO", tags=["rendering", "coloring"]),
+            ShortcutData(name="AB", tags=["web-search"]),
+        ]
+        self.assertEqual(store.all_tags(shortcuts),
+                         ["coloring", "rendering", "web-search"])
+
+    def test_corrupt_overlay_loads_as_empty(self):
+        with open(self.path, "w") as handle:
+            handle.write("{not json")
+        self.assertEqual(self.TagStore(self.path).overlay, {})
+
+
+class TestTagParsing(unittest.TestCase):
+    """The parser reads a TAGS section."""
+
+    def test_tags_section_parses_into_a_list(self):
+        doc = ("DESCRIPTION:\nA thing.\n\nTAGS:\nRendering, Publication\n\n"
+               "USAGE:\nfoo\n")
+        result = ShortcutsParser._parse_docstring("foo", doc)
+        self.assertEqual(result.tags, ["rendering", "publication"])
+
+    def test_missing_tags_section_is_empty(self):
+        doc = "DESCRIPTION:\nA thing.\n\nUSAGE:\nfoo\n"
+        result = ShortcutsParser._parse_docstring("foo", doc)
+        self.assertEqual(result.tags, [])
+
+
+class TestTagWriteback(unittest.TestCase):
+    """_rewrite_tags_in_source and update_shortcut_tags."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.path = os.path.join(self.tmp, "shortcuts.py")
+        with open(self.path, "w", encoding="utf-8") as handle:
+            handle.write(SAMPLE_TAG_SRC)
+        self.rewrite = plugin_mod._rewrite_tags_in_source
+        self.update = plugin_mod.update_shortcut_tags
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_inserts_tags_after_description(self):
+        new, found = self.rewrite(SAMPLE_TAG_SRC, "demoSC",
+                                  ["rendering", "publication"])
+        self.assertTrue(found)
+        self.assertIn("TAGS:", new)
+        self.assertLess(new.index("DESCRIPTION:"), new.index("TAGS:"))
+        self.assertLess(new.index("TAGS:"), new.index("USAGE:"))
+
+    def test_replaces_an_existing_tags_block(self):
+        once, _ = self.rewrite(SAMPLE_TAG_SRC, "demoSC", ["rendering"])
+        twice, _ = self.rewrite(once, "demoSC", ["coloring"])
+        self.assertEqual(twice.count("TAGS:"), 1)
+        self.assertIn("coloring", twice)
+        self.assertNotIn("rendering", twice)
+
+    def test_missing_name_is_not_found(self):
+        new, found = self.rewrite(SAMPLE_TAG_SRC, "nope", ["x"])
+        self.assertFalse(found)
+        self.assertEqual(new, SAMPLE_TAG_SRC)
+
+    def test_update_writes_a_backup_and_edits_the_file(self):
+        backup = self.update(self.path, "demoSC", ["rendering"])
+        self.assertTrue(os.path.isfile(backup))
+        with open(self.path, encoding="utf-8") as handle:
+            content = handle.read()
+        self.assertIn("TAGS:", content)
+
+    def test_update_raises_on_missing_name(self):
+        with self.assertRaises(ValueError):
+            self.update(self.path, "nope", ["x"])
+
+    def test_update_raises_on_missing_path(self):
+        with self.assertRaises(IOError):
+            self.update("/no/such/file.py", "demoSC", ["x"])
+
+    def test_round_trips_through_the_parser(self):
+        self.update(self.path, "demoSC", ["rendering", "coloring"],
+                    backup=False)
+        shortcuts = ShortcutsParser.parse_shortcuts(self.path)
+        by_name = {s.name: s for s in shortcuts}
+        self.assertEqual(by_name["demoSC"].tags, ["rendering", "coloring"])
+
+
+class TestTagFilterProxy(unittest.TestCase):
+    """tag_filter_accepts and TagFilterProxyModel."""
+
+    def setUp(self):
+        self.accepts = plugin_mod.tag_filter_accepts
+        self.model = plugin_mod.ShortcutsTableModel([
+            ShortcutData(name="AO", tags=["rendering"]),
+            ShortcutData(name="AB", tags=["web-search"]),
+        ])
+
+    def test_empty_tag_accepts_everything(self):
+        self.assertTrue(self.accepts(ShortcutData(name="X"), ""))
+
+    def test_membership_decides_acceptance(self):
+        shortcut = ShortcutData(name="AO", tags=["rendering"])
+        self.assertTrue(self.accepts(shortcut, "rendering"))
+        self.assertFalse(self.accepts(shortcut, "coloring"))
+
+    def test_proxy_filters_rows_by_tag(self):
+        proxy = plugin_mod.TagFilterProxyModel()
+        proxy.setSourceModel(self.model)
+        proxy.set_tag("rendering")
+        self.assertEqual(proxy.current_tag(), "rendering")
+        self.assertTrue(proxy.filterAcceptsRow(0, None))
+        self.assertFalse(proxy.filterAcceptsRow(1, None))
+
+    def test_proxy_with_no_tag_accepts_all(self):
+        proxy = plugin_mod.TagFilterProxyModel()
+        proxy.setSourceModel(self.model)
+        proxy.set_tag("")
+        self.assertTrue(proxy.filterAcceptsRow(0, None))
+        self.assertTrue(proxy.filterAcceptsRow(1, None))
+
+
+class TestTagSettings(unittest.TestCase):
+    """Round trip of the tags keys through the Settings tab."""
+
+    TAGS_KEYS = (
+        "tags/storage_mode", "tags/overlay_path", "tags/show_column",
+        "tags/confirm_write", "tags/strict_vocab",
+    )
+
+    def setUp(self):
+        MockQSettings._store.clear()
+
+    def test_save_settings_writes_every_tags_key(self):
+        SettingsTab = plugin_mod.SettingsTab
+        tab = SettingsTab.__new__(SettingsTab)
+        tab.settings = MockQSettings()
+        for widget in ("font_size", "theme", "auto_load",
+                       "default_shortcuts_path", "remember_provider",
+                       "auto_index", "save_api_keys", "enable_history",
+                       "max_history", "check_updates", "agentic_harness",
+                       "agentic_executable", "agentic_working_dir",
+                       "agentic_scratch_dir", "agentic_reference",
+                       "agentic_timeout", "agentic_confirm_live",
+                       "agentic_skills_dir", "tags_storage_mode",
+                       "tags_overlay_path", "tags_show_column",
+                       "tags_confirm_write", "tags_strict_vocab"):
+            setattr(tab, widget, MagicMock())
+        tab.agentic_harness.currentData.return_value = "claude-code"
+        tab.tags_storage_mode.currentData.return_value = "file"
+        tab.apply_appearance = MagicMock()
+        plugin_mod.QtWidgets.QMessageBox.information = MagicMock()
+        tab.save_settings()
+        for key in self.TAGS_KEYS:
+            self.assertIn(key, MockQSettings._store, key)
+        self.assertEqual(MockQSettings._store["tags/storage_mode"], "file")
+
+    def test_load_settings_reads_every_tags_key(self):
+        with open(_plugin_path, "r") as handle:
+            src = handle.read()
+        load_start = src.index("    def load_settings(self):")
+        load_end = src.index("    def save_settings(self):")
+        body = src[load_start:load_end]
+        for key in self.TAGS_KEYS:
+            self.assertIn(key, body, key)
+
+    def test_strict_vocab_defaults_to_on(self):
+        with open(_plugin_path, "r") as handle:
+            src = handle.read()
+        self.assertIn('self.settings.value("tags/strict_vocab", True', src)
+
+    def test_storage_mode_defaults_to_file(self):
+        with open(_plugin_path, "r") as handle:
+            src = handle.read()
+        self.assertIn('self.settings.value("tags/storage_mode", "file")', src)
+
+
+class TestAddShortcutTags(unittest.TestCase):
+    """The Add Shortcut form emits a TAGS section."""
+
+    def setUp(self):
+        AddShortcutTab = plugin_mod.AddShortcutTab
+        with patch.object(AddShortcutTab, '__init__', lambda self, *a, **kw: None):
+            self.tab = AddShortcutTab.__new__(AddShortcutTab)
+        for widget in ("name_edit", "desc_edit", "tags_edit", "usage_edit",
+                       "args_edit", "example_edit", "details_edit",
+                       "pml_v_edit", "pml_h_edit", "python_edit"):
+            setattr(self.tab, widget, MagicMock())
+
+    def _fill(self):
+        self.tab.name_edit.text.return_value = "demoSC"
+        self.tab.desc_edit.toPlainText.return_value = "A demo"
+        self.tab.tags_edit.text.return_value = "Rendering, Publication"
+        self.tab.usage_edit.toPlainText.return_value = "demoSC"
+        self.tab.args_edit.toPlainText.return_value = ""
+        self.tab.example_edit.toPlainText.return_value = "demoSC"
+        self.tab.details_edit.toPlainText.return_value = ""
+        self.tab.pml_v_edit.toPlainText.return_value = ""
+        self.tab.pml_h_edit.toPlainText.return_value = ""
+        self.tab.python_edit.toPlainText.return_value = (
+            "def demoSC():\n    cmd.bg_color('white')\n"
+            "cmd.extend('demoSC', demoSC)"
+        )
+
+    def test_generated_code_carries_a_tags_section(self):
+        self._fill()
+        code = self.tab.generate_shortcut_code()
+        self.assertIn("TAGS:", code)
+        self.assertIn("rendering, publication", code)
+        self.assertLess(code.index("DESCRIPTION:"), code.index("TAGS:"))
+
+    def test_no_tags_means_no_tags_section(self):
+        self._fill()
+        self.tab.tags_edit.text.return_value = ""
+        code = self.tab.generate_shortcut_code()
+        self.assertNotIn("TAGS:", code)
 
 
 # ===================================================================
