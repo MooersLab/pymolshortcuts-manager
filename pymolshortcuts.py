@@ -747,7 +747,7 @@ def AO():
     Commands to make ambient occlusion image like those in Qutemole.
 
     TAGS:
-    ambient-occlusion, rendering, coloring
+    ambient-occlusion, rendering, coloring, photorealistic
 
     USAGE:
     AO
@@ -13169,6 +13169,89 @@ cmd.extend('ppt',ppt)
     except OSError:
         pass # executable not found
 cmd.extend('ppt',ppt)
+
+
+def psm():
+    '''
+    DESCRIPTION:
+    Open the GUI of the PyMOL Shortcuts Manager plugin.
+
+    USAGE:
+    psm
+
+    ARGUMENTS:
+    None
+    EXAMPLE:
+    psm
+
+    MORE DETAILS:
+    psm stands for pymolshortcuts-manager. It opens the graphical interface of
+    the PyMOL Shortcuts Manager plugin from inside a running PyMOL session so
+    that the user can browse, search, and run shortcuts without navigating the
+    Plugin menu. psm is an alias for the scg shortcut. The function looks for
+    the already-imported manager module in sys.modules first because PyMOL
+    registers the plugin under a plugin-specific module name at load time. If
+    that module is not present, the function falls back to the common import
+    paths.
+
+    VERTICAL PML SCRIPT:
+    import pymolshortcuts_manager as psm;
+    psm.run_plugin_gui()
+
+    HORIZONTAL PML SCRIPT:
+    import pymolshortcuts_manager as psm;psm.run_plugin_gui()
+
+    PYTHON CODE:
+def psm():
+    import sys
+    manager = None
+    for name, module in list(sys.modules.items()):
+        if name == 'pymolshortcuts_manager' or name.endswith('.pymolshortcuts_manager'):
+            manager = module
+            break
+    if manager is None:
+        for modname in ('pymolshortcuts_manager',
+                        'pmg_tk.startup.pymolshortcuts_manager'):
+            try:
+                manager = __import__(modname, fromlist=['run_plugin_gui'])
+                break
+            except ImportError:
+                continue
+    if manager is None:
+        print("Could not find the PyMOL Shortcuts Manager plugin. "
+              "Install it through Plugin > Plugin Manager, then run psm again.")
+        return
+    try:
+        manager.run_plugin_gui()
+    except Exception as e:
+        print("Failed to open the Shortcuts Manager GUI: %s" % e)
+
+cmd.extend('psm', psm)
+    '''
+    import sys
+    manager = None
+    for name, module in list(sys.modules.items()):
+        if name == 'pymolshortcuts_manager' or name.endswith('.pymolshortcuts_manager'):
+            manager = module
+            break
+    if manager is None:
+        for modname in ('pymolshortcuts_manager',
+                        'pmg_tk.startup.pymolshortcuts_manager'):
+            try:
+                manager = __import__(modname, fromlist=['run_plugin_gui'])
+                break
+            except ImportError:
+                continue
+    if manager is None:
+        print("Could not find the PyMOL Shortcuts Manager plugin. "
+              "Install it through Plugin > Plugin Manager, then run psm again.")
+        return
+    try:
+        manager.run_plugin_gui()
+    except Exception as e:
+        print("Failed to open the Shortcuts Manager GUI: %s" % e)
+
+cmd.extend('psm', psm)
 
 
 def quat(name=None, filename=None, prefix=None, quiet=0):
