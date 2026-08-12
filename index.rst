@@ -4,6 +4,10 @@
 PyMOL Shortcuts Manager Plugin Documentation
 =============================================
 
+.. note::
+
+   This documentation covers version 0.3.1.
+
 .. contents:: Table of Contents
    :depth: 3
    :local:
@@ -29,6 +33,8 @@ Key capabilities:
   paper
 - Automatic shortcuts discovery on plugin startup via a three-level fallback
   chain (module-level path, QSettings, well-known filesystem locations)
+- Command-line launchers ``scg`` and ``psm`` that reopen the GUI from the
+  PyMOL prompt
 - Cross-platform support for macOS, Linux, and Windows
 
 
@@ -132,6 +138,17 @@ Quick Start
 4. Click **Install Shortcuts**.
 5. Switch to the **Shortcuts** tab, type a keyword in the search box, and
    double-click a shortcut to execute it.
+
+Reopening the GUI from the command line
+---------------------------------------
+
+Once the shortcuts file is loaded, type ``scg`` or ``psm`` at the PyMOL
+prompt to reopen the Shortcuts Manager GUI at any time.  Both call the
+plugin's ``run_plugin_gui()`` launcher, so a return to the Plugin menu is
+not needed.  ``scg`` stands for shortcut-manager GUI, and ``psm`` stands for
+pymolshortcuts-manager.  Each locates the loaded manager module before
+falling back to the common import paths, so it prints a short install hint
+when the plugin is not yet available.
 
 
 Plugin Tabs
@@ -485,7 +502,7 @@ Or run directly:
 Test suite overview
 -------------------
 
-The suite contains **248 tests** across **31 test classes**:
+The suite contains **283 tests** across **39 test classes**:
 
 .. list-table::
    :header-rows: 1
@@ -528,8 +545,8 @@ The suite contains **248 tests** across **31 test classes**:
      - 3
      - QSettings save, load, and clear
    * - ``TestShortcutsTableModel``
-     - 10
-     - Row and column counts, data retrieval, description truncation
+     - 11
+     - Row and column counts, Tags column, data retrieval, description truncation
    * - ``TestPluginDialogAssembly``
      - 8
      - Eleven tab names, tab order, class and method existence
@@ -587,6 +604,30 @@ The suite contains **248 tests** across **31 test classes**:
    * - ``TestMCPServer``
      - 12
      - JSON-RPC surface, tool registry, and the two guarded tools
+   * - ``TestShortcutDataTags``
+     - 3
+     - Tags field defaults, assignment, and normalization on construction
+   * - ``TestTagNormalization``
+     - 5
+     - Lowercasing, whitespace-to-hyphen, deduplication, order preservation
+   * - ``TestTagStore``
+     - 7
+     - Overlay load and save, effective tag set, unknown-tag detection
+   * - ``TestTagParsing``
+     - 2
+     - The ``TAGS:`` docstring marker and the empty-section default
+   * - ``TestTagWriteback``
+     - 7
+     - In-file ``TAGS:`` rewrite, backup, parser round trip, missing shortcut
+   * - ``TestTagFilterProxy``
+     - 4
+     - Tag-membership filtering and the text-filter AND behavior
+   * - ``TestTagSettings``
+     - 4
+     - Round trip of every ``tags/`` key through QSettings
+   * - ``TestAddShortcutTags``
+     - 2
+     - The Tags field and ``TAGS:`` output in generated shortcut code
 
 
 Mock architecture
@@ -623,7 +664,7 @@ Makefile Targets
    * - Target
      - Description
    * - ``make test``
-     - Run the full test suite (248 tests, 31 classes)
+     - Run the full test suite (283 tests, 39 classes)
    * - ``make verbose``
      - Run with verbose output (one line per test)
    * - ``make quiet``
@@ -649,7 +690,7 @@ Project Layout
 
    pymolshortcuts/
    ├── pymolshortcuts_manager.py           # Main plugin source
-   ├── test_pymolshortcuts_manager.py     # Test suite (248 tests, 31 classes)
+   ├── test_pymolshortcuts_manager.py     # Test suite (283 tests, 39 classes)
    ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio)
    ├── skills/                           # Bundled skills for the Agentic AI tab
    ├── Makefile                          # Build and test automation
