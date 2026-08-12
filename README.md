@@ -1,9 +1,9 @@
-# PyMOL Shortcuts Manager Plugin, Version 0.3.0
-![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.3.0&color=brightcolor)
+# PyMOL Shortcuts Manager Plugin, Version 0.3.1
+![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.3.1&color=brightcolor)
 ![PyMOL](https://img.shields.io/badge/PyMOL-3.x-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Tests](https://img.shields.io/badge/Tests-141%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-283%20passed-brightgreen)
 
 A PyQt-based plugin for managing, searching, and executing [PyMOL shortcuts](https://github.com/MooersLab/pymolshortcuts) directly inside the PyMOL molecular-graphics application, but for now, use the `pymolshortcuts.py` included here.
 The plugin integrates an AI assistant powered by a lightweight Retrieval-Augmented Generation (RAG) engine to answer questions about the shortcuts in natural language.
@@ -53,6 +53,7 @@ See the [meeting website](http://www.cryst.chem.uu.nl/lutz/thursday.html).
 - Skill discovery across the bundled `skills/` directory, the working directory, and `~/.claude/skills`, with two first-party skills shipped in the repository.
 - A companion MCP server that exposes the shortcut library, the validator, the test runner, and the live session as Model Context Protocol tools, so an external harness can drive the plugin.
 - Cross-platform support for macOS, Linux, and Windows, with automated psico dependency installation.
+- Command-line launchers `scg` and `psm` in `pymolshortcuts.py` reopen the Shortcuts Manager GUI from the PyMOL prompt, so you do not need to return to the Plugin menu.
 
 
 ## Plugin Components
@@ -216,6 +217,16 @@ in the **Settings** tab.
 4. Click **Install Shortcuts**.
 5. Switch to the **Shortcuts** tab, type a keyword in the search box,
    and double-click a shortcut to execute it.
+
+### Reopening the GUI from the PyMOL command line
+
+After the shortcuts file is loaded, you can reopen the Shortcuts Manager
+GUI at any time by typing `scg` or `psm` at the PyMOL prompt. Both call the
+plugin's `run_plugin_gui()` launcher, so a trip to the Plugin menu is not
+needed. `scg` stands for shortcut-manager GUI, and `psm` stands for
+pymolshortcuts-manager. Each locates the loaded manager module before
+falling back to the common import paths, so it prints a short install hint
+when the plugin is not yet available.
 
 
 ## Plugin Tabs
@@ -482,7 +493,7 @@ python -m pytest test_pymolshortcuts_manager.py -v
 
 ### Test suite overview
 
-The suite contains **248 tests** across **31 test classes**, organized by component:
+The suite contains **283 tests** across **39 test classes**, organized by component:
 
 | Test class                       | Tests | What it covers                                                    |
 |:---------------------------------|------:|:------------------------------------------------------------------|
@@ -497,7 +508,7 @@ The suite contains **248 tests** across **31 test classes**, organized by compon
 | `TestHistoryTab`                 |     5 | Persistence, add and increment, clear, CSV export                 |
 | `TestFavoritesTab`               |     5 | Add, duplicate detection, remove, persistence                     |
 | `TestSettingsTab`                |     3 | QSettings save, load, and clear                                   |
-| `TestShortcutsTableModel`        |    10 | Row and column counts, data retrieval, description truncation     |
+| `TestShortcutsTableModel`        |    11 | Row and column counts, Tags column, data retrieval, description truncation |
 | `TestPluginDialogAssembly`       |     8 | Eleven tab names, tab order, class and method existence           |
 | `TestAddShortcutCodeGeneration`  |     5 | Form validation, code generation with docstrings                  |
 | `TestInstallationTabDownload`    |     2 | GitHub download success and network-error handling                |
@@ -517,6 +528,14 @@ The suite contains **248 tests** across **31 test classes**, organized by compon
 | `TestAgentRunStore`              |     6 | Run log add, load, trim, clear, and export                        |
 | `TestAgenticIntegration`         |    11 | Run directories, backup and append, form prefill, input checks    |
 | `TestMCPServer`                  |    12 | JSON-RPC surface, tool registry, and the two guarded tools        |
+| `TestShortcutDataTags`           |     3 | Tags field defaults, assignment, and normalization on construction |
+| `TestTagNormalization`           |     5 | Lowercasing, whitespace-to-hyphen, deduplication, order preservation |
+| `TestTagStore`                   |     7 | Overlay load and save, effective tag set, unknown-tag detection    |
+| `TestTagParsing`                 |     2 | The `TAGS:` docstring marker and the empty-section default        |
+| `TestTagWriteback`               |     7 | In-file `TAGS:` rewrite, backup, parser round trip, missing shortcut |
+| `TestTagFilterProxy`             |     4 | Tag-membership filtering and the text-filter AND behavior          |
+| `TestTagSettings`                |     4 | Round trip of every `tags/` key through QSettings                  |
+| `TestAddShortcutTags`            |     2 | The Tags field and `TAGS:` output in generated shortcut code       |
 
 ### Mock architecture
 
@@ -533,7 +552,7 @@ The test file creates a complete mock hierarchy that replaces the PyMOL and Qt r
 ```
 pymolshortcuts/
 ├── pymolshortcuts_manager.py          # Main plugin source
-├── test_pymolshortcuts_manager.py     # Test suite (248 tests, 31 classes)
+├── test_pymolshortcuts_manager.py     # Test suite (283 tests, 39 classes)
 ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio, no dependencies)
 ├── skills/
 │   ├── pymol-shortcuts-author/       # Bundled skill: the docstring contract
@@ -625,6 +644,7 @@ Contributions are welcome.  To get started:
 
 | Version  | Date  | Change |
 |:---------|:-------|:------|
+| 0.3.1    | 2026-08-09 | Added the `scg` and `psm` command-line launchers to `pymolshortcuts.py`, so the Shortcuts Manager GUI opens from the PyMOL prompt through the plugin's `run_plugin_gui()` launcher. |
 | 0.1.0    | 2026-02-16 |Initial commit. |
 | 0.1.1    | 2026-02-17 | Fixed Settings tab. Added qtpydarktheme to the installation tab. |
 | 0.3.0    | 2026-08-02 | Added tags to every shortcut in `pymolshortcuts.py`. Added a Tags column, a tag filter, and a tag editor to the Shortcuts tab. Added the hybrid `TagStore` overlay, the controlled vocabulary, the `tags/` settings, and `tools/tag_shortcuts.py`. |
