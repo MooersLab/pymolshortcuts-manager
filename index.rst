@@ -136,13 +136,17 @@ the **Settings** tab.
 Quick Start
 ===========
 
-1. Launch PyMOL.
-2. Open the plugin: **Plugin → PyMOL Shortcuts Manager**.
-3. Go to the **Installation** tab and either browse to a local copy of
-   ``pymolshortcuts.py`` or download it from GitHub.
-4. Click **Install Shortcuts**.
-5. Switch to the **Shortcuts** tab, type a keyword in the search box, and
-   double-click a shortcut to execute it.
+1. In PyMOL, go to **Plugin → Plugin Manager → Install New Plugin**, choose
+   **Install from local file**, and select ``pymolshortcuts_manager.py``.
+   (You can also paste the raw URL to that file under **Install from
+   PyMOLWiki or any URL**.)
+2. Restart PyMOL.  The plugin appears under **Plugin → PyMOL Shortcuts
+   Manager**.  On first launch it loads the bundled shortcuts automatically,
+   so there is nothing to install on the Installation tab.
+3. Open the plugin: **Plugin → PyMOL Shortcuts Manager**.
+4. On the **Shortcuts** tab, type a keyword in the search box to find a
+   shortcut, then click its row to select it.
+5. Click **Execute** (or double-click the row) to run the shortcut in PyMOL.
 
 Reopening the GUI from the command line
 ---------------------------------------
