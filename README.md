@@ -90,11 +90,9 @@ Embed the current shortcuts and query your favorite LLM about them.
 ### Agentic AI tab
 
 Wire a coding harness to the plugin and build new shortcuts with it. The AI
-assistant tab answers questions about shortcuts that already exist; this tab
-writes shortcuts that do not exist yet. Four panes cover the workflow: Harness
+Assistant tab answers questions about shortcuts that already exist; this tab writes shortcuts that do not exist yet. Four panes cover the workflow: Harness
 configures and tests the agent, Workbench runs the generate, test, and document
-loop, Skills selects which SKILL.md files a run may use, and Runs keeps the
-record of past runs.
+loop, Skills selects which SKILL.md files a run may use, and Runs keeps the record of past runs.
 
 ![Agentic AI Tab](./docs/images/AgenticAI.png)
 
