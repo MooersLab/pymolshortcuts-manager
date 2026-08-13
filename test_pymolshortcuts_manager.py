@@ -1503,11 +1503,15 @@ class TestPluginDialogAssembly(unittest.TestCase):
     """Verify that the main dialog creates all expected tabs."""
 
     def test_tab_names(self):
-        """The plugin should register exactly 11 tabs in the expected order."""
+        """The plugin should register exactly 11 tabs in the expected order.
+
+        Installation now sits at the right end, after Links, because the
+        bundled shortcuts load automatically and a novice no longer needs it.
+        """
         expected = [
-            "Installation", "Shortcuts", "Add Shortcut", "AI Assistant",
-            "Agentic AI", "History", "Favorites", "Tutorial", "Citation",
-            "Settings", "Links",
+            "Shortcuts", "Add Shortcut", "AI Assistant", "Agentic AI",
+            "History", "Favorites", "Tutorial", "Citation", "Settings",
+            "Links", "Installation",
         ]
         # We cannot easily instantiate the full dialog (too many Qt deps),
         # but we can verify the tab label strings are passed to addTab.
@@ -1549,6 +1553,13 @@ class TestPluginDialogAssembly(unittest.TestCase):
         with open(_plugin_path, 'r') as f:
             src = f.read()
         self.assertEqual(src.count('self.tabs.addTab('), 11)
+
+    def test_installation_tab_registered_last(self):
+        with open(_plugin_path, 'r') as f:
+            src = f.read()
+        links_index = src.index('addTab(self.links_tab, "Links")')
+        install_index = src.index('addTab(self.install_tab, "Installation")')
+        self.assertLess(links_index, install_index)
 
 
 # ===================================================================
@@ -1779,8 +1790,10 @@ class TestOnShortcutsInstalled(unittest.TestCase):
             dlg.settings_tab.default_shortcuts_path.setText.assert_called_once_with(tmp)
             # Global variable was updated
             self.assertEqual(plugin_mod._auto_loaded_shortcuts_path, tmp)
-            # Switched to Shortcuts tab
-            dlg.tabs.setCurrentIndex.assert_called_with(1)
+            # Switched to the Shortcuts tab, selected by identity
+            dlg.tabs.setCurrentIndex.assert_called_with(
+                dlg.tabs.indexOf(dlg.shortcuts_tab)
+            )
         finally:
             plugin_mod._auto_loaded_shortcuts_path = saved_global
             plugin_mod.QtCore.QSettings = orig_qsettings

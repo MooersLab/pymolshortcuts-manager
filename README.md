@@ -1,9 +1,9 @@
-# PyMOL Shortcuts Manager Plugin, Version 0.4.0
-![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.4.0&color=brightcolor)
+# PyMOL Shortcuts Manager Plugin, Version 0.4.1
+![Version](https://img.shields.io/static/v1?label=writing-time-spent-heatmap&message=0.4.1&color=brightcolor)
 ![PyMOL](https://img.shields.io/badge/PyMOL-3.x-blue)
 ![Python](https://img.shields.io/badge/Python-3.8%2B-green)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
-![Tests](https://img.shields.io/badge/Tests-294%20passed-brightgreen)
+![Tests](https://img.shields.io/badge/Tests-295%20passed-brightgreen)
 
 A PyQt-based plugin for managing, searching, and executing [PyMOL shortcuts](https://github.com/MooersLab/pymolshortcuts) directly inside the PyMOL molecular-graphics application, but for now, use the `pymolshortcuts.py` included here.
 The plugin integrates an AI assistant powered by a lightweight Retrieval-Augmented Generation (RAG) engine to answer questions about the shortcuts in natural language.
@@ -236,7 +236,6 @@ The plugin dialog contains eleven tabs organized by workflow:
 
 | Tab          | Purpose                                                                                              |
 |:-------------|:-----------------------------------------------------------------------------------------------------|
-| Installation | Download or browse for `pymolshortcuts.py`; detect OS; install `psico` via conda                     |
 | Shortcuts    | Searchable, sortable table of all shortcuts; filter by tag; view and edit tags; click to execute; view docstrings; copy PML or Python |
 | Add Shortcut | Author a new shortcut with structured docstring fields; preview generated code; submit a GitHub PR    |
 | AI Assistant | Ask natural-language questions about shortcuts; uses RAG retrieval with five LLM back-ends            |
@@ -247,6 +246,7 @@ The plugin dialog contains eleven tabs organized by workflow:
 | Citation     | Copy or save BibTeX and EndNote entries for the Mooers 2020 *Protein Science* paper                   |
 | Settings     | Configure default file paths, auto-load behavior, AI provider preferences, and display options         |
 | Links        | Curated hyperlinks to documentation, the GitHub repository, and related resources                      |
+| Installation | Optional maintenance panel at the right end: update the cached shortcuts, install `psico`, detect OS  |
 
 ## Tags
 
@@ -494,7 +494,7 @@ python -m pytest test_pymolshortcuts_manager.py -v
 
 ### Test suite overview
 
-The suite contains **294 tests** across **42 test classes**, organized by component:
+The suite contains **295 tests** across **42 test classes**, organized by component:
 
 | Test class                       | Tests | What it covers                                                    |
 |:---------------------------------|------:|:------------------------------------------------------------------|
@@ -510,7 +510,7 @@ The suite contains **294 tests** across **42 test classes**, organized by compon
 | `TestFavoritesTab`               |     5 | Add, duplicate detection, remove, persistence                     |
 | `TestSettingsTab`                |     3 | QSettings save, load, and clear                                   |
 | `TestShortcutsTableModel`        |    11 | Row and column counts, Tags column, data retrieval, description truncation |
-| `TestPluginDialogAssembly`       |     8 | Eleven tab names, tab order, class and method existence           |
+| `TestPluginDialogAssembly`       |     9 | Tab names, tab order, Installation last, class and method existence |
 | `TestAddShortcutCodeGeneration`  |     5 | Form validation, code generation with docstrings                  |
 | `TestInstallationTabDownload`    |     2 | GitHub download success and network-error handling                |
 | `TestAutoPopulateShortcuts`      |     3 | Module-level, QSettings, and filesystem fallback discovery        |
@@ -556,7 +556,7 @@ The test file creates a complete mock hierarchy that replaces the PyMOL and Qt r
 ```
 pymolshortcuts/
 ├── pymolshortcuts_manager.py          # Main plugin source
-├── test_pymolshortcuts_manager.py     # Test suite (294 tests, 42 classes)
+├── test_pymolshortcuts_manager.py     # Test suite (295 tests, 42 classes)
 ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio, no dependencies)
 ├── skills/
 │   ├── pymol-shortcuts-author/       # Bundled skill: the docstring contract

@@ -7305,7 +7305,6 @@ class PyMOLShortcutsPlugin(QtWidgets.QDialog):
         self.settings_tab = SettingsTab()
         self.links_tab = LinksTab()
 
-        self.tabs.addTab(self.install_tab, "Installation")
         self.tabs.addTab(self.shortcuts_tab, "Shortcuts")
         self.tabs.addTab(self.add_shortcut_tab, "Add Shortcut")
         self.tabs.addTab(self.ai_tab, "AI Assistant")
@@ -7316,9 +7315,13 @@ class PyMOLShortcutsPlugin(QtWidgets.QDialog):
         self.tabs.addTab(self.citation_tab, "Citation")
         self.tabs.addTab(self.settings_tab, "Settings")
         self.tabs.addTab(self.links_tab, "Links")
+        # Installation sits at the right end because a novice no longer
+        # needs it: the bundled shortcuts load automatically.
+        self.tabs.addTab(self.install_tab, "Installation")
 
-        # Set default tab to Shortcuts
-        self.tabs.setCurrentIndex(1)
+        # Set default tab to Shortcuts. Select by identity, not by a fixed
+        # index, so the default survives any future tab reorder.
+        self.tabs.setCurrentIndex(self.tabs.indexOf(self.shortcuts_tab))
 
         # Connect the InstallationTab's success signal (fires only after
         # cmd.do("run ...") succeeds, carrying the verified filepath).
@@ -7445,8 +7448,8 @@ class PyMOLShortcutsPlugin(QtWidgets.QDialog):
         # 4b. Point the Agentic AI tab at the same file
         self.agentic_tab.set_shortcuts_file(filepath)
 
-        # 5. Switch to the Shortcuts tab
-        self.tabs.setCurrentIndex(1)
+        # 5. Switch to the Shortcuts tab (by identity, not a fixed index)
+        self.tabs.setCurrentIndex(self.tabs.indexOf(self.shortcuts_tab))
 
 
 def __init_plugin__(app=None):

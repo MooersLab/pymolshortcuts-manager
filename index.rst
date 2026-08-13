@@ -6,7 +6,7 @@ PyMOL Shortcuts Manager Plugin Documentation
 
 .. note::
 
-   This documentation covers version 0.4.0.
+   This documentation covers version 0.4.1.
 
 .. contents:: Table of Contents
    :depth: 3
@@ -159,13 +159,9 @@ when the plugin is not yet available.
 Plugin Tabs
 ===========
 
-The plugin dialog contains eleven tabs organized by workflow.
-
-Installation
-------------
-
-Download or browse for ``pymolshortcuts.py``; detect the operating system;
-install the ``psico`` package via conda.
+The plugin dialog contains eleven tabs organized by workflow.  The
+Installation tab sits at the right end, because the bundled shortcuts load
+automatically and a novice no longer needs it.
 
 Shortcuts
 ---------
@@ -295,6 +291,15 @@ Links
 
 Curated hyperlinks to documentation, the GitHub repository, and related
 resources.
+
+Installation
+------------
+
+An optional maintenance panel at the right end of the tab row.  Update the
+cached shortcuts library, install the ``psico`` package via conda, detect the
+operating system, or point the plugin at a different shortcuts file.  A novice
+can ignore this tab, because the bundled shortcuts load automatically on first
+launch.
 
 
 .. _tutorials:
@@ -507,7 +512,7 @@ Or run directly:
 Test suite overview
 -------------------
 
-The suite contains **294 tests** across **42 test classes**:
+The suite contains **295 tests** across **42 test classes**:
 
 .. list-table::
    :header-rows: 1
@@ -669,7 +674,7 @@ Makefile Targets
    * - Target
      - Description
    * - ``make test``
-     - Run the full test suite (294 tests, 42 classes)
+     - Run the full test suite (295 tests, 42 classes)
    * - ``make verbose``
      - Run with verbose output (one line per test)
    * - ``make quiet``
@@ -695,7 +700,7 @@ Project Layout
 
    pymolshortcuts/
    ├── pymolshortcuts_manager.py           # Main plugin source
-   ├── test_pymolshortcuts_manager.py     # Test suite (294 tests, 42 classes)
+   ├── test_pymolshortcuts_manager.py     # Test suite (295 tests, 42 classes)
    ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio)
    ├── skills/                           # Bundled skills for the Agentic AI tab
    ├── Makefile                          # Build and test automation
