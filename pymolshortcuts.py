@@ -9133,7 +9133,7 @@ def buriedW(sele='all', cutoff=-1, state=1, quiet=1, _self=cmd):
     selName = _self.get_unused_name("buried")
     _self.select(selName, "(%s) in %s" % (sele, tmpObj))
 	
-    cmd.show("spheres","buried01")
+    cmd.show("spheres", selName)
     
     # clean up
     _self.delete(tmpObj)
@@ -9165,7 +9165,7 @@ cmd.extend('buriedW', buriedW)
     selName = _self.get_unused_name("buried")
     _self.select(selName, "(%s) in %s" % (sele, tmpObj))
 	
-    cmd.show("spheres","buried01")
+    cmd.show("spheres", selName)
     
     # clean up
     _self.delete(tmpObj)
@@ -11603,7 +11603,7 @@ def interface(cmpx, cA='c. A', cB='c. B', cutoff=1.0, selName="interface"):
     cmd.iterate('%s or %s' % (chA, chB), 'stored.r.append((model,resi,b))')
 
     cmd.enable(cmpx)
-    cmd.select(selName1, None)
+    cmd.select(selName1, 'none')
     for (model,resi,diff) in stored.r:
         key=resi+"-"+model
         if abs(diff)>=float(cutoff):
@@ -11672,7 +11672,7 @@ cmd.extend('interface', interface)
     cmd.iterate('%s or %s' % (chA, chB), 'stored.r.append((model,resi,b))')
 
     cmd.enable(cmpx)
-    cmd.select(selName1, None)
+    cmd.select(selName1, 'none')
     for (model,resi,diff) in stored.r:
         key=resi+"-"+model
         if abs(diff)>=float(cutoff):
@@ -13079,11 +13079,11 @@ Called by the function quat().
     PYTHON CODE:
 def pdbremarks(filename):
     remarks = dict()
-    if not isinstance(filename, basestring):
+    if not isinstance(filename, str):
         f = filename
     elif filename[-3:] == '.gz':
         import gzip
-        f = gzip.open(filename)
+        f = gzip.open(filename, 'rt')
     else:
         f = open(filename)
     for line in f:
@@ -13098,11 +13098,11 @@ cmd.extend('pdbremarks', pdbremarks)
     ''' 
 
     remarks = dict()
-    if not isinstance(filename, basestring):
+    if not isinstance(filename, str):
         f = filename
     elif filename[-3:] == '.gz':
         import gzip
-        f = gzip.open(filename)
+        f = gzip.open(filename, 'rt')
     else:
         f = open(filename)
     for line in f:
