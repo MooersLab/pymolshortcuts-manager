@@ -8890,7 +8890,7 @@ def bstvdw(selection='all'):
     cmd.hide("labels")
 
     # defines VDW Sphere settings
-    cmd.copy(selection+"_vdw", selection)
+    cmd.create(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw and elem H")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -9057,7 +9057,7 @@ cmd.extend('bstvdw', bstvdw)
     cmd.hide("labels")
 
     # defines VDW Sphere settings
-    cmd.copy(selection+"_vdw", selection)
+    cmd.create(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw and elem H")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -16655,7 +16655,7 @@ def tvdw(selection='all'):
     cmd.space("cmyk")
 
    #van der Waals settings
-    cmd.copy(selection+"_vdw", selection)
+    cmd.create(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -16804,7 +16804,7 @@ cmd.extend('tvdw', tvdw)
     cmd.do("space cmyk")
 
    #van der Waals settings
-    cmd.copy(selection+"_vdw", selection)
+    cmd.create(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
