@@ -1900,6 +1900,8 @@ class TestApplyAppearance(unittest.TestCase):
         tab.theme.findText = MagicMock(return_value=-1)
         tab.auto_load = MagicMock()
         tab.auto_load.isChecked.return_value = False
+        tab.use_bundled_default = MagicMock()
+        tab.use_bundled_default.isChecked.return_value = True
         tab.default_shortcuts_path = MagicMock()
         tab.default_shortcuts_path.text.return_value = ""
         tab.remember_provider = MagicMock()
@@ -1933,6 +1935,7 @@ class TestApplyAppearance(unittest.TestCase):
         tab.theme.currentText.return_value = "System Default"
         tab.theme.findText = MagicMock(return_value=-1)
         tab.auto_load = MagicMock()
+        tab.use_bundled_default = MagicMock()
         tab.default_shortcuts_path = MagicMock()
         tab.remember_provider = MagicMock()
         tab.ai_provider = MagicMock()
@@ -2948,7 +2951,7 @@ class TestAgenticSettings(unittest.TestCase):
         store = MockQSettings()
         store.clear()
         tab.settings = store
-        for widget in ("font_size", "theme", "auto_load",
+        for widget in ("font_size", "theme", "auto_load", "use_bundled_default",
                        "default_shortcuts_path", "remember_provider",
                        "auto_index", "save_api_keys", "enable_history",
                        "max_history", "check_updates", "agentic_harness",
@@ -3467,7 +3470,7 @@ class TestTagSettings(unittest.TestCase):
         SettingsTab = plugin_mod.SettingsTab
         tab = SettingsTab.__new__(SettingsTab)
         tab.settings = MockQSettings()
-        for widget in ("font_size", "theme", "auto_load",
+        for widget in ("font_size", "theme", "auto_load", "use_bundled_default",
                        "default_shortcuts_path", "remember_provider",
                        "auto_index", "save_api_keys", "enable_history",
                        "max_history", "check_updates", "agentic_harness",
@@ -3546,6 +3549,181 @@ class TestAddShortcutTags(unittest.TestCase):
         self.tab.tags_edit.text.return_value = ""
         code = self.tab.generate_shortcut_code()
         self.assertNotIn("TAGS:", code)
+
+
+# ===================================================================
+# Bundled-default shortcuts and startup behaviour
+# ===================================================================
+
+class TestBundledDefault(unittest.TestCase):
+    """The bundled-shortcuts helpers and their resolution order."""
+
+    def test_bundled_path_is_sibling_of_module(self):
+        expected = os.path.join(
+            os.path.dirname(os.path.abspath(plugin_mod.__file__)),
+            "pymolshortcuts.py",
+        )
+        self.assertEqual(plugin_mod.bundled_shortcuts_path(), expected)
+
+    def test_cache_path_location(self):
+        self.assertTrue(
+            plugin_mod.cached_shortcuts_path().endswith(
+                os.path.join(".pymolshortcuts", "pymolshortcuts.py")
+            )
+        )
+
+    def test_resolve_prefers_sibling(self):
+        orig = plugin_mod.bundled_shortcuts_path
+        with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as f:
+            tmp = f.name
+        try:
+            plugin_mod.bundled_shortcuts_path = lambda: tmp
+            self.assertEqual(
+                plugin_mod.resolve_bundled_shortcuts(download=False), tmp
+            )
+        finally:
+            plugin_mod.bundled_shortcuts_path = orig
+            os.unlink(tmp)
+
+    def test_resolve_falls_back_to_cache(self):
+        orig_b = plugin_mod.bundled_shortcuts_path
+        orig_c = plugin_mod.cached_shortcuts_path
+        with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as f:
+            cache = f.name
+        try:
+            plugin_mod.bundled_shortcuts_path = lambda: "/no/such/sibling.py"
+            plugin_mod.cached_shortcuts_path = lambda: cache
+            self.assertEqual(
+                plugin_mod.resolve_bundled_shortcuts(download=False), cache
+            )
+        finally:
+            plugin_mod.bundled_shortcuts_path = orig_b
+            plugin_mod.cached_shortcuts_path = orig_c
+            os.unlink(cache)
+
+    def test_resolve_downloads_once_when_missing(self):
+        orig_b = plugin_mod.bundled_shortcuts_path
+        orig_c = plugin_mod.cached_shortcuts_path
+        orig_d = plugin_mod.download_bundled_shortcuts
+        try:
+            plugin_mod.bundled_shortcuts_path = lambda: "/no/such/sibling.py"
+            plugin_mod.cached_shortcuts_path = lambda: "/no/such/cache.py"
+            plugin_mod.download_bundled_shortcuts = MagicMock(
+                return_value="/downloaded/pymolshortcuts.py"
+            )
+            # download=True triggers the one-time fetch
+            self.assertEqual(
+                plugin_mod.resolve_bundled_shortcuts(download=True),
+                "/downloaded/pymolshortcuts.py",
+            )
+            plugin_mod.download_bundled_shortcuts.assert_called_once()
+            # download=False never touches the network
+            plugin_mod.download_bundled_shortcuts.reset_mock()
+            self.assertIsNone(
+                plugin_mod.resolve_bundled_shortcuts(download=False)
+            )
+            plugin_mod.download_bundled_shortcuts.assert_not_called()
+        finally:
+            plugin_mod.bundled_shortcuts_path = orig_b
+            plugin_mod.cached_shortcuts_path = orig_c
+            plugin_mod.download_bundled_shortcuts = orig_d
+
+
+class TestInitPluginRun(unittest.TestCase):
+    """__init_plugin__ runs the bundled shortcuts on a first launch."""
+
+    def _settings(self, auto_load, default_path, use_bundled):
+        values = {
+            "shortcuts/auto_load": auto_load,
+            "shortcuts/default_path": default_path,
+            "shortcuts/use_bundled_default": use_bundled,
+        }
+
+        def _value(key, default=None, type=None):
+            return values.get(key, default)
+
+        mock = MagicMock()
+        mock.value = MagicMock(side_effect=_value)
+        return mock
+
+    def test_runs_bundled_when_no_default(self):
+        saved = getattr(plugin_mod, "_auto_loaded_shortcuts_path", None)
+        orig_qs = plugin_mod.QtCore.QSettings
+        orig_resolve = plugin_mod.resolve_bundled_shortcuts
+        orig_do = plugin_mod.cmd.do
+        sys.modules["pymol.plugins"] = MagicMock()
+        with tempfile.NamedTemporaryFile(suffix=".py", delete=False) as f:
+            tmp = f.name
+        try:
+            plugin_mod._auto_loaded_shortcuts_path = None
+            plugin_mod.QtCore.QSettings = MagicMock(
+                return_value=self._settings(False, "", True)
+            )
+            plugin_mod.resolve_bundled_shortcuts = MagicMock(return_value=tmp)
+            plugin_mod.cmd.do = MagicMock()
+            plugin_mod.__init_plugin__()
+            plugin_mod.cmd.do.assert_called_once_with(f"run {tmp}")
+            self.assertEqual(plugin_mod._auto_loaded_shortcuts_path, tmp)
+        finally:
+            plugin_mod._auto_loaded_shortcuts_path = saved
+            plugin_mod.QtCore.QSettings = orig_qs
+            plugin_mod.resolve_bundled_shortcuts = orig_resolve
+            plugin_mod.cmd.do = orig_do
+            os.unlink(tmp)
+
+    def test_does_not_run_bundled_when_disabled(self):
+        saved = getattr(plugin_mod, "_auto_loaded_shortcuts_path", None)
+        orig_qs = plugin_mod.QtCore.QSettings
+        orig_resolve = plugin_mod.resolve_bundled_shortcuts
+        orig_do = plugin_mod.cmd.do
+        sys.modules["pymol.plugins"] = MagicMock()
+        try:
+            plugin_mod._auto_loaded_shortcuts_path = None
+            plugin_mod.QtCore.QSettings = MagicMock(
+                return_value=self._settings(False, "", False)
+            )
+            plugin_mod.resolve_bundled_shortcuts = MagicMock(
+                return_value="/should/not/be/used.py"
+            )
+            plugin_mod.cmd.do = MagicMock()
+            plugin_mod.__init_plugin__()
+            plugin_mod.cmd.do.assert_not_called()
+            plugin_mod.resolve_bundled_shortcuts.assert_not_called()
+        finally:
+            plugin_mod._auto_loaded_shortcuts_path = saved
+            plugin_mod.QtCore.QSettings = orig_qs
+            plugin_mod.resolve_bundled_shortcuts = orig_resolve
+            plugin_mod.cmd.do = orig_do
+
+    def test_use_bundled_default_setting_round_trips(self):
+        with open(_plugin_path, "r") as handle:
+            src = handle.read()
+        self.assertIn(
+            'self.settings.value("shortcuts/use_bundled_default", True', src
+        )
+        self.assertIn(
+            'self.settings.setValue(\n'
+            '            "shortcuts/use_bundled_default"',
+            src,
+        )
+
+
+class TestInstallationTabLabels(unittest.TestCase):
+    """The Installation-tab prose labels wrap by width, not by hard breaks."""
+
+    def setUp(self):
+        with open(_plugin_path, "r") as handle:
+            self.src = handle.read()
+
+    def test_psico_label_has_no_hard_newline(self):
+        self.assertNotIn("is required\\n", self.src)
+
+    def test_darktheme_label_has_no_hard_newline(self):
+        self.assertNotIn("Dark and Light\\n", self.src)
+
+    def test_prose_labels_enable_word_wrap(self):
+        self.assertIn("info_label.setWordWrap(True)", self.src)
+        self.assertIn("darktheme_info.setWordWrap(True)", self.src)
 
 
 # ===================================================================
