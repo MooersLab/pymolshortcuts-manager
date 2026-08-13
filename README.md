@@ -649,11 +649,11 @@ Contributions are welcome.  To get started:
 |:---------|:-------|:------|
 | 0.4.0    | 2026-08-13 | The bundled shortcuts load automatically on first launch, so a novice no longer needs the Installation tab. Added the `use_bundled_default` setting, a one-time silent download that caches the library to `~/.pymolshortcuts/pymolshortcuts.py`, and an active-file status line on the Installation tab. Fixed the Installation-tab text squish by removing hard line breaks from the description labels. |
 | 0.3.1    | 2026-08-09 | Added the `scg` and `psm` command-line launchers to `pymolshortcuts.py`, so the Shortcuts Manager GUI opens from the PyMOL prompt through the plugin's `run_plugin_gui()` launcher. |
-| 0.1.0    | 2026-02-16 |Initial commit. |
-| 0.1.1    | 2026-02-17 | Fixed Settings tab. Added qtpydarktheme to the installation tab. |
 | 0.3.0    | 2026-08-02 | Added tags to every shortcut in `pymolshortcuts.py`. Added a Tags column, a tag filter, and a tag editor to the Shortcuts tab. Added the hybrid `TagStore` overlay, the controlled vocabulary, the `tags/` settings, and `tools/tag_shortcuts.py`. |
 | 0.2.1    | 2026-07-31 | Placed the screenshots in `docs/images/` under CC BY 4.0 while the software stays MIT. Added `docs/images/LICENSE`, `docs/images/README.md`, and `REUSE.toml`. |
 | 0.2.0    | 2026-07-30 | Added the Agentic AI tab, the harness adapter layer for Claude Code and Pi, three-tier validation of generated shortcuts, skill discovery with two bundled skills, and the companion MCP server. Retired the duplicate `pymolshortcuts_plugin.py`. |
+| 0.1.1    | 2026-02-17 | Fixed Settings tab. Added qtpydarktheme to the installation tab. |
+| 0.1.0    | 2026-02-16 |Initial commit. |
 
 ## Licenses
 
