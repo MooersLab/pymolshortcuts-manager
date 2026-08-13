@@ -6,7 +6,7 @@
 ![Tests](https://img.shields.io/badge/Tests-295%20passed-brightgreen)
 
 A PyQt-based plugin for managing, searching, and executing [PyMOL shortcuts](https://github.com/MooersLab/pymolshortcuts) directly inside the PyMOL molecular-graphics application, but for now, use the `pymolshortcuts.py` included here.
-The plugin integrates an AI assistant powered by a lightweight Retrieval-Augmented Generation (RAG) engine to answer questions about the shortcuts in natural language.
+The plugin integrates an AI assistant powered by a lightweight Retrieval-Augmented Generation (RAG) engine that answers questions about shortcuts in natural language.
 
 
 
@@ -59,19 +59,12 @@ See the [meeting website](http://www.cryst.chem.uu.nl/lutz/thursday.html).
 
 ## Plugin Components
 
-### Installation tab
-
-The installation menu for installing pymolshortcuts.py, the psico module, and pyqtdarktheme.
-The theme can be changed in the Settings menu.
-The font size can also be increased to 24 points.
-
-![Installation Tab](./docs/images/Installation.png)
-
 ### Shortcuts tab
 
-This will be blank on first startup. It will show shortcuts on the second startup after installation.
-
-Every shortcut carries a set of tags. The table shows a Tags column, the details panel lists the tags for the selected shortcut, and the Tag selector beside the search box filters the table to one tag at a time. You can edit the tags for the selected shortcut in the Tags field and click Save Tags. Tags follow the hybrid model described under [Tags](#tags): canonical tags live in the `TAGS:` section of each docstring in `pymolshortcuts.py`, and a per-user overlay in `~/.pymolshortcuts/tags.json` records local changes.
+Every shortcut carries a set of tags. 
+The table shows a Tags column, the details panel lists the tags for the selected shortcut, and the Tag selector beside the search box filters the table to one tag at a time. 
+You can edit the tags for the selected shortcut in the Tags field and click Save Tags. 
+Tags follow the hybrid model described under [Tags](#tags): canonical tags live in the `TAGS:` section of each docstring in `pymolshortcuts.py`, and a per-user overlay in `~/.pymolshortcuts/tags.json` records local changes.
 
 ![Shortcuts Tab](./docs/images/Shortcuts.png)
 
@@ -89,10 +82,13 @@ Embed the current shortcuts and query your favorite LLM about them.
 
 ### Agentic AI tab
 
-Wire a coding harness to the plugin and build new shortcuts with it. The AI
-Assistant tab answers questions about shortcuts that already exist; this tab writes shortcuts that do not exist yet. Four panes cover the workflow: Harness
-configures and tests the agent, Workbench runs the generate, test, and document
-loop, Skills selects which SKILL.md files a run may use, and Runs keeps the record of past runs.
+Wire a coding harness to the plugin and build new shortcuts with it. 
+The AI Assistant tab answers questions about existing shortcuts; this tab writes shortcuts that don't exist yet. 
+Four panes cover the workflow: 
+`Harnes` pane configures and tests the agent, 
+`Workbench` pane runs the generate, test, and document loop, 
+`Skills` pane selects which SKILL.md files a run may use, and 
+`Runs` pane keeps a record of past runs.
 
 ![Agentic AI Tab](./docs/images/AgenticAI.png)
 
@@ -102,7 +98,7 @@ Track your work.
 
 ![History Tab](./docs/images/History.png)
 
-### Installation tab
+### Favorites tab
 
 Store frequently used shortcuts for fast access.
 
@@ -120,7 +116,7 @@ Some examples to get you started.
 
 Painlessly copy citation information.
 
-### Installation tab
+### Settings tab
 ![Settings Tab](./docs/images/Settings.png)
 
 Settings include setting the path to the pymolshortcuts.py file when it is not in the standard location.
@@ -131,7 +127,19 @@ Links to related information.
 
 ![Links Tab](./docs/images/Links.png)
 
+### Installation tab
 
+The default shortcuts are automatically loaded on the first startup, so there is no need to install them separately.
+This tab is for installing customized versions of the shortcuts file.
+It is also used to install some additional features.
+
+The installation menu for installing pymolshortcuts.py, the psico module, and pyqtdarktheme.
+The theme can be changed in the Settings menu.
+The default classic theme is actually the most suitable.
+The other two themes do not show a strong contrast in some text boxes.
+The font size can also be increased to 24 points.
+
+![Installation Tab](./docs/images/Installation.png)
 
 
 ## Requirements
@@ -155,14 +163,21 @@ Links to related information.
 
 ## Installation
 
-### Method 1: PyMOL Plugin Manager (recommended)
+### Method 1: Paste the URL to the file in the GitHub repository (recommended because no prior file download is required).
+
+1. Open PyMOL.
+2. Navigate to **Plugin → Plugin Manager → Install New Plugin**.
+3. In the URL window, paste `https://raw.githubusercontent.com/MooersLab/pymolshortcuts-manager/main/pymolshortcuts_manager.py`.
+4. Restart PyMOL.  The plugin appears in the list of plugins under **Plugin → PyMOL Shortcuts Manager**.
+
+### Method 2: PyMOL Plugin Manager 
 
 1. Open PyMOL.
 2. Navigate to **Plugin → Plugin Manager → Install New Plugin**.
 3. Choose **Install from local file** and select `pymolshortcuts_manager.py`.
 4. Restart PyMOL.  The plugin appears under **Plugin → PyMOL Shortcuts Manager**.
 
-### Method 2: Manual installation
+### Method 3: Manual installation
 
 Copy the plugin file into the PyMOL startup directory:
 
@@ -177,7 +192,7 @@ cp pymolshortcuts_manager.py ~/.pymol/startup/
 Copy-Item pymolshortcuts_manager.py "$env:APPDATA\PyMOL\startup\"
 ```
 
-### Method 3: `.pymolrc` auto-run
+### Method 4: `.pymolrc` auto-run
 
 Add the following line to your `~/.pymolrc` file (create it if it does not exist):
 
@@ -187,10 +202,8 @@ run ~/path/to/pymolshortcuts_manager.py
 
 ### Persisting the shortcuts file between sessions
 
-The plugin now **automatically persists** the shortcuts file path every
-time you install shortcuts through the Installation tab.  On subsequent
-plugin opens the Shortcuts tab is pre-populated immediately — no
-reinstallation required.
+The plugin now **automatically persists** the shortcuts file path every time you install shortcuts through the Installation tab.  
+On subsequent opening of the plugin, the Shortcuts tab is pre-populated immediately — no reinstallation required.
 
 The resolution order when the plugin opens is:
 
@@ -214,22 +227,18 @@ in the **Settings** tab.
    can also paste the raw URL to that file under **Install from PyMOLWiki or
    any URL**.)
 2. Restart PyMOL. The plugin appears under **Plugin → PyMOL Shortcuts
-   Manager**. On first launch it loads the bundled shortcuts automatically,
+   Manager**. On first launch, it loads the bundled shortcuts automatically,
    so there is nothing to install on the Installation tab.
 3. Open the plugin: **Plugin → PyMOL Shortcuts Manager**.
-4. On the **Shortcuts** tab, type a keyword in the search box to find a
-   shortcut, then click its row to select it.
+4. On the **Shortcuts** tab, type a keyword in the search box to find a shortcut, then click its row to select it.
 5. Click **Execute** (or double-click the row) to run the shortcut in PyMOL.
 
 ### Reopening the GUI from the PyMOL command line
 
-After the shortcuts file is loaded, you can reopen the Shortcuts Manager
-GUI at any time by typing `scg` or `psm` at the PyMOL prompt. Both call the
-plugin's `run_plugin_gui()` launcher, so a trip to the Plugin menu is not
-needed. `scg` stands for shortcut-manager GUI, and `psm` stands for
-pymolshortcuts-manager. Each locates the loaded manager module before
-falling back to the common import paths, so it prints a short install hint
-when the plugin is not yet available.
+After the shortcuts file is loaded, you can reopen the Shortcuts Manager GUI at any time by typing `scg` or `psm` at the PyMOL prompt. 
+Both call the plugin's `run_plugin_gui()` launcher, so a trip to the Plugin menu with the mouse cursor is not needed. 
+`scg` stands for shortcut-manager GUI, and `psm` stands for pymolshortcuts-manager. 
+Each locates the loaded manager module before falling back to the common import paths, so it prints a short install hint when the plugin is not yet available.
 
 
 ## Plugin Tabs
@@ -252,11 +261,14 @@ The plugin dialog contains eleven tabs organized by workflow:
 
 ## Tags
 
-Each shortcut carries a set of tags that group it with related shortcuts, so you can pull up every rendering shortcut or every web-search shortcut at once rather than scrolling the whole table.
+Each shortcut carries a set of tags that group it with related shortcuts, so you can pull up every rendering shortcut or every web-search shortcut at once rather than scrolling through the whole table.
 
-Tags use a hybrid storage model. The canonical tags live in a `TAGS:` section in each shortcut docstring in `pymolshortcuts.py`, placed immediately after the `DESCRIPTION:` section, so the tags travel with the library and reach the MCP server and the retrieval engine. A per-user overlay in `~/.pymolshortcuts/tags.json` records local additions and removals layered on top of the docstring tags, so you can retag without rewriting the shared file. The effective tag set for a shortcut is the docstring tags, plus the overlay additions, minus the overlay removals.
+Tags use a hybrid storage model. 
+The canonical tags live in a `TAGS:` section in each shortcut docstring in `pymolshortcuts.py`, placed immediately after the `DESCRIPTION:` section, so the tags travel with the library and reach the MCP server and the retrieval engine. 
+A per-user overlay in `~/.pymolshortcuts/tags.json` records local additions and removals layered on top of the docstring tags, so you can retag without rewriting the shared file.
+The effective tag set for a shortcut is the docstring tags, plus the overlay additions, minus the overlay removals.
 
-Tags come from a controlled vocabulary seeded from the comment banners in the library, such as `web-search`, `molecular-graphics`, `rendering`, `coloring`, and `electron-density`. The Tags field in the Shortcuts tab offers the vocabulary as autocomplete, and strict mode, on by default, warns when you save a tag that is not in the vocabulary. The Settings tab chooses whether Save Tags writes to the shortcuts file or to the overlay. When it writes to the file, a timestamped backup is written first and a confirmation dialog names the backup path.
+Tags come from a controlled vocabulary seeded from the comment banners in the library, such as `web-search`, `molecular-graphics`, `rendering`, `coloring`, and `electron-density`. The Tags field in the Shortcuts tab offers the vocabulary as autocomplete, and strict mode, on by default, warns when you save a tag that is not in the vocabulary. The Settings tab chooses whether Save Tags writes to the shortcuts file or to the overlay. When it writes to the file, a timestamped backup is written first, and a confirmation dialog names the backup path.
 
 The `TAGS:` section is a comma-separated line of lowercase tokens, with a hyphen for multi-word tags:
 
@@ -271,7 +283,8 @@ USAGE:
 AO
 ```
 
-The bundled `tools/tag_shortcuts.py` generated the first draft of the tags across the library from the comment banners and from keyword cues in each docstring. Re-run it with `--diff` to see proposed changes, or `--apply` to write them after a backup.
+The bundled `tools/tag_shortcuts.py` generated the first draft of the tags across the library from the comment banners and from keyword cues in each docstring. 
+Re-run it with `--diff` to see proposed changes, or `--apply` to write them after a backup.
 
 
 ## Tutorials
@@ -292,7 +305,7 @@ Each tutorial includes explanatory text, the shortcut commands involved, and a *
 
 ## AI Assistant
 
-The AI Assistant tab implements a lightweight RAG pipeline so that answers are grounded in the actual content of `pymolshortcuts.py`.
+The AI Assistant tab implements a lightweight RAG pipeline to ground answers in the actual content of `pymolshortcuts.py`.
 
 ### How RAG works in this plugin
 
@@ -304,10 +317,7 @@ The AI Assistant tab implements a lightweight RAG pipeline so that answers are g
 
 Timing statistics for each step (file loading, chunking, embedding) are printed to the status area during indexing.
 
-The AI tab discovers the shortcuts file through the same three-level
-fallback chain used by the Shortcuts tab (install-tab path → module-level
-path → QSettings path), so it works immediately after a fresh install
-without requiring a separate indexing step.
+The AI tab discovers the shortcuts file through the same three-level fallback chain used by the Shortcuts tab (install-tab path → module-level path → QSettings path), so it works immediately after a fresh install without requiring a separate indexing step.
 
 ### Supported providers
 
@@ -322,10 +332,8 @@ without requiring a separate indexing step.
 
 ## Agentic AI
 
-The Agentic AI tab turns a coding harness into a shortcut author. The tab never
-edits your shortcuts file on its own: everything the harness writes lands in a
-scratch run directory under `~/.pymolshortcuts/agent/`, and the code reaches
-your library only when you click one of the integration buttons.
+The Agentic AI tab turns a coding harness into a shortcut author. 
+The tab never edits your shortcuts file on its own: everything the harness writes lands in a scratch run directory under `~/.pymolshortcuts/agent/`, and the code reaches your library only when you click one of the integration buttons.
 
 ### Wiring a harness
 
@@ -350,10 +358,9 @@ whole run.
 ### The generate, test, and document loop
 
 State a goal and a shortcut name in the **Workbench** pane, then work through
-the three stage buttons. Before the generate prompt is sent, the tab asks the
+The three-stage buttons. Before the generated prompt is sent, the tab asks the
 AI Assistant's retrieval engine for the three existing shortcuts most similar
-to your goal and pastes them into the prompt as style examples, because three
-real shortcuts teach house style better than a paragraph of instructions.
+to your goal and pastes them into the prompt as style examples because three real shortcuts teach house style better than a paragraph of instructions.
 
 Validation runs in three tiers, cheapest first.
 
@@ -362,16 +369,14 @@ Validation runs in three tiers, cheapest first.
    through `ShortcutsParser`, fill the `DESCRIPTION`, `USAGE`, `EXAMPLE`, and
    `PYTHON CODE` sections, register itself with `cmd.extend`, and contain no
    banned call. This tier needs neither PyMOL nor a subprocess.
-2. **Generated tests.** The harness writes a pytest module that mocks PyMOL,
-   and the tab runs it in a subprocess.
+2. **Generated tests.** The harness writes a pytest module that mocks PyMOL, and the tab runs it in a subprocess.
 3. **Live.** The candidate runs inside your PyMOL session against a reference
    structure, `1lw9` by default. This tier executes model-written code in your
    own session, so it is gated behind a dialog that shows the code, and the
    static tier must pass first. The confirmation defaults to on in Settings.
 
 When a tier fails, **Fix and Retry** feeds the failure text back through the
-review template. The loop stops after three attempts, because an agent that
-cannot fix a problem in three tries needs a human to restate the goal.
+review template. The loop stops after three attempts because an agent that cannot fix a problem in three tries needs a human to restate the goal.
 
 ### Getting the shortcut into your library
 
@@ -386,10 +391,7 @@ Three exits, none of them automatic.
 
 ### Skills
 
-The **Skills** pane scans the bundled `skills/` directory, the working
-directory's `.claude/skills`, and `~/.claude/skills`, and lists every `SKILL.md`
-it finds. Tick the skills a run may use. A harness with no skill mechanism
-receives the full text of each ticked skill inlined into the prompt.
+The **Skills** pane scans the bundled `skills/` directory, the working directory's `.claude/skills`, and `~/.claude/skills`, and lists every `SKILL.md` it finds. Tick the skills a run may use. A harness with no skill mechanism receives the full text of each ticked skill inlined into the prompt.
 
 Two first-party skills ship in this repository: `pymol-shortcuts-author`
 encodes the docstring contract, and `pymol-shortcuts-test` encodes the mock
@@ -404,14 +406,12 @@ original. Click **Check for pymol-visualization** to confirm it is installed.
 
 ## MCP server
 
-The Agentic AI tab drives a harness from inside PyMOL. `pymolshortcuts_mcp.py`
-turns the relationship around and lets an external harness drive the plugin
-through Model Context Protocol tools. Both directions share the same Qt-free
-layer in `pymolshortcuts_manager.py`, so the docstring contract and the
-validation tiers cannot drift apart.
+The Agentic AI tab drives a harness from inside PyMOL. 
+`pymolshortcuts_mcp.py` reverses the relationship and lets an external harness drive the plugin via Model Context Protocol tools. 
+Both directions share the same Qt-free layer in `pymolshortcuts_manager.py`, so the docstring contract and the validation tiers cannot drift apart.
 
-The server needs no third-party package. It speaks newline-delimited JSON-RPC
-over stdio and stubs out Qt when it runs outside PyMOL.
+The server needs no third-party package. 
+It speaks newline-delimited JSON-RPC over stdio and stubs out Qt when it runs outside PyMOL.
 
 ```bash
 # Register with Claude Code
@@ -421,8 +421,7 @@ claude mcp add pymolshortcuts -- python /path/to/pymolshortcuts_mcp.py
 python pymolshortcuts_mcp.py
 ```
 
-Inside PyMOL, run the file and call `pymolshortcuts_mcp_serve()` to expose the
-live session as well.
+Inside PyMOL, run the file and call `pymolshortcuts_mcp_serve()` to expose the live session as well.
 
 | Tool | Purpose |
 |:-----|:--------|
@@ -438,11 +437,9 @@ live session as well.
 | `list_skills` / `read_skill` | Discover and read the SKILL.md files on disk |
 | `agent_runs` | Read the run log the Agentic AI tab writes |
 
-Two tools change state outside the scratch directory. `append_shortcut` always
-writes a backup first and refuses a candidate that fails the static tier.
+Two tools change state outside the scratch directory. `append_shortcut` always writes a backup first and refuses a candidate that fails the static tier.
 `run_in_pymol` is refused unless the server runs inside PyMOL **and** its
-environment sets `PYMOLSHORTCUTS_MCP_ALLOW_LIVE=1`, because an agent should not
-be able to talk the server into running its own code.
+environment sets `PYMOLSHORTCUTS_MCP_ALLOW_LIVE=1` because an agent should not be able to talk the server into running its own code.
 
 
 ## Testing
@@ -660,8 +657,7 @@ Contributions are welcome.  To get started:
 
 ## Licenses
 
-This repository carries two licenses, because software and figures serve
-different purposes for a reader.
+This repository carries two licenses because software and figures serve different purposes for a reader.
 
 The software is licensed under the [MIT License](LICENSE). That covers
 `pymolshortcuts_manager.py`, `pymolshortcuts_mcp.py`, the test suite, the
