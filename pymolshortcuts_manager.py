@@ -42,6 +42,76 @@ from pymol.Qt import QtWidgets, QtCore, QtGui
 # immediately without requiring the user to reinstall the file.
 _auto_loaded_shortcuts_path = None
 
+# Pinned raw URL for the shortcuts library, used for the one-time silent
+# download that populates the per-user cache on first launch.
+BUNDLED_SHORTCUTS_URL = (
+    "https://raw.githubusercontent.com/MooersLab/pymolshortcuts/"
+    "master/pymolshortcuts.py"
+)
+
+
+def bundled_shortcuts_path():
+    """Return the path to a pymolshortcuts.py sitting beside this module.
+
+    This resolves to a real file only when the plugin is run from a
+    checkout that also contains pymolshortcuts.py (the developer case).
+    A single-file Plugin Manager install will not have the sibling, in
+    which case the caller falls back to the cache.
+    """
+    return os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "pymolshortcuts.py"
+    )
+
+
+def cached_shortcuts_path():
+    """Return the per-user cache path for the downloaded shortcuts library."""
+    return os.path.join(
+        os.path.expanduser("~"), ".pymolshortcuts", "pymolshortcuts.py"
+    )
+
+
+def download_bundled_shortcuts(dest=None, url=BUNDLED_SHORTCUTS_URL):
+    """Silently download the shortcuts library into the cache.
+
+    Returns the destination path on success, or None on any failure.
+    The download is deliberately quiet: a network error logs one line to
+    the PyMOL console and returns None so that startup is never blocked.
+    """
+    if dest is None:
+        dest = cached_shortcuts_path()
+    try:
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with urllib.request.urlopen(url, timeout=30) as response:
+            data = response.read()
+        if not data:
+            return None
+        with open(dest, "wb") as handle:
+            handle.write(data)
+        return dest
+    except Exception as e:
+        print(f"pymolshortcuts-manager: could not download shortcuts ({e})")
+        return None
+
+
+def resolve_bundled_shortcuts(download=True):
+    """Resolve the bundled shortcuts file, downloading once if needed.
+
+    Resolution order: a sibling pymolshortcuts.py beside the module
+    (developer checkout), then the per-user cache, then, when ``download``
+    is true, a one-time silent download that populates the cache. Returns
+    a path that exists, or None when nothing is available.
+    """
+    sibling = bundled_shortcuts_path()
+    if os.path.exists(sibling):
+        return sibling
+    cache = cached_shortcuts_path()
+    if os.path.exists(cache):
+        return cache
+    if download:
+        return download_bundled_shortcuts(cache)
+    return None
+
+
 # Optional dark-theme support via pyqtdarktheme (pip install pyqtdarktheme)
 try:
     import qdarktheme
@@ -1567,6 +1637,15 @@ class InstallationTab(QtWidgets.QWidget):
         shortcuts_group = QtWidgets.QGroupBox("PyMOL Shortcuts Installation")
         shortcuts_layout = QtWidgets.QVBoxLayout()
         
+        # Active-file status: report where the shortcuts currently come
+        # from, so a user who never touches this tab still understands the
+        # state.  The bundled shortcuts load automatically, so this tab is
+        # optional for a novice.
+        self.active_file_label = QtWidgets.QLabel()
+        self.active_file_label.setWordWrap(True)
+        shortcuts_layout.addWidget(self.active_file_label)
+        self._refresh_active_file_label()
+
         # Source selection
         source_label = QtWidgets.QLabel("Select shortcuts source:")
         shortcuts_layout.addWidget(source_label)
@@ -1592,6 +1671,13 @@ class InstallationTab(QtWidgets.QWidget):
         
         self.shortcuts_path_edit = QtWidgets.QLineEdit()
         self.shortcuts_path_edit.setPlaceholderText("Path to pymolshortcuts.py")
+        # Prefill with the bundled copy (sibling checkout or cache) so a
+        # manual install still points at the right file by default.
+        _prefill = bundled_shortcuts_path()
+        if not os.path.exists(_prefill) and os.path.exists(cached_shortcuts_path()):
+            _prefill = cached_shortcuts_path()
+        if os.path.exists(_prefill):
+            self.shortcuts_path_edit.setText(_prefill)
         
         self.browse_button = QtWidgets.QPushButton("Browse...")
         self.browse_button.clicked.connect(self.browse_shortcuts)
@@ -1658,9 +1744,10 @@ class InstallationTab(QtWidgets.QWidget):
         psico_layout = QtWidgets.QVBoxLayout()
         
         info_label = QtWidgets.QLabel(
-            "The psico package (including biomolecule.py and supercell.py) is required\n"
-            "for some shortcuts. This plugin will check if psico is already installed\n"
-            "by importing psico.fullinit and install it using conda if necessary."
+            "The psico package (including biomolecule.py and supercell.py) is "
+            "required for some shortcuts. This plugin will check if psico is "
+            "already installed by importing psico.fullinit and install it using "
+            "conda if necessary."
         )
         info_label.setWordWrap(True)
         psico_layout.addWidget(info_label)
@@ -1697,9 +1784,10 @@ class InstallationTab(QtWidgets.QWidget):
         darktheme_layout = QtWidgets.QVBoxLayout()
 
         darktheme_info = QtWidgets.QLabel(
-            "The pyqtdarktheme package provides professional-quality Dark and Light\n"
-            "themes for the plugin dialog.  Without it the Settings tab falls back to\n"
-            "a basic built-in stylesheet.  Install it with pip into PyMOL's Python."
+            "The pyqtdarktheme package provides professional-quality Dark and "
+            "Light themes for the plugin dialog.  Without it the Settings tab "
+            "falls back to a basic built-in stylesheet.  Install it with pip "
+            "into PyMOL's Python."
         )
         darktheme_info.setWordWrap(True)
         darktheme_layout.addWidget(darktheme_info)
@@ -1726,7 +1814,25 @@ class InstallationTab(QtWidgets.QWidget):
 
         layout.addStretch()
         self.setLayout(layout)
-    
+
+    def _refresh_active_file_label(self):
+        """Report which shortcuts file is active and where it came from."""
+        active = _auto_loaded_shortcuts_path
+        if not (active and os.path.exists(active)):
+            active = resolve_bundled_shortcuts(download=False)
+        if active and os.path.exists(active):
+            self.active_file_label.setText(
+                f"Active shortcuts file: {active}. The bundled shortcuts load "
+                "automatically, so installing here is optional. Use this tab to "
+                "update or override them."
+            )
+        else:
+            self.active_file_label.setText(
+                "No shortcuts file is active yet. The bundled shortcuts load "
+                "automatically on first launch. Use this tab to install "
+                "manually if needed."
+            )
+
     def detect_system(self):
         """Detect operating system and relevant paths."""
         # Operating system
@@ -5714,7 +5820,17 @@ class SettingsTab(QtWidgets.QWidget):
         
         self.auto_load = QtWidgets.QCheckBox("Auto-load shortcuts on PyMOL start")
         file_layout.addRow("", self.auto_load)
-        
+
+        self.use_bundled_default = QtWidgets.QCheckBox(
+            "Load the bundled shortcuts automatically (no Installation tab needed)"
+        )
+        self.use_bundled_default.setToolTip(
+            "When on, the plugin loads the shortcuts that ship with it, "
+            "downloading and caching them once on first launch. Turn off to "
+            "use only the default path above."
+        )
+        file_layout.addRow("", self.use_bundled_default)
+
         file_group.setLayout(file_layout)
         scroll_layout.addWidget(file_group)
         
@@ -5832,6 +5948,9 @@ class SettingsTab(QtWidgets.QWidget):
         self.auto_load.setChecked(
             self.settings.value("shortcuts/auto_load", False, type=bool)
         )
+        self.use_bundled_default.setChecked(
+            self.settings.value("shortcuts/use_bundled_default", True, type=bool)
+        )
         
         # Updates
         self.check_updates.setChecked(
@@ -5885,6 +6004,9 @@ class SettingsTab(QtWidgets.QWidget):
         # Shortcuts File
         self.settings.setValue("shortcuts/default_path", self.default_shortcuts_path.text())
         self.settings.setValue("shortcuts/auto_load", self.auto_load.isChecked())
+        self.settings.setValue(
+            "shortcuts/use_bundled_default", self.use_bundled_default.isChecked()
+        )
         
         # Updates
         self.settings.setValue("updates/check_on_start", self.check_updates.isChecked())
@@ -7229,7 +7351,12 @@ class PyMOLShortcutsPlugin(QtWidgets.QDialog):
            already ``run`` into PyMOL during this session).
         2. The ``shortcuts/default_path`` stored in QSettings (persisted
            across sessions by ``on_shortcuts_installed``).
-        3. Well-known filesystem locations where pymolshortcuts.py is
+        3. The bundled shortcuts that ship with the plugin (a sibling
+           file for a developer checkout, otherwise the per-user cache,
+           downloaded once if needed). This is the default that lets a
+           novice skip the Installation tab, and it is gated by the
+           ``shortcuts/use_bundled_default`` setting.
+        4. Well-known filesystem locations where pymolshortcuts.py is
            commonly placed (covers the case where the user loaded
            shortcuts via ``.pymolrc`` or manually before the plugin was
            ever configured).
@@ -7243,13 +7370,26 @@ class PyMOLShortcutsPlugin(QtWidgets.QDialog):
             filepath = _auto_loaded_shortcuts_path
 
         # Priority 2: default path saved in QSettings
+        settings = QtCore.QSettings("MooersLab", "PyMOLShortcutsPlugin")
         if filepath is None:
-            settings = QtCore.QSettings("MooersLab", "PyMOLShortcutsPlugin")
             saved_path = settings.value("shortcuts/default_path", "")
             if saved_path and os.path.exists(saved_path):
                 filepath = saved_path
 
-        # Priority 3: scan well-known locations
+        # Priority 3: the bundled shortcuts that ship with the plugin.
+        # This is the default that lets a novice skip the Installation tab.
+        # It resolves to a sibling file (developer checkout) or the cached
+        # copy, downloading once if needed. Respects the user setting.
+        if filepath is None:
+            use_bundled = settings.value(
+                "shortcuts/use_bundled_default", True, type=bool
+            )
+            if use_bundled:
+                bundled = resolve_bundled_shortcuts(download=True)
+                if bundled and os.path.exists(bundled):
+                    filepath = bundled
+
+        # Priority 4: scan well-known locations
         if filepath is None:
             home = os.path.expanduser("~")
             candidates = [
@@ -7320,7 +7460,10 @@ def __init_plugin__(app=None):
     settings = QtCore.QSettings("MooersLab", "PyMOLShortcutsPlugin")
     auto_load = settings.value("shortcuts/auto_load", False, type=bool)
     default_path = settings.value("shortcuts/default_path", "")
+    use_bundled = settings.value("shortcuts/use_bundled_default", True, type=bool)
+
     if auto_load and default_path and os.path.exists(default_path):
+        # An explicit user-configured default takes precedence.
         try:
             cmd.do(f"run {default_path}")
             # Store the path so the GUI can populate the Shortcuts tab
@@ -7329,6 +7472,18 @@ def __init_plugin__(app=None):
             print(f"Auto-loaded shortcuts from: {default_path}")
         except Exception as e:
             print(f"Failed to auto-load shortcuts: {e}")
+    elif use_bundled and not default_path:
+        # No explicit default: fall back to the bundled shortcuts so a
+        # first-time user gets a working, callable library with no clicks.
+        # resolve_bundled_shortcuts downloads once into the cache if needed.
+        bundled = resolve_bundled_shortcuts(download=True)
+        if bundled and os.path.exists(bundled):
+            try:
+                cmd.do(f"run {bundled}")
+                _auto_loaded_shortcuts_path = bundled
+                print(f"Auto-loaded bundled shortcuts from: {bundled}")
+            except Exception as e:
+                print(f"Failed to auto-load bundled shortcuts: {e}")
 
 
 def run_plugin_gui():

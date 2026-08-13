@@ -6,7 +6,7 @@ PyMOL Shortcuts Manager Plugin Documentation
 
 .. note::
 
-   This documentation covers version 0.3.1.
+   This documentation covers version 0.4.0.
 
 .. contents:: Table of Contents
    :depth: 3
@@ -31,8 +31,13 @@ Key capabilities:
 - History and Favorites tabs with cross-session persistence
 - BibTeX and EndNote citation entries for the Mooers 2020 *Protein Science*
   paper
-- Automatic shortcuts discovery on plugin startup via a three-level fallback
-  chain (module-level path, QSettings, well-known filesystem locations)
+- Bundled shortcuts that load automatically on first launch, so a novice does
+  not need the Installation tab; the plugin caches the library to
+  ``~/.pymolshortcuts/pymolshortcuts.py`` and a ``use_bundled_default`` setting
+  turns this off
+- Automatic shortcuts discovery on plugin startup via a fallback chain
+  (module-level path, QSettings, the bundled copy, well-known filesystem
+  locations)
 - Command-line launchers ``scg`` and ``psm`` that reopen the GUI from the
   PyMOL prompt
 - Cross-platform support for macOS, Linux, and Windows
@@ -502,7 +507,7 @@ Or run directly:
 Test suite overview
 -------------------
 
-The suite contains **283 tests** across **39 test classes**:
+The suite contains **294 tests** across **42 test classes**:
 
 .. list-table::
    :header-rows: 1
@@ -664,7 +669,7 @@ Makefile Targets
    * - Target
      - Description
    * - ``make test``
-     - Run the full test suite (283 tests, 39 classes)
+     - Run the full test suite (294 tests, 42 classes)
    * - ``make verbose``
      - Run with verbose output (one line per test)
    * - ``make quiet``
@@ -690,7 +695,7 @@ Project Layout
 
    pymolshortcuts/
    ├── pymolshortcuts_manager.py           # Main plugin source
-   ├── test_pymolshortcuts_manager.py     # Test suite (283 tests, 39 classes)
+   ├── test_pymolshortcuts_manager.py     # Test suite (294 tests, 42 classes)
    ├── pymolshortcuts_mcp.py             # Companion MCP server (stdio)
    ├── skills/                           # Bundled skills for the Agentic AI tab
    ├── Makefile                          # Build and test automation
