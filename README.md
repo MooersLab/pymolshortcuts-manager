@@ -53,7 +53,7 @@ See the [meeting website](http://www.cryst.chem.uu.nl/lutz/thursday.html).
 - Three-tier validation of generated shortcuts: a static check against the docstring contract, the generated pytest module, and an optional run inside the live PyMOL session behind a confirmation dialog.
 - Skill discovery across the bundled `skills/` directory, the working directory, and `~/.claude/skills`, with two first-party skills shipped in the repository.
 - A companion MCP server that exposes the shortcut library, the validator, the test runner, and the live session as Model Context Protocol tools, so an external harness can drive the plugin.
-- Cross-platform support for macOS, Linux, and Windows, with automated psico dependency installation.
+- Cross-platform support for macOS, Linux, and Windows, with automated `psico` dependency installation.
 - Command-line launchers `scg` and `psm` in `pymolshortcuts.py` reopen the Shortcuts Manager GUI from the PyMOL prompt, so you do not need to return to the Plugin menu.
 
 
