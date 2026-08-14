@@ -3,3 +3,9 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Timestamped backups the plugin writes before editing pymolshortcuts.py
+# (agentic_append_to_shortcuts / update_shortcut_tags). Git is the backup,
+# so these should never be committed.
+*.bak
+pymolshortcuts.py.*.bak
