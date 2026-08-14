@@ -50,6 +50,16 @@ mcp:
 	  '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
 	  | $(PYTHON) $(MCP)
 
+test-shortcuts:
+	python -m pytest test_pymolshortcuts.py
+
+test-shortcuts-live:
+	python -m pytest -m live test_pymolshortcuts.py
+
+test-shortcuts-cov:
+	python -m pytest --cov=pymolshortcuts --cov-report=html test_pymolshortcuts.py
+
+
 # Vendor the authoritative CC BY 4.0 text that covers docs/images.
 # The file is downloaded rather than committed by hand, so the copy in the
 # repository is byte-for-byte what Creative Commons publishes.
