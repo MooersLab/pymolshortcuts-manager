@@ -1472,6 +1472,29 @@ class AgentRunStore:
         return path
 
 
+# Timestamped backups are written here, in the user's home directory and
+# outside any repository, so a stray `git add` never sweeps them into version
+# control. Overridable (the test suite points it at a temp directory).
+SHORTCUTS_BACKUP_DIR = os.path.join(
+    os.path.expanduser("~"), ".pymolshortcuts", "backups"
+)
+
+
+def _write_backup(shortcuts_path):
+    """Copy the shortcuts file to a timestamped backup under
+    SHORTCUTS_BACKUP_DIR and return the backup path.
+
+    The backup lives outside the shortcuts file's directory, so it never
+    clutters a repository the shortcuts file happens to sit in.
+    """
+    os.makedirs(SHORTCUTS_BACKUP_DIR, exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    name = os.path.basename(shortcuts_path)
+    backup_path = os.path.join(SHORTCUTS_BACKUP_DIR, f"{name}.{stamp}.bak")
+    shutil.copy2(shortcuts_path, backup_path)
+    return backup_path
+
+
 def agentic_append_to_shortcuts(shortcuts_path, code, backup=True):
     """Append a validated shortcut to the shortcuts file.
 
@@ -1483,9 +1506,7 @@ def agentic_append_to_shortcuts(shortcuts_path, code, backup=True):
         raise IOError(f"No shortcuts file at {shortcuts_path}")
     backup_path = ""
     if backup:
-        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        backup_path = f"{shortcuts_path}.{stamp}.bak"
-        shutil.copy2(shortcuts_path, backup_path)
+        backup_path = _write_backup(shortcuts_path)
     with open(shortcuts_path, 'a', encoding='utf-8') as handle:
         handle.write("\n\n" + code.rstrip() + "\n")
     return backup_path
@@ -1590,9 +1611,7 @@ def update_shortcut_tags(shortcuts_path, name, tags, backup=True):
         )
     backup_path = ""
     if backup:
-        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        backup_path = f"{shortcuts_path}.{stamp}.bak"
-        shutil.copy2(shortcuts_path, backup_path)
+        backup_path = _write_backup(shortcuts_path)
     with open(shortcuts_path, 'w', encoding='utf-8') as handle:
         handle.write(new_content)
     return backup_path

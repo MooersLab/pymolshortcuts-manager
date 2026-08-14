@@ -3059,8 +3059,11 @@ class TestAgenticIntegration(unittest.TestCase):
 
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
+        self._orig_backup_dir = plugin_mod.SHORTCUTS_BACKUP_DIR
+        plugin_mod.SHORTCUTS_BACKUP_DIR = os.path.join(self.tmp, "backups")
 
     def tearDown(self):
+        plugin_mod.SHORTCUTS_BACKUP_DIR = self._orig_backup_dir
         shutil.rmtree(self.tmp, ignore_errors=True)
 
     def test_run_dir_sanitizes_the_name(self):
@@ -3075,6 +3078,9 @@ class TestAgenticIntegration(unittest.TestCase):
             handle.write("# original\n")
         backup = agentic_append_to_shortcuts(target, "def x():\n    pass\n")
         self.assertTrue(os.path.isfile(backup))
+        # the backup lives in the backups dir, not beside the shortcuts file
+        self.assertTrue(backup.startswith(plugin_mod.SHORTCUTS_BACKUP_DIR))
+        self.assertNotEqual(os.path.dirname(backup), self.tmp)
         with open(backup) as handle:
             self.assertEqual(handle.read(), "# original\n")
         with open(target) as handle:
@@ -3387,8 +3393,11 @@ class TestTagWriteback(unittest.TestCase):
             handle.write(SAMPLE_TAG_SRC)
         self.rewrite = plugin_mod._rewrite_tags_in_source
         self.update = plugin_mod.update_shortcut_tags
+        self._orig_backup_dir = plugin_mod.SHORTCUTS_BACKUP_DIR
+        plugin_mod.SHORTCUTS_BACKUP_DIR = os.path.join(self.tmp, "backups")
 
     def tearDown(self):
+        plugin_mod.SHORTCUTS_BACKUP_DIR = self._orig_backup_dir
         shutil.rmtree(self.tmp, ignore_errors=True)
 
     def test_inserts_tags_after_description(self):
@@ -3414,6 +3423,9 @@ class TestTagWriteback(unittest.TestCase):
     def test_update_writes_a_backup_and_edits_the_file(self):
         backup = self.update(self.path, "demoSC", ["rendering"])
         self.assertTrue(os.path.isfile(backup))
+        # the backup lives in the backups dir, not beside the shortcuts file
+        self.assertTrue(backup.startswith(plugin_mod.SHORTCUTS_BACKUP_DIR))
+        self.assertNotEqual(os.path.dirname(backup), self.tmp)
         with open(self.path, encoding="utf-8") as handle:
             content = handle.read()
         self.assertIn("TAGS:", content)
