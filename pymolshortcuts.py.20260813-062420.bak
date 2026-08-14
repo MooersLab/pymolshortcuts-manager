@@ -1031,7 +1031,7 @@ def AODBW():
     Make ambient occlusion image of any with dark carbon atoms in grayscale.
 
     TAGS:
-    ambient-occlusion, rendering, coloring, selection, gray-scale
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AODBW
@@ -3212,7 +3212,7 @@ def LG():
 
 
     TAGS:
-    fetch, molecular-graphics-template, carved-electron-density, rendering
+    fetch, molecular-graphics, ambient-occlusion, rendering
 
     USAGE:
     LG
@@ -3591,7 +3591,7 @@ def LLG():
 
 
     TAGS:
-    carved-electron-density, example, rendering, publication, coloring
+    ambient-occlusion, rendering, publication, coloring
 
     USAGE:
     LLG
@@ -6060,7 +6060,7 @@ def SC():
     Print to screen list of the shortcuts that are available in the script pymolshortcuts.py. 
 
     TAGS:
-    shortcuts-list
+    ambient-occlusion, rendering, measurement, symmetry
 
     USAGE:
     SC
@@ -7271,7 +7271,7 @@ def bs(selection='all'):
     bs creates a ball and stick representation of an object. 
 
     TAGS:
-    ball-and-stick, rendering, coloring, label
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bs selection
@@ -7601,7 +7601,7 @@ def bsbw(selection='all'):
     bs creates a gray-scaled ball-and-stick representation of an object. 
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, label
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bsbw
@@ -8166,7 +8166,7 @@ def bsbwsc(selection='all'):
 Only the side chains are shown as ball and stick when used with a cartoon (ribbon diagram).
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     bsbwsc
@@ -8736,7 +8736,7 @@ def bstvdw(selection='all'):
     Transparent vdw surface over ball and stick representation by Bobby Patton at Colorato State University. 
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     bsvdw selection
@@ -9246,7 +9246,7 @@ def ccp4mg():
 
 
     TAGS:
-    ccp4mg, electron-density
+    electron-density
 
     USAGE:
     ccp4mg
@@ -16355,7 +16355,7 @@ def tvdw(selection='all'):
     Transparent vdw surface by Bobby Patton at Colorado State University. 
 
     TAGS:
-    ball-and-stick, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     vdwTrans selection

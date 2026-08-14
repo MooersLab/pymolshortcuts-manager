@@ -1031,7 +1031,7 @@ def AODBW():
     Make ambient occlusion image of any with dark carbon atoms in grayscale.
 
     TAGS:
-    ambient-occlusion, rendering, coloring, selection, gray-scale
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AODBW
@@ -3212,7 +3212,7 @@ def LG():
 
 
     TAGS:
-    fetch, molecular-graphics-template, carved-electron-density, rendering
+    fetch, molecular-graphics, ambient-occlusion, rendering
 
     USAGE:
     LG
@@ -3591,7 +3591,7 @@ def LLG():
 
 
     TAGS:
-    carved-electron-density, example, rendering, publication, coloring
+    ambient-occlusion, rendering, publication, coloring
 
     USAGE:
     LLG
@@ -6060,7 +6060,7 @@ def SC():
     Print to screen list of the shortcuts that are available in the script pymolshortcuts.py. 
 
     TAGS:
-    shortcuts-list
+    ambient-occlusion, rendering, measurement, symmetry
 
     USAGE:
     SC
@@ -16355,7 +16355,7 @@ def tvdw(selection='all'):
     Transparent vdw surface by Bobby Patton at Colorado State University. 
 
     TAGS:
-    ball-and-stick, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     vdwTrans selection

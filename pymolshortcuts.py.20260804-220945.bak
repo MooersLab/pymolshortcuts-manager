@@ -125,18 +125,6 @@ import numpy
 import subprocess
 import psico.fullinit
 
-DEFAULT_TIMESTAMP_FORMAT = "y%Ym%md%dh%Hm%Ms%S"
-
-def timestamped_name(stem, ext, fmt=DEFAULT_TIMESTAMP_FORMAT, when=None):
-    """Return '<stem><timestamp>.<ext>'.
-
-    The timestamp comes from `when` (a datetime) or datetime.datetime.now().
-    `when` makes the output deterministic for testing. `ext` omits the dot.
-    """
-    if when is None:
-        when = datetime.datetime.now()
-    return stem + when.strftime(fmt) + "." + ext
-
 # Set the background to opaque white.
 cmd.set('ray_opaque_background','on')
 
@@ -362,7 +350,7 @@ local_mirror_divided = '/mnt/bio/db/pdb.divided'
 # excelOpen = ['Microsoft Excel']
 # excelPath = '/Applications/Microsoft Excel/
 #     Contents/MacOS/Microsoft Excel'
-# JabRefOpen = ['JabRef'] '/Applications/JabRef/
+# jabrefOpen = ['JabRef'] '/Applications/JabRef/
 # Contents/MacOS/JavaApplicationStub'
 # jabrefPath = '/Applications/JabRef/Contents/MacOS/JavaApplicationStub'
 # jaspOpen = ['JASP']
@@ -420,7 +408,7 @@ local_mirror_divided = '/mnt/bio/db/pdb.divided'
 # oniOpen = ['Oni']
 # oniPath = '/Applications/Oni/Contents/MacOS/Oni'
 # pdbedPath = 'java -jar /Applications/jars/PDB_Editor_FIX090203.jar'
-# sublimeText3Open = ['subl']
+# sublOpen = ['subl']
 # sublimeText3Path = '/usr/local/bin/subl'
 # textmatePath  = '/usr/local/bin/mate'
 # textmateOpen = ['mate']
@@ -581,7 +569,7 @@ def AB(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to Amazon.com Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AB',AB)
     ''' 
@@ -593,7 +581,7 @@ cmd.extend('AB',AB)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to Amazon.com Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AB',AB)
 
@@ -639,7 +627,7 @@ def AC(searchTerm='pymol'):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  Anaconda Cloud  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AC',AC)
     ''' 
@@ -650,7 +638,7 @@ cmd.extend('AC',AC)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  Anaconda Cloud  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AC',AC)
 
@@ -687,7 +675,7 @@ def ACA():
         webbrowser.open_new_tab(url)
         print("Success opening ACA homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('ACA',ACA)
     ''' 
@@ -699,7 +687,7 @@ cmd.extend('ACA',ACA)
         webbrowser.open_new_tab(url)
         print("Success opening ACA homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('ACA',ACA)
 
@@ -736,7 +724,7 @@ def ALS():
         webbrowser.open_new_tab(url)
         print("Success opening ALS homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('ALS',ALS)
     ''' 
@@ -748,7 +736,7 @@ cmd.extend('ALS',ALS)
         webbrowser.open_new_tab(url)
         print("Success opening ALS homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('ALS',ALS)
 
@@ -759,7 +747,7 @@ def AO():
     Commands to make ambient occlusion image like those in Qutemole.
 
     TAGS:
-    ambient-occlusion, rendering, coloring, photorealistic
+    ambient-occlusion, rendering, coloring
 
     USAGE:
     AO
@@ -1031,7 +1019,7 @@ def AODBW():
     Make ambient occlusion image of any with dark carbon atoms in grayscale.
 
     TAGS:
-    ambient-occlusion, rendering, coloring, selection, gray-scale
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AODBW
@@ -1152,7 +1140,7 @@ def APS():
         webbrowser.open_new_tab(url)
         print("Success opening APS homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('APS',APS)
     ''' 
@@ -1164,7 +1152,7 @@ cmd.extend('APS',APS)
         webbrowser.open_new_tab(url)
         print("Success opening APS homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('APS',APS)
 
@@ -1205,7 +1193,7 @@ def AX(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm+searchType)
         print("Sent ",  searchTerm, " to  Amazon.com Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AX',AX)
     ''' 
@@ -1218,7 +1206,7 @@ cmd.extend('AX',AX)
         webbrowser.open_new_tab(url+searchTerm+searchType)
         print("Sent ",  searchTerm, " to  Amazon.com Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('AX',AX)
 
@@ -1514,7 +1502,7 @@ def BX(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent", searchTerm," to bioRxiv in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('BX',BX)
     ''' 
@@ -1526,7 +1514,7 @@ cmd.extend('BX',BX)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent", searchTerm," to bioRxiv in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('BX',BX)
 
@@ -1790,7 +1778,7 @@ def CHESS():
         webbrowser.open_new_tab(url)
         print("Opened the website of CHESS.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('CHESS',CHESS)
     ''' 
@@ -1802,7 +1790,7 @@ cmd.extend('CHESS',CHESS)
         webbrowser.open_new_tab(url)
         print("Opened the website of CHESS.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('CHESS',CHESS)
 
@@ -2080,7 +2068,7 @@ def EMDB():
         webbrowser.open_new_tab(url)
         print("Opened the website of the Electron Microscopy Data Bank.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('EMDB',EMDB)
     ''' 
@@ -2092,7 +2080,7 @@ cmd.extend('EMDB',EMDB)
         webbrowser.open_new_tab(url)
         print("Opened the website of the Electron Microscopy Data Bank.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('EMDB',EMDB)
 
@@ -2129,7 +2117,7 @@ def EP():
         webbrowser.open_new_tab(url)
         print("Opened the EasyPyMOL github page in new tab of default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('EP',EP)
     ''' 
@@ -2141,7 +2129,7 @@ cmd.extend('EP',EP)
         webbrowser.open_new_tab(url)
         print("Opened the EasyPyMOL github page in new tab of default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('EP',EP)
 
@@ -2244,7 +2232,7 @@ def GB(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to Google Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GB',GB)
     ''' 
@@ -2256,7 +2244,7 @@ cmd.extend('GB',GB)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to Google Books in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GB',GB)
 
@@ -2397,7 +2385,7 @@ def GH(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to GitHubs in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GH',GH)
     ''' 
@@ -2409,7 +2397,7 @@ cmd.extend('GH',GH)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to GitHubs in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GH',GH)
 
@@ -2451,7 +2439,7 @@ def GO(searchTerm="pymol",numHits="200"):
         webbrowser.open_new_tab(goURL+searchTerm + nhits + str(numHits))
         print("Sent ", searchTerm," to Google in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GO',GO)
     ''' 
@@ -2464,7 +2452,7 @@ cmd.extend('GO',GO)
         webbrowser.open_new_tab(goURL+searchTerm + nhits + str(numHits))
         print("Sent ", searchTerm," to Google in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GO',GO)
 
@@ -2506,7 +2494,7 @@ def GS(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ", searchTerm," to Google Sholar in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GS',GS)
     ''' 
@@ -2518,7 +2506,7 @@ cmd.extend('GS',GS)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ", searchTerm," to Google Sholar in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GS',GS)
 
@@ -2687,7 +2675,7 @@ def GV(searchTerm="pymol"):
         webbrowser.open_new_tab(goURL+searchTerm)
         print("Sent ",  searchTerm, " to Google Video in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GV',GV)
     ''' 
@@ -2699,7 +2687,7 @@ cmd.extend('GV',GV)
         webbrowser.open_new_tab(goURL+searchTerm)
         print("Sent ",  searchTerm, " to Google Video in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('GV',GV)
 
@@ -2770,7 +2758,7 @@ def IPM(searchTerms = [], *args):
 def IPM(searchTerms = [], *args):
     url = ipmURL
     try:
-        print('Sending',  searchTerms, ' to Pubmed and display list of search results in separate tabs of the default brower.')
+        print('Sending',  searchTerm, ' to Pubmed and display list of search results in separate tabs of the default brower.')
         for term in searchTerms:
             t0 = time.time()
             sterm = str(term)
@@ -2780,14 +2768,14 @@ def IPM(searchTerms = [], *args):
             print('Finished searching PubMed for ', sterm, '.')
         print('Finished searching PubMed for  ',  searchTerms, '.') 
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('IPM',IPM)
     ''' 
 
     url = ipmURL
     try:
-        print('Sending',  searchTerms, ' to Pubmed and display list of search results in separate tabs of the default brower.')
+        print('Sending',  searchTerm, ' to Pubmed and display list of search results in separate tabs of the default brower.')
         for term in searchTerms:
             t0 = time.time()
             sterm = str(term)
@@ -2797,7 +2785,7 @@ cmd.extend('IPM',IPM)
             print('Finished searching PubMed for ', sterm, '.')
         print('Finished searching PubMed for  ',  searchTerms, '.') 
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('IPM',IPM)
 
@@ -2835,7 +2823,7 @@ def IUCR(searchTerm="pymol"):
         webbrowser.open_new_tab(url)
         print("Opened the IUCr journals webpage.");
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('IUCR',IUCR)
     ''' 
@@ -2847,7 +2835,7 @@ cmd.extend('IUCR',IUCR)
         webbrowser.open_new_tab(url)
         print("Opened the IUCr journals webpage.");
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('IUCR',IUCR)
 
@@ -2940,7 +2928,7 @@ def JM():
         webbrowser.open_new_tab(url)
         print("Opened the Jmol wiki.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 
 cmd.extend('JM',JM)
@@ -2953,7 +2941,7 @@ cmd.extend('JM',JM)
         webbrowser.open_new_tab(url)
         print("Opened the Jmol wiki.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 
 cmd.extend('JM',JM)
@@ -3047,7 +3035,7 @@ def LBSF():
         webbrowser.open_new_tab(url)
         print("Opened the website of Laboratory of Biomolecular Structure and Function, the X-ray diffraction core facility at OUHSC.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('LBSF',LBSF)
     ''' 
@@ -3059,7 +3047,7 @@ cmd.extend('LBSF',LBSF)
         webbrowser.open_new_tab(url)
         print("Opened the website of Laboratory of Biomolecular Structure and Function, the X-ray diffraction core facility at OUHSC.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('LBSF',LBSF)
 
@@ -3212,7 +3200,7 @@ def LG():
 
 
     TAGS:
-    fetch, molecular-graphics-template, carved-electron-density, rendering
+    fetch, molecular-graphics, ambient-occlusion, rendering
 
     USAGE:
     LG
@@ -3591,7 +3579,7 @@ def LLG():
 
 
     TAGS:
-    carved-electron-density, example, rendering, publication, coloring
+    ambient-occlusion, rendering, publication, coloring
 
     USAGE:
     LLG
@@ -4527,7 +4515,7 @@ def MCL():
         webbrowser.open_new_tab(url)
         print("Opened the website of Macromolecular Crystallography Laboratory at the University of Oklahoma.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MCL',MCL)
     ''' 
@@ -4539,7 +4527,7 @@ cmd.extend('MCL',MCL)
         webbrowser.open_new_tab(url)
         print("Opened the website of Macromolecular Crystallography Laboratory at the University of Oklahoma.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MCL',MCL)
 
@@ -4576,7 +4564,7 @@ def MG():
         webbrowser.open_new_tab(url)
         print("Opened website with molecular graphic links..")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MG',MG)
     ''' 
@@ -4588,7 +4576,7 @@ cmd.extend('MG',MG)
         webbrowser.open_new_tab(url)
         print("Opened website with molecular graphic links..")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MG',MG)
 
@@ -4625,7 +4613,7 @@ def MGW():
         webbrowser.open_new_tab(url)
         print("Opened the Wikipedia webpage about molecular graphics.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MGW',MGW)
     ''' 
@@ -4637,7 +4625,7 @@ cmd.extend('MGW',MGW)
         webbrowser.open_new_tab(url)
         print("Opened the Wikipedia webpage about molecular graphics.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('MGW',MGW)
 
@@ -5049,7 +5037,7 @@ def NDB():
         webbrowser.open_new_tab(url)
         print("Opened website of the Nucleic Acid Database.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('NDB',NDB)
     ''' 
@@ -5061,7 +5049,7 @@ cmd.extend('NDB',NDB)
         webbrowser.open_new_tab(url)
         print("Opened website of the Nucleic Acid Database.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('NDB',NDB)
 
@@ -5099,7 +5087,7 @@ def NSLSII():
         webbrowser.open_new_tab(url)
         print("Opened the website of the National Synchrotron Light Source II ,NSLSII, at Brookhaven National Laboratory.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('NSLSII',NSLSII)
     ''' 
@@ -5111,7 +5099,7 @@ cmd.extend('NSLSII',NSLSII)
         webbrowser.open_new_tab(url)
         print("Opened the website of the National Synchrotron Light Source II ,NSLSII, at Brookhaven National Laboratory.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('NSLSII',NSLSII)
 
@@ -5149,7 +5137,7 @@ def PDB(searchTerm="3fa0",numHits="5"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to the PBD webpage in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PDB',PDB)
     ''' 
@@ -5160,7 +5148,7 @@ cmd.extend('PDB',PDB)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to the PBD webpage in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PDB',PDB)
 
@@ -5637,7 +5625,7 @@ def PM(searchTerm="pymol"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  the PubMed webpagein default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PM',PM)
     ''' 
@@ -5649,7 +5637,7 @@ cmd.extend('PM',PM)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  the PubMed webpagein default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PM',PM)
 
@@ -5693,7 +5681,7 @@ def PML(searchTerm="3d_pdf"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to the PubMed webpagein default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PML',PML)
     ''' 
@@ -5705,7 +5693,7 @@ cmd.extend('PML',PML)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to the PubMed webpagein default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PML',PML)
 
@@ -5742,7 +5730,7 @@ def PPC():
         webbrowser.open_new_tab(url)
         print("Opened the website of the Protein Production Facility at the University of Oklahoma in Norman.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('PPC',PPC)
     ''' 
@@ -5754,7 +5742,7 @@ cmd.extend('PPC',PPC)
         webbrowser.open_new_tab(url)
         print("Opened the website of the Protein Production Facility at the University of Oklahoma in Norman.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('PPC',PPC)
 
@@ -5791,7 +5779,7 @@ def PS():
         webbrowser.open_new_tab(url)
         print("Opened the home page of the Protein Soceity.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('PS',PS)
     ''' 
@@ -5803,7 +5791,7 @@ cmd.extend('PS',PS)
         webbrowser.open_new_tab(url)
         print("Opened the home page of the Protein Soceity.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('PS',PS)
 
@@ -5839,7 +5827,7 @@ def PW(searchTerm="3d_pdf"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  PyMOL Wiki  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PW',PW)
     ''' 
@@ -5850,7 +5838,7 @@ cmd.extend('PW',PW)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to  PyMOL Wiki  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('PW',PW)
 
@@ -5886,7 +5874,7 @@ def RG(searchTerm='best molecular graphics program'):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to Research Gate  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('RG',RG)
     ''' 
@@ -5897,7 +5885,7 @@ cmd.extend('RG',RG)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to Research Gate  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('RG',RG)
 
@@ -5934,7 +5922,7 @@ def RS():
         webbrowser.open_new_tab(url)
         print("Opened the homepage of the RNA Society.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('RS',RS)
     ''' 
@@ -5946,7 +5934,7 @@ cmd.extend('RS',RS)
         webbrowser.open_new_tab(url)
         print("Opened the homepage of the RNA Society.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('RS',RS)
 
@@ -6037,7 +6025,7 @@ def SAXS():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SAXS links at OUHSC.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('SAXS',SAXS)
     ''' 
@@ -6049,7 +6037,7 @@ cmd.extend('SAXS',SAXS)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SAXS links at OUHSC.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 cmd.extend('SAXS',SAXS)
 
@@ -6060,7 +6048,7 @@ def SC():
     Print to screen list of the shortcuts that are available in the script pymolshortcuts.py. 
 
     TAGS:
-    shortcuts-list
+    ambient-occlusion, rendering, measurement, symmetry
 
     USAGE:
     SC
@@ -6454,7 +6442,7 @@ def SD(searchTerm="pymol"):
         webbrowser.open_new_tab(url1+searchTerm+url2)
         print('Sent', searchTerm, 'to the Science Direct webpage in the default browser.')
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SD',SD)
     ''' 
@@ -6466,7 +6454,7 @@ cmd.extend('SD',SD)
         webbrowser.open_new_tab(url1+searchTerm+url2)
         print('Sent', searchTerm, 'to the Science Direct webpage in the default browser.')
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SD',SD)
 
@@ -6503,7 +6491,7 @@ def SF(searchTerm='pymol'):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to sourceforge  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SF',SF)
     ''' 
@@ -6514,7 +6502,7 @@ cmd.extend('SF',SF)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, " to sourceforge  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SF',SF)
 
@@ -6596,7 +6584,7 @@ def SO(searchTerm="3d_pdf"):
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to  stackoverflow  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SO',SO)
     ''' 
@@ -6607,7 +6595,7 @@ cmd.extend('SO',SO)
         webbrowser.open_new_tab(url+searchTerm)
         print("Sent ",  searchTerm, "to  stackoverflow  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SO',SO)
 
@@ -6645,7 +6633,7 @@ def SP(searchTerm="pymol"):
         webbrowser.open_new_tab(url1+searchTerm+url2)
         print("Sent ",  searchTerm, " to sourceforge  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SP',SP)
     ''' 
@@ -6657,7 +6645,7 @@ cmd.extend('SP',SP)
         webbrowser.open_new_tab(url1+searchTerm+url2)
         print("Sent ",  searchTerm, " to sourceforge  in default browser.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('SP',SP)
 
@@ -6701,7 +6689,7 @@ def SSRLSMB():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SSRL Structural Molecular Biology.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 
@@ -6715,7 +6703,7 @@ cmd.extend('SSRLSMB',SSRLSMB)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SSRL Structural Molecular Biology.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 
@@ -6766,7 +6754,7 @@ def SSURF():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Society for Science at User Research Facilities (SSURF).")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('SSURF',SSURF)
@@ -6779,7 +6767,7 @@ cmd.extend('SSURF',SSURF)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Society for Science at User Research Facilities (SSURF).")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('SSURF',SSURF)
@@ -6818,7 +6806,7 @@ def SciPy19():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the SciPy19 meeting.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('SciPy19',SciPy19)
@@ -6831,7 +6819,7 @@ cmd.extend('SciPy19',SciPy19)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the SciPy19 meeting.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('SciPy19',SciPy19)
@@ -7248,7 +7236,7 @@ def biocat():
         webbrowser.open_new_tab(url)
         print("Success opening the BIOCAT biological SAXS beamline at the Advanced Photon Source homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('biocat',biocat)
     ''' 
@@ -7260,7 +7248,7 @@ cmd.extend('biocat',biocat)
         webbrowser.open_new_tab(url)
         print("Success opening the BIOCAT biological SAXS beamline at the Advanced Photon Source homepage.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('biocat',biocat)
 
@@ -7271,7 +7259,7 @@ def bs(selection='all'):
     bs creates a ball and stick representation of an object. 
 
     TAGS:
-    ball-and-stick, rendering, coloring, label
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bs selection
@@ -7601,7 +7589,7 @@ def bsbw(selection='all'):
     bs creates a gray-scaled ball-and-stick representation of an object. 
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, label
+    ambient-occlusion, rendering, coloring, label
 
     USAGE:
     bsbw
@@ -8166,7 +8154,7 @@ def bsbwsc(selection='all'):
 Only the side chains are shown as ball and stick when used with a cartoon (ribbon diagram).
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     bsbwsc
@@ -8736,7 +8724,7 @@ def bstvdw(selection='all'):
     Transparent vdw surface over ball and stick representation by Bobby Patton at Colorato State University. 
 
     TAGS:
-    ball-and-stick, gray-scale, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     bsvdw selection
@@ -8902,7 +8890,7 @@ def bstvdw(selection='all'):
     cmd.hide("labels")
 
     # defines VDW Sphere settings
-    cmd.create(selection+"_vdw", selection)
+    cmd.copy(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw and elem H")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -9069,7 +9057,7 @@ cmd.extend('bstvdw', bstvdw)
     cmd.hide("labels")
 
     # defines VDW Sphere settings
-    cmd.create(selection+"_vdw", selection)
+    cmd.copy(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw and elem H")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -9145,7 +9133,7 @@ def buriedW(sele='all', cutoff=-1, state=1, quiet=1, _self=cmd):
     selName = _self.get_unused_name("buried")
     _self.select(selName, "(%s) in %s" % (sele, tmpObj))
 	
-    cmd.show("spheres", selName)
+    cmd.show("spheres","buried01")
     
     # clean up
     _self.delete(tmpObj)
@@ -9177,7 +9165,7 @@ cmd.extend('buriedW', buriedW)
     selName = _self.get_unused_name("buried")
     _self.select(selName, "(%s) in %s" % (sele, tmpObj))
 	
-    cmd.show("spheres", selName)
+    cmd.show("spheres","buried01")
     
     # clean up
     _self.delete(tmpObj)
@@ -9246,7 +9234,7 @@ def ccp4mg():
 
 
     TAGS:
-    ccp4mg, electron-density
+    electron-density
 
     USAGE:
     ccp4mg
@@ -9271,7 +9259,7 @@ def ccp4mg():
 def ccp4mg():
     try:
         print("Opening the molecular graphics program ccp4mg.");
-        subprocess.check_output(ccp4mgOpen)
+        subprocess.check_output(ccp4mgCommand)
         print("Success opening ccp4mg.")
     except subprocess.CalledProcessError:
         print("Executable not found! \n  Check syntax of the ccp4mgOpen'. \n  Or use 'ccp4mgPath' as the argument of check_output().")
@@ -9284,7 +9272,7 @@ cmd.extend('ccp4mg',ccp4mg)
 
     try:
         print("Opening the molecular graphics program ccp4mg.");
-        subprocess.check_output(ccp4mgOpen)
+        subprocess.check_output(ccp4mgCommand)
         print("Success opening ccp4mg.")
     except subprocess.CalledProcessError:
         print("Executable not found! \n  Check syntax of the ccp4mgOpen'. \n  Or use 'ccp4mgPath' as the argument of check_output().")
@@ -9491,7 +9479,7 @@ def chimeraWeb():
         webbrowser.open_new_tab(url)
         print("Opened the website of UCSF Chimera.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('chimeraWeb',chimeraWeb)
     ''' 
@@ -9503,7 +9491,7 @@ cmd.extend('chimeraWeb',chimeraWeb)
         webbrowser.open_new_tab(url)
         print("Opened the website of UCSF Chimera.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('chimeraWeb',chimeraWeb)
 
@@ -10538,7 +10526,7 @@ def gcal():
         webbrowser.open_new_tab(url)
         print("Success opening gcal.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('gcal',gcal)
     ''' 
@@ -10550,7 +10538,7 @@ cmd.extend('gcal',gcal)
         webbrowser.open_new_tab(url)
         print("Success opening gcal.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('gcal',gcal)
 
@@ -10982,7 +10970,7 @@ def gmail():
         client.open_new_tab(url)
         print("Success opening gmail.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('gmail',gmail)
     ''' 
@@ -10996,7 +10984,7 @@ cmd.extend('gmail',gmail)
         client.open_new_tab(url)
         print("Success opening gmail.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('gmail',gmail)
 
@@ -11615,7 +11603,7 @@ def interface(cmpx, cA='c. A', cB='c. B', cutoff=1.0, selName="interface"):
     cmd.iterate('%s or %s' % (chA, chB), 'stored.r.append((model,resi,b))')
 
     cmd.enable(cmpx)
-    cmd.select(selName1, 'none')
+    cmd.select(selName1, None)
     for (model,resi,diff) in stored.r:
         key=resi+"-"+model
         if abs(diff)>=float(cutoff):
@@ -11684,7 +11672,7 @@ cmd.extend('interface', interface)
     cmd.iterate('%s or %s' % (chA, chB), 'stored.r.append((model,resi,b))')
 
     cmd.enable(cmpx)
-    cmd.select(selName1, 'none')
+    cmd.select(selName1, None)
     for (model,resi,diff) in stored.r:
         key=resi+"-"+model
         if abs(diff)>=float(cutoff):
@@ -11751,7 +11739,7 @@ def iterm():
         subprocess.Popen(itermOpen)
         print("Opened an iTerm window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('iterm',iterm)
@@ -11763,7 +11751,7 @@ cmd.extend('iterm',iterm)
         subprocess.Popen(itermOpen)
         print("Opened an iTerm window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('iterm',iterm)
@@ -11790,11 +11778,11 @@ def jabref():
 
 
     VERTICAL PML SCRIPT:
-        subprocess.call(JabRefOpen);
+        subprocess.call(jabrefOpen);
     return
 
     HORIZONTAL PML SCRIPT:
-        subprocess.call(JabRefOpen);return
+        subprocess.call(jabrefOpen);return
     PYTHON CODE:
 def jabref():
     try:
@@ -11802,7 +11790,7 @@ def jabref():
         subprocess.check_output(JabRefOpen)
         print("Success opening JabRef.")
     except subprocess.CalledProcessError:
-        print("Executable not found! \n  Check syntax of the 'JabRefOpen'. \n  Or use 'jabrefPath' as the argument of check_output().")
+        print("Executable not found! \n  Check syntax of the 'jabrefOpen'. \n  Or use 'jabrefPath' as the argument of check_output().")
         pass # handle errors in the called executable
     except OSError:
         pass # executable not found
@@ -11815,7 +11803,7 @@ cmd.extend('jabref',jabref)
         subprocess.check_output(JabRefOpen)
         print("Success opening JabRef.")
     except subprocess.CalledProcessError:
-        print("Executable not found! \n  Check syntax of the 'JabRefOpen'. \n  Or use 'jabrefPath' as the argument of check_output().")
+        print("Executable not found! \n  Check syntax of the 'jabrefOpen'. \n  Or use 'jabrefPath' as the argument of check_output().")
         pass # handle errors in the called executable
     except OSError:
         pass # executable not found
@@ -12082,11 +12070,11 @@ def mate():
 
 
     VERTICAL PML SCRIPT:
-    subprocess.call(textMateOpen)
+    subprocess.call(mateOpen)
     return
 
     HORIZONTAL PML SCRIPT:
-    subprocess.call(textMateOpen);return
+    subprocess.call(mateOpen);return
 
     PYTHON CODE:
 def mate():
@@ -12095,7 +12083,7 @@ def mate():
         subprocess.check_output(textMateOpen)
         print("Success opening mate.")
     except subprocess.CalledProcessError:
-        print("Executable not found! \n  Check syntax of the textMateOpen'. \n  Or use 'matePath' as the argument of check_output().")
+        print("Executable not found! \n  Check syntax of the mateOpen'. \n  Or use 'matePath' as the argument of check_output().")
         pass # handle errors in the called executable
     except OSError:
         pass # executable not found
@@ -12110,7 +12098,7 @@ cmd.extend('mate',mate)
         subprocess.check_output(textMateOpen)
         print("Success opening mate.")
     except subprocess.CalledProcessError:
-        print("Executable not found! \n  Check syntax of the textMateOpen'. \n  Or use 'matePath' as the argument of check_output().")
+        print("Executable not found! \n  Check syntax of the mateOpen'. \n  Or use 'matePath' as the argument of check_output().")
         pass # handle errors in the called executable
     except OSError:
         pass # executable not found
@@ -13091,11 +13079,11 @@ Called by the function quat().
     PYTHON CODE:
 def pdbremarks(filename):
     remarks = dict()
-    if not isinstance(filename, str):
+    if not isinstance(filename, basestring):
         f = filename
     elif filename[-3:] == '.gz':
         import gzip
-        f = gzip.open(filename, 'rt')
+        f = gzip.open(filename)
     else:
         f = open(filename)
     for line in f:
@@ -13110,11 +13098,11 @@ cmd.extend('pdbremarks', pdbremarks)
     ''' 
 
     remarks = dict()
-    if not isinstance(filename, str):
+    if not isinstance(filename, basestring):
         f = filename
     elif filename[-3:] == '.gz':
         import gzip
-        f = gzip.open(filename, 'rt')
+        f = gzip.open(filename)
     else:
         f = open(filename)
     for line in f:
@@ -13181,89 +13169,6 @@ cmd.extend('ppt',ppt)
     except OSError:
         pass # executable not found
 cmd.extend('ppt',ppt)
-
-
-def psm():
-    '''
-    DESCRIPTION:
-    Open the GUI of the PyMOL Shortcuts Manager plugin.
-
-    USAGE:
-    psm
-
-    ARGUMENTS:
-    None
-    EXAMPLE:
-    psm
-
-    MORE DETAILS:
-    psm stands for pymolshortcuts-manager. It opens the graphical interface of
-    the PyMOL Shortcuts Manager plugin from inside a running PyMOL session so
-    that the user can browse, search, and run shortcuts without navigating the
-    Plugin menu. psm is an alias for the scg shortcut. The function looks for
-    the already-imported manager module in sys.modules first because PyMOL
-    registers the plugin under a plugin-specific module name at load time. If
-    that module is not present, the function falls back to the common import
-    paths.
-
-    VERTICAL PML SCRIPT:
-    import pymolshortcuts_manager as psm;
-    psm.run_plugin_gui()
-
-    HORIZONTAL PML SCRIPT:
-    import pymolshortcuts_manager as psm;psm.run_plugin_gui()
-
-    PYTHON CODE:
-def psm():
-    import sys
-    manager = None
-    for name, module in list(sys.modules.items()):
-        if name == 'pymolshortcuts_manager' or name.endswith('.pymolshortcuts_manager'):
-            manager = module
-            break
-    if manager is None:
-        for modname in ('pymolshortcuts_manager',
-                        'pmg_tk.startup.pymolshortcuts_manager'):
-            try:
-                manager = __import__(modname, fromlist=['run_plugin_gui'])
-                break
-            except ImportError:
-                continue
-    if manager is None:
-        print("Could not find the PyMOL Shortcuts Manager plugin. "
-              "Install it through Plugin > Plugin Manager, then run psm again.")
-        return
-    try:
-        manager.run_plugin_gui()
-    except Exception as e:
-        print("Failed to open the Shortcuts Manager GUI: %s" % e)
-
-cmd.extend('psm', psm)
-    '''
-    import sys
-    manager = None
-    for name, module in list(sys.modules.items()):
-        if name == 'pymolshortcuts_manager' or name.endswith('.pymolshortcuts_manager'):
-            manager = module
-            break
-    if manager is None:
-        for modname in ('pymolshortcuts_manager',
-                        'pmg_tk.startup.pymolshortcuts_manager'):
-            try:
-                manager = __import__(modname, fromlist=['run_plugin_gui'])
-                break
-            except ImportError:
-                continue
-    if manager is None:
-        print("Could not find the PyMOL Shortcuts Manager plugin. "
-              "Install it through Plugin > Plugin Manager, then run psm again.")
-        return
-    try:
-        manager.run_plugin_gui()
-    except Exception as e:
-        print("Failed to open the Shortcuts Manager GUI: %s" % e)
-
-cmd.extend('psm', psm)
 
 
 def quat(name=None, filename=None, prefix=None, quiet=0):
@@ -13865,16 +13770,22 @@ def saln(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "aln", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");
+    s = str(DT);
+    cmd.save(stemName+s+".aln")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "aln", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".aln")
     PYTHON CODE:
 def saln(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "aln", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".aln") 
 cmd.extend('saln',saln)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "aln", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".aln") 
 cmd.extend('saln',saln)
 
 
@@ -13913,7 +13824,7 @@ def sasbdb():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Small Angle Scattering Biological Data Bank (SASBDB): a curated repository for small angle scattering data and models.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('sasbdb',sasbdb)
     ''' 
@@ -13925,7 +13836,7 @@ cmd.extend('sasbdb',sasbdb)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Small Angle Scattering Biological Data Bank (SASBDB): a curated repository for small angle scattering data and models.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('sasbdb',sasbdb)
 
@@ -14029,7 +13940,7 @@ def sbgrid():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Structural Biology Grid,SBGRID, YouTube Channel.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('sbgrid',sbgrid)
@@ -14042,7 +13953,7 @@ cmd.extend('sbgrid',sbgrid)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of the Structural Biology Grid,SBGRID, YouTube Channel.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('sbgrid',sbgrid)
@@ -14965,16 +14876,22 @@ def sccp4(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "ccp4", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "ccp4", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".ccp4")
     PYTHON CODE:
 def sccp4(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "ccp4", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4") 
 cmd.extend('sccp4',sccp4)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "ccp4", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4") 
 cmd.extend('sccp4',sccp4)
 
 
@@ -15087,16 +15004,22 @@ def scif(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "cif", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".cif")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "cif", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".cif")
     PYTHON CODE:
 def scif(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "cif", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".cif") 
 cmd.extend('scif',scif)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "cif", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".cif") 
 cmd.extend('scif',scif)
 
 
@@ -15123,16 +15046,22 @@ def sdae(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "ccp4", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "ccp4", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".ccp4")
     PYTHON CODE:
 def sdae(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "ccp4", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4") 
 cmd.extend('sdae',sdae)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "ccp4", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".ccp4") 
 cmd.extend('sdae',sdae)
 
 
@@ -15159,16 +15088,22 @@ def sdat(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "dat", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".dat")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "dat", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".dat")
     PYTHON CODE:
 def sdat(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "dat", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".dat") 
 cmd.extend('sdat',sdat)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "dat", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".dat") 
 cmd.extend('sdat',sdat)
 
 
@@ -15195,16 +15130,22 @@ def sfasta(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "fasta", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".fasta")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "fasta", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".fasta")
     PYTHON CODE:
 def sfasta(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "fasta", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".fasta") 
 cmd.extend('sfasta',sfasta)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "fasta", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".fasta") 
 cmd.extend('sfasta',sfasta)
 
 
@@ -15232,16 +15173,22 @@ def sidtf(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "idtf", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".idtf")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "idtf", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".idtf")
     PYTHON CODE:
 def sidtf(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "idtf", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".idtf") 
 cmd.extend('sidtf',sidtf)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "idtf", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".idtf") 
 cmd.extend('sidtf',sidtf)
 
 
@@ -15268,16 +15215,22 @@ def smae(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mae", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mae")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mae", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mae")
     PYTHON CODE:
 def smae(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mae", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mae") 
 cmd.extend('smae',smae)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mae", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mae") 
 cmd.extend('smae',smae)
 
 
@@ -15304,16 +15257,22 @@ def smmd(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mmd", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmd")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mmd", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mmd")
     PYTHON CODE:
 def smmd(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mmd", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmd") 
 cmd.extend('smmd',smmd)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mmd", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmd") 
 cmd.extend('smmd',smmd)
 
 
@@ -15340,16 +15299,22 @@ def smmod(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mmod", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmod")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mmod", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mmod")
     PYTHON CODE:
 def smmod(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mmod", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmod") 
 cmd.extend('smmod',smmod)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mmod", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mmod") 
 cmd.extend('smmod',smmod)
 
 
@@ -15376,16 +15341,22 @@ def smoe(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "moe", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".moe")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "moe", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".moe")
     PYTHON CODE:
 def smoe(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "moe", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".moe") 
 cmd.extend('smoe',smoe)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "moe", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".moe") 
 cmd.extend('smoe',smoe)
 
 
@@ -15412,16 +15383,22 @@ def smol(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mol", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+   s = str(DT)
+   cmd.save(stemName+s+".mol")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mol", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mol")
     PYTHON CODE:
 def smol(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mol", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mol") 
 cmd.extend('smol',smol)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mol", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mol") 
 cmd.extend('smol',smol)
 
 
@@ -15448,16 +15425,22 @@ def smol2(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mol2", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mol2")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mol2", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mol2")
     PYTHON CODE:
 def smol2(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mol2", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mol2") 
 cmd.extend('smol2',smol2)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mol2", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mol2") 
 cmd.extend('smol2',smol2)
 
 
@@ -15485,16 +15468,22 @@ def smtl(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mtl", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mtl")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "mtl", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".mtl")
     PYTHON CODE:
 def smtl(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "mtl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mtl") 
 cmd.extend('smtl',smtl)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "mtl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".mtl") 
 cmd.extend('smtl',smtl)
 
 
@@ -15522,16 +15511,22 @@ def sobj(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "obj", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".obj")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "obj", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".obj")
     PYTHON CODE:
 def sobj(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "obj", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".obj") 
 cmd.extend('sobj',sobj)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "obj", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".obj") 
 cmd.extend('sobj',sobj)
 
 
@@ -15558,16 +15553,22 @@ def sout(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "out", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".out")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "out", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".out")
     PYTHON CODE:
 def sout(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "out", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".out") 
 cmd.extend('sout',sout)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "out", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".out") 
 cmd.extend('sout',sout)
 
 
@@ -15594,16 +15595,22 @@ def spdb(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pdb", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pdb")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pdb", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pdb")
     PYTHON CODE:
 def spdb(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pdb", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pdb") 
 cmd.extend('spdb',spdb)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pdb", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pdb") 
 cmd.extend('spdb',spdb)
 
 
@@ -15630,16 +15637,22 @@ def spkl(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pkl", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)\
+    cmd.save(stemName+s+".pkl")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pkl", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pkl")
     PYTHON CODE:
 def spkl(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pkl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pkl") 
 cmd.extend('spkl',spkl)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pkl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pkl") 
 cmd.extend('spkl',spkl)
 
 
@@ -15667,16 +15680,22 @@ def spkla(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pkla", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pkla")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pkla", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pkla")
     PYTHON CODE:
 def spkla(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pkla", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pkla") 
 cmd.extend('spkla',spkla)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pkla", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pkla") 
 cmd.extend('spkla',spkla)
 
 
@@ -15703,16 +15722,22 @@ def spmo(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pmo", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pmo")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pmo", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pmo")
     PYTHON CODE:
 def spmo(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pmo", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pmo") 
 cmd.extend('spmo',spmo)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pmo", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pmo") 
 cmd.extend('spmo',spmo)
 
 
@@ -15739,16 +15764,22 @@ def spng(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "png", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".png")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "png", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".png")
     PYTHON CODE:
 def spng(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "png", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".png") 
 cmd.extend('spng',spng)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "png", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".png") 
 cmd.extend('spng',spng)
 
 
@@ -15775,16 +15806,22 @@ def spov(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pov", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pov")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pov", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pov")
     PYTHON CODE:
 def spov(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pov", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pov") 
 cmd.extend('spov',spov)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pov", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pov") 
 cmd.extend('spov',spov)
 
 
@@ -15815,16 +15852,22 @@ A pqr (PDB file with the temperature and occupancy columns replaced
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pqr", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pqr")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pqr", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pqr")
     PYTHON CODE:
 def spqr(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pqr", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pqr") 
 cmd.extend('spqr',spqr)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pqr", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pqr") 
 cmd.extend('spqr',spqr)
 
 
@@ -15851,16 +15894,22 @@ def spse(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pse", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pse")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "pse", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".pse")
     PYTHON CODE:
 def spse(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "pse", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pse") 
 cmd.extend('spse',spse)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "pse", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".pse") 
 cmd.extend('spse',spse)
 
 
@@ -16033,16 +16082,22 @@ def ssdf(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "sdf", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".sdf")
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "sdf", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".sdf")
     PYTHON CODE:
 def ssdf(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "sdf", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".sdf") 
 cmd.extend('ssdf',ssdf)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "sdf", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".sdf") 
 cmd.extend('ssdf',ssdf)
 
 
@@ -16085,7 +16140,7 @@ def ssrlbl42():
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SSRL Biological SAXS at BL 4-2.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('ssrlbl42',ssrlbl42)
@@ -16098,7 +16153,7 @@ cmd.extend('ssrlbl42',ssrlbl42)
         webbrowser.open_new_tab(url)
         print("Opened the webpage of SSRL Biological SAXS at BL 4-2.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found 
+        print("Webbrowser error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('ssrlbl42',ssrlbl42)
@@ -16126,11 +16181,11 @@ def st3(fileName="test.pml"):
 
 
     VERTICAL PML SCRIPT:
-    subprocess.call(sublimeText3Open);
+    subprocess.call(sublOpen);
     return
 
     HORIZONTAL PML SCRIPT:
-    subprocess.call(sublimeText3Open);return
+    subprocess.call(sublOpen);return
 
     PYTHON CODE:
 def st3(fileName="test.pml"):
@@ -16184,16 +16239,22 @@ def swrl(stemName="saved"):
 
 
     VERTICAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "wrl", "y%Ym%md%dh%Hm%Ms%S"))'
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S")
+    s = str(DT)
+    cmd.save(stemName+s+".wrl")'
     HORIZONTAL PML SCRIPT:
-    cmd.save(timestamped_name(stemName, "wrl", "y%Ym%md%dh%Hm%Ms%S"))
+    DT =datetime.datetime.now().strftime("y%Ym%md%dh%Hm%Ms%S");s = str(DT);cmd.save(stemName+s+".wrl")
     PYTHON CODE:
 def swrl(stemName="saved"):
-    cmd.save(timestamped_name(stemName, "wrl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".wrl") 
 cmd.extend('swrlf',swrl)
     ''' 
 
-    cmd.save(timestamped_name(stemName, "wrl", "yr%Ymo%mday%dhr%Hmin%Msec%S"))
+    DT =datetime.datetime.now().strftime("yr%Ymo%mday%dhr%Hmin%Msec%S")
+    s = str(DT)
+    cmd.save(stemName+s+".wrl") 
 cmd.extend('swrlf',swrl)
 
 
@@ -16220,11 +16281,11 @@ def term():
 
 
     VERTICAL PML SCRIPT:
-    subprocess.call(terminalOpen)
+    subprocess.call(terminalCommand)
     return
 
     HORIZONTAL PML SCRIPT:
-    subprocess.call(terminalOpen);return
+    subprocess.call(terminalCommand);return
 
     PYTHON CODE:
 def term():
@@ -16234,7 +16295,7 @@ def term():
         subprocess.check_output(terminalOpen)
         print("Opened a terminal.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('term',term)
@@ -16246,7 +16307,7 @@ cmd.extend('term',term)
         subprocess.check_output(terminalOpen)
         print("Opened a terminal.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('term',term)
@@ -16355,7 +16416,7 @@ def tvdw(selection='all'):
     Transparent vdw surface by Bobby Patton at Colorado State University. 
 
     TAGS:
-    ball-and-stick, rendering, coloring, cartoon
+    ambient-occlusion, rendering, coloring, cartoon
 
     USAGE:
     vdwTrans selection
@@ -16511,7 +16572,7 @@ def tvdw(selection='all'):
     cmd.space("cmyk")
 
    #van der Waals settings
-    cmd.create(selection+"_vdw", selection)
+    cmd.copy(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -16660,7 +16721,7 @@ cmd.extend('tvdw', tvdw)
     cmd.do("space cmyk")
 
    #van der Waals settings
-    cmd.create(selection+"_vdw", selection)
+    cmd.copy(selection+"_vdw", selection)
     cmd.set("sphere_scale",1.0, selection+"_vdw")
     cmd.rebuild()
     cmd.set("sphere_scale", 1, selection+"_vdw")
@@ -16739,11 +16800,11 @@ def vim():
 
  
     VERTICAL PML SCRIPT:
-    subprocess.call(vimOpen)
+    subprocess.call(vimCommand)
     return
 
     HORIZONTAL PML SCRIPT:
-    subprocess.call(vimOpen);return
+    subprocess.call(vimCommand);return
 
     PYTHON CODE:
 def vim():
@@ -16864,7 +16925,7 @@ def weather():
         client.open_new_tab(url)
         print("Success opening National Weather Service website")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('weather',weather)
     ''' 
@@ -16878,7 +16939,7 @@ cmd.extend('weather',weather)
         client.open_new_tab(url)
         print("Success opening National Weather Service website")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbrowser error: " % e) # prints error if browser is not found
 
 cmd.extend('weather',weather)
 
@@ -16918,7 +16979,7 @@ def webmail():
         client.open_new_tab(url)
         print("Success opening webmail.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbroser error: " % e) # prints error if browser is not found
 
 cmd.extend('webmail',webmail)
     ''' 
@@ -16932,7 +16993,7 @@ cmd.extend('webmail',webmail)
         client.open_new_tab(url)
         print("Success opening webmail.")
     except Exception as e:
-        print("Webbrowser error: %s" % e) # prints error if browser is not found
+        print("Webbroser error: " % e) # prints error if browser is not found
 
 cmd.extend('webmail',webmail)
 
@@ -17026,7 +17087,7 @@ def x11():
         subprocess.check_output(x11Open)
         print("Opened an X11 window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('x11',x11)
@@ -17038,7 +17099,7 @@ cmd.extend('x11',x11)
         subprocess.check_output(x11Open)
         print("Opened an X11 window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('x11',x11)
@@ -17080,7 +17141,7 @@ def xquartz():
         subprocess.Popen(xquartzOpen)
         print("Opened a new XQuartz window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('xquartz',xquartz)
@@ -17091,7 +17152,7 @@ cmd.extend('xquartz',xquartz)
         subprocess.Popen(xquartzOpen)
         print("Opened a new XQuartz window.")
     except Exception as e:
-        print("Subprocess error: %s" % e) # prints error if browser is not found 
+        print("Subprocess error: " % e) # prints error if browser is not found 
 
 
 cmd.extend('xquartz',xquartz)

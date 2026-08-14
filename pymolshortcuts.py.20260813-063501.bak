@@ -1031,7 +1031,7 @@ def AODBW():
     Make ambient occlusion image of any with dark carbon atoms in grayscale.
 
     TAGS:
-    ambient-occlusion, rendering, coloring, selection, gray-scale
+    ambient-occlusion, rendering, coloring, selection
 
     USAGE:
     AODBW
